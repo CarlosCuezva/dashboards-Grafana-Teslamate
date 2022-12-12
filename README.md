@@ -4,6 +4,8 @@
 
 ## How to import boards
 
+Tested with Teslamate 1.27.1
+
 1. Login to Grafana
 2. Click in "Dashboards" option and select "Browse"
 3. Create a personal folder, e.g. "Teslamate-Extra"
