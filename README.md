@@ -25,7 +25,11 @@ Tested with Teslamate 1.27.1
 
 ![Charging Curves](./screenshots/charging_curves.png)
 
+## Contributing
+
+If you are able to contribute with more Custom Grafana Dashboards just fork this repository and make a pull request. I'll really appreciate any improvement or suggestion.
+
 ## Credits
 
-- Author: Carlos Cuezva – [List of contributors](https://github.com/CarlosCuezva/dashboards-Grafana-Teslamate/graphs/contributors)
-- Distributed under MIT License
+- Author: Carlos Cuezva – see [list of contributors](https://github.com/CarlosCuezva/dashboards-Grafana-Teslamate/graphs/contributors)
+- Distributed under [MIT license](./LICENSE)
