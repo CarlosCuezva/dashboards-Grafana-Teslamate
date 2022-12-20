@@ -25,6 +25,10 @@ Tested with Teslamate 1.27.1
 
 ![Charging Curves](./screenshots/charging_curves.png)
 
+**Current Charge View**
+
+![Charging Curves](./screenshots/current_charge_view.png)
+
 ## Contributing
 
 If you are able to contribute with more Custom Grafana Dashboards just fork this repository and make a pull request. I'll really appreciate any improvement or suggestion.
