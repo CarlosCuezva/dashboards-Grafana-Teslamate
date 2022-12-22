@@ -24,7 +24,7 @@
   "fiscalYearStartMonth": 0,
   "graphTooltip": 1,
   "id": 27,
-  "iteration": 1671517313574,
+  "iteration": 1671727461140,
   "links": [
     {
       "icon": "dashboard",
@@ -256,7 +256,7 @@
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "SELECT MAX(c.charge_energy_added) - MIN(c.charge_energy_added) as charge_energy_added\nFROM charging_processes cp\nRIGHT JOIN charges c ON cp.id = c.charging_process_id\nWHERE \n\tcp.car_id = $car_id\n\tAND c.charging_process_id=301 \n\tAND $__timeFilter(c.date)\nLIMIT 1",
+          "rawSql": "SELECT MAX(c.charge_energy_added) - MIN(c.charge_energy_added) as charge_energy_added\nFROM charging_processes cp\nRIGHT JOIN charges c ON cp.id = c.charging_process_id\nWHERE \n\tcp.car_id = $car_id\n\tAND c.charging_process_id = $charging_processes\n\tAND $__timeFilter(c.date)\nLIMIT 1",
           "refId": "A",
           "select": [
             [
@@ -1403,8 +1403,8 @@
       {
         "current": {
           "selected": false,
-          "text": "301",
-          "value": "301"
+          "text": "303",
+          "value": "303"
         },
         "datasource": {
           "type": "postgres",
@@ -1453,6 +1453,6 @@
   "timezone": "",
   "title": "Current Charge View",
   "uid": "K9VmZD54k",
-  "version": 1,
+  "version": 2,
   "weekStart": ""
 }
