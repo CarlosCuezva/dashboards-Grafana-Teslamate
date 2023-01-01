@@ -13,7 +13,8 @@ Tested with Teslamate 1.27.1
 5. Press the "Import" button
 6. Press the "Upload JSON file" button
 7. Select JSON file from your computer
-8. And finally, press the "Import" button
+8. Select the appropiate Teslamate datasource from the available droplist.
+9. And finally, press the "Import" button
 
 ## Screenshots
 
