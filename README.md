@@ -4,7 +4,7 @@
 
 ## How to import boards
 
-Tested with Teslamate 1.27.1
+Tested with Teslamate v1.27.1 and Grafana v8.3.4
 
 1. Login to Grafana
 2. Click in "Dashboards" option and select "Browse"
@@ -30,9 +30,9 @@ Tested with Teslamate 1.27.1
 
 ![Charging Curves](./screenshots/current_charge_view.png)
 
-## Contributing
+**Charging Costs Stats**
 
-If you are able to contribute with more Custom Grafana Dashboards just fork this repository and make a pull request. I'll really appreciate any improvement or suggestion.
+![Charging Costs Stats](./screenshots/charging_costs_stats.png)
 
 ## Credits
 
