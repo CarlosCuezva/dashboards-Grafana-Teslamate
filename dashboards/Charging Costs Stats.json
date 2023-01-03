@@ -72,7 +72,7 @@
   "fiscalYearStartMonth": 0,
   "graphTooltip": 1,
   "id": null,
-  "iteration": 1672738349487,
+  "iteration": 1672741017605,
   "links": [
     {
       "icon": "dashboard",
@@ -461,7 +461,7 @@
       },
       "fieldConfig": {
         "defaults": {
-          "decimals": 2,
+          "decimals": 1,
           "mappings": [],
           "noValue": "0",
           "thresholds": {
@@ -550,6 +550,7 @@
       },
       "fieldConfig": {
         "defaults": {
+          "decimals": 1,
           "mappings": [],
           "noValue": "0",
           "thresholds": {
@@ -657,7 +658,7 @@
               "type": "linear"
             }
           },
-          "decimals": 2,
+          "decimals": 1,
           "mappings": [],
           "thresholds": {
             "mode": "absolute",
@@ -1546,7 +1547,7 @@
       },
       "fieldConfig": {
         "defaults": {
-          "decimals": 2,
+          "decimals": 1,
           "mappings": [],
           "noValue": "0",
           "thresholds": {
@@ -1588,6 +1589,7 @@
           "fields": "",
           "values": false
         },
+        "text": {},
         "textMode": "value"
       },
       "pluginVersion": "8.5.6",
@@ -1635,6 +1637,7 @@
       },
       "fieldConfig": {
         "defaults": {
+          "decimals": 1,
           "mappings": [],
           "noValue": "0",
           "thresholds": {
@@ -3137,6 +3140,6 @@
   "timezone": "browser",
   "title": "Charging Costs Stats",
   "uid": "LdwdLXt4z",
-  "version": 4,
+  "version": 6,
   "weekStart": ""
 }
