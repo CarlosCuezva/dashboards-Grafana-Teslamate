@@ -72,7 +72,7 @@
   "fiscalYearStartMonth": 0,
   "graphTooltip": 1,
   "id": null,
-  "iteration": 1672676508324,
+  "iteration": 1672724648351,
   "links": [
     {
       "icon": "dashboard",
@@ -218,6 +218,10 @@
       "pluginVersion": "8.5.6",
       "targets": [
         {
+          "datasource": {
+            "type": "postgres",
+            "uid": "${DS_TESLAMATE}"
+          },
           "format": "table",
           "group": [],
           "metricColumn": "none",
@@ -243,11 +247,7 @@
               "params": [],
               "type": "macro"
             }
-          ],
-          "datasource": {
-            "type": "postgres",
-            "uid": "${DS_TESLAMATE}"
-          }
+          ]
         }
       ],
       "title": "Total charging cost",
@@ -331,11 +331,15 @@
       "pluginVersion": "8.5.6",
       "targets": [
         {
-          "format": "time_series",
+          "datasource": {
+            "type": "postgres",
+            "uid": "${DS_TESLAMATE}"
+          },
+          "format": "table",
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "WITH since as (\n\tSELECT date FROM positions\n\tWHERE car_id = $car_id\n\tORDER BY date ASC\n\tLIMIT 1\n),\nactual AS (\n\tSELECT\n\t\tdate_trunc('day', date)::date AS date,\n\t\tmax(odometer) - min(odometer) AS distance\n\tFROM positions\n\tWHERE car_id = $car_id\n\tGROUP BY 1\n),\nbase_line AS (\n\tSELECT date_trunc('day', dd)::date AS date\n  FROM generate_series((select date from since) , now(), '1 day'::interval) dd\n)\nSELECT \n  $__time(base_line.date), \n  convert_km(COALESCE(distance, 0)::numeric, '$length_unit') as \"distance_$length_unit\"\nFROM base_line\nLEFT JOIN actual ON actual.date = base_line.date\nWHERE $__timeFilter(base_line.date)\nORDER BY 1;",
+          "rawSql": "SELECT convert_km((max(odometer) - min(odometer))::numeric, 'km') as \"distance_km\"\nFROM positions\nWHERE car_id = '1' AND date BETWEEN '2022-12-31T23:00:00Z' AND '2023-01-02T19:57:48.6Z'\nORDER BY 1;",
           "refId": "A",
           "select": [
             [
@@ -356,11 +360,7 @@
               "params": [],
               "type": "macro"
             }
-          ],
-          "datasource": {
-            "type": "postgres",
-            "uid": "${DS_TESLAMATE}"
-          }
+          ]
         }
       ],
       "title": "$length_unit driven",
@@ -419,6 +419,10 @@
       "pluginVersion": "8.5.6",
       "targets": [
         {
+          "datasource": {
+            "type": "postgres",
+            "uid": "${DS_TESLAMATE}"
+          },
           "format": "table",
           "group": [],
           "metricColumn": "none",
@@ -444,11 +448,7 @@
               "params": [],
               "type": "macro"
             }
-          ],
-          "datasource": {
-            "type": "postgres",
-            "uid": "${DS_TESLAMATE}"
-          }
+          ]
         }
       ],
       "title": "Number of charges",
@@ -507,6 +507,10 @@
       "pluginVersion": "8.5.6",
       "targets": [
         {
+          "datasource": {
+            "type": "postgres",
+            "uid": "${DS_TESLAMATE}"
+          },
           "format": "table",
           "group": [],
           "metricColumn": "none",
@@ -532,11 +536,7 @@
               "params": [],
               "type": "macro"
             }
-          ],
-          "datasource": {
-            "type": "postgres",
-            "uid": "${DS_TESLAMATE}"
-          }
+          ]
         }
       ],
       "title": "Charged in total",
@@ -735,6 +735,10 @@
       "pluginVersion": "8.5.6",
       "targets": [
         {
+          "datasource": {
+            "type": "postgres",
+            "uid": "${DS_TESLAMATE}"
+          },
           "format": "time_series",
           "group": [],
           "metricColumn": "none",
@@ -760,11 +764,7 @@
               "params": [],
               "type": "macro"
             }
-          ],
-          "datasource": {
-            "type": "postgres",
-            "uid": "${DS_TESLAMATE}"
-          }
+          ]
         }
       ],
       "title": "AC/DC – Energy added",
@@ -817,6 +817,10 @@
       "pluginVersion": "8.5.6",
       "targets": [
         {
+          "datasource": {
+            "type": "postgres",
+            "uid": "${DS_TESLAMATE}"
+          },
           "format": "table",
           "group": [],
           "metricColumn": "none",
@@ -842,11 +846,7 @@
               "params": [],
               "type": "macro"
             }
-          ],
-          "datasource": {
-            "type": "postgres",
-            "uid": "${DS_TESLAMATE}"
-          }
+          ]
         }
       ],
       "title": "Cost per 100 $length_unit",
@@ -901,6 +901,10 @@
       "pluginVersion": "8.5.6",
       "targets": [
         {
+          "datasource": {
+            "type": "postgres",
+            "uid": "${DS_TESLAMATE}"
+          },
           "format": "table",
           "group": [],
           "metricColumn": "none",
@@ -916,11 +920,7 @@
               "params": [],
               "type": "macro"
             }
-          ],
-          "datasource": {
-            "type": "postgres",
-            "uid": "${DS_TESLAMATE}"
-          }
+          ]
         }
       ],
       "title": "Average cost per kWh",
@@ -3135,6 +3135,6 @@
   "timezone": "browser",
   "title": "Charging Costs Stats",
   "uid": "LdwdLXt4z",
-  "version": 1,
+  "version": 2,
   "weekStart": ""
 }
