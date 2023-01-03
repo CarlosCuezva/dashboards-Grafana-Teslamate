@@ -72,7 +72,7 @@
   "fiscalYearStartMonth": 0,
   "graphTooltip": 1,
   "id": null,
-  "iteration": 1672732290139,
+  "iteration": 1672738349487,
   "links": [
     {
       "icon": "dashboard",
@@ -461,6 +461,7 @@
       },
       "fieldConfig": {
         "defaults": {
+          "decimals": 2,
           "mappings": [],
           "noValue": "0",
           "thresholds": {
@@ -515,7 +516,7 @@
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "SELECT\n\tsum(greatest(charge_energy_added,charge_energy_used))\nFROM\n\tcharging_processes\nWHERE\n\t$__timeFilter(end_date)\n\tAND car_id = $car_id;\n",
+          "rawSql": "SELECT\n\tsum(greatest(charge_energy_added,charge_energy_used))\nFROM\n\tcharging_processes\nWHERE\n\t$__timeFilter(end_date)\n\tAND car_id = $car_id AND charge_energy_added > 0.01\n",
           "refId": "A",
           "select": [
             [
@@ -603,7 +604,7 @@
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "SELECT\n\tsum(greatest(charge_energy_added,charge_energy_used))\nFROM\n\tcharging_processes\nWHERE\n\t$__timeFilter(end_date)\n\tAND car_id = $car_id\n\tAND cost = 0;\n",
+          "rawSql": "SELECT\n\tsum(greatest(charge_energy_added,charge_energy_used))\nFROM\n\tcharging_processes\nWHERE\n\t$__timeFilter(end_date)\n\tAND car_id = $car_id AND charge_energy_added > 0.01\n\tAND cost = 0;\n",
           "refId": "A",
           "select": [
             [
@@ -1545,6 +1546,7 @@
       },
       "fieldConfig": {
         "defaults": {
+          "decimals": 2,
           "mappings": [],
           "noValue": "0",
           "thresholds": {
@@ -1599,7 +1601,7 @@
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "SELECT\n\tsum(greatest(charge_energy_added,charge_energy_used))\nFROM\n\tcharging_processes\nWHERE\n\tcar_id = $car_id;\n",
+          "rawSql": "SELECT\n\tsum(greatest(charge_energy_added,charge_energy_used))\nFROM\n\tcharging_processes\nWHERE\n\tcar_id = $car_id AND charge_energy_added > 0.01;\n",
           "refId": "A",
           "select": [
             [
@@ -1687,7 +1689,7 @@
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "SELECT\n\tsum(greatest(charge_energy_added,charge_energy_used))\nFROM\n\tcharging_processes\nWHERE\n\tcar_id = $car_id\n\tAND cost = 0;\n",
+          "rawSql": "SELECT\n\tsum(greatest(charge_energy_added,charge_energy_used))\nFROM\n\tcharging_processes\nWHERE\n\tcar_id = $car_id AND charge_energy_added > 0.01\n\tAND cost = 0;\n",
           "refId": "A",
           "select": [
             [
@@ -2966,7 +2968,7 @@
       "type": "table"
     }
   ],
-  "refresh": "",
+  "refresh": false,
   "schemaVersion": 36,
   "style": "dark",
   "tags": [
@@ -3135,6 +3137,6 @@
   "timezone": "browser",
   "title": "Charging Costs Stats",
   "uid": "LdwdLXt4z",
-  "version": 3,
+  "version": 4,
   "weekStart": ""
 }
