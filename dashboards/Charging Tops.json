@@ -9,6 +9,39 @@
       "pluginName": "PostgreSQL"
     }
   ],
+  "__elements": [],
+  "__requires": [
+    {
+      "type": "panel",
+      "id": "barchart",
+      "name": "Bar chart",
+      "version": ""
+    },
+    {
+      "type": "grafana",
+      "id": "grafana",
+      "name": "Grafana",
+      "version": "8.5.6"
+    },
+    {
+      "type": "datasource",
+      "id": "postgres",
+      "name": "PostgreSQL",
+      "version": "1.0.0"
+    },
+    {
+      "type": "panel",
+      "id": "stat",
+      "name": "Stat",
+      "version": ""
+    },
+    {
+      "type": "panel",
+      "id": "table",
+      "name": "Table",
+      "version": ""
+    }
+  ],
   "annotations": {
     "list": [
       {
@@ -32,8 +65,8 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 1,
-  "id": 24,
-  "iteration": 1672336265337,
+  "id": null,
+  "iteration": 1672767982789,
   "links": [
     {
       "icon": "dashboard",
@@ -71,7 +104,10 @@
       "type": "row"
     },
     {
-      "datasource": "TeslaMate",
+      "datasource": {
+        "type": "postgres",
+        "uid": "${DS_TESLAMATE}"
+      },
       "fieldConfig": {
         "defaults": {
           "mappings": [],
@@ -144,14 +180,21 @@
               "params": [],
               "type": "macro"
             }
-          ]
+          ],
+          "datasource": {
+            "type": "postgres",
+            "uid": "${DS_TESLAMATE}"
+          }
         }
       ],
       "title": "Charged in total",
       "type": "stat"
     },
     {
-      "datasource": "TeslaMate",
+      "datasource": {
+        "type": "postgres",
+        "uid": "${DS_TESLAMATE}"
+      },
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -277,14 +320,21 @@
               "params": [],
               "type": "macro"
             }
-          ]
+          ],
+          "datasource": {
+            "type": "postgres",
+            "uid": "${DS_TESLAMATE}"
+          }
         }
       ],
       "title": "AC/DC – Energy added",
       "type": "barchart"
     },
     {
-      "datasource": "TeslaMate",
+      "datasource": {
+        "type": "postgres",
+        "uid": "${DS_TESLAMATE}"
+      },
       "fieldConfig": {
         "defaults": {
           "decimals": 2,
@@ -358,7 +408,11 @@
               "params": [],
               "type": "macro"
             }
-          ]
+          ],
+          "datasource": {
+            "type": "postgres",
+            "uid": "${DS_TESLAMATE}"
+          }
         }
       ],
       "title": "Total Charging Cost",
@@ -504,7 +558,10 @@
       "pluginVersion": "8.5.6",
       "targets": [
         {
-          "datasource": "TeslaMate",
+          "datasource": {
+            "type": "postgres",
+            "uid": "${DS_TESLAMATE}"
+          },
           "format": "table",
           "group": [],
           "metricColumn": "none",
@@ -589,12 +646,15 @@
       "pluginVersion": "8.5.6",
       "targets": [
         {
-          "datasource": "TeslaMate",
+          "datasource": {
+            "type": "postgres",
+            "uid": "${DS_TESLAMATE}"
+          },
           "format": "table",
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "WITH data AS (\n\tSELECT c.charging_process_id \n\tFROM charges c\n\tLEFT JOIN charging_processes cp ON cp.id = c.charging_process_id\n\tLEFT JOIN addresses addr ON addr.id = cp.address_id\n\tLEFT JOIN geofences geo ON geo.id = geofence_id\n\tWHERE \n\t\tc.fast_charger_present IS true\n\t\tAND c.charger_voltage = 2\n\t\tAND cp.car_id = $car_id\n\t\tAND (addr.name NOT LIKE '%Supercharger%' OR geo.name NOT LIKE '%Supercharger%')\n\tGROUP BY 1\n)\nSELECT\n\tsum(cp.cost) as total\nFROM\n\tcharging_processes cp, data\nWHERE\n  $__timeFilter(end_date)\n  AND cp.cost IS NOT NULL\n  AND cp.id IN (data.charging_process_id);",
+          "rawSql": "WITH data AS (\n\tSELECT c.charging_process_id \n\tFROM charges c\n\tLEFT JOIN charging_processes cp ON cp.id = c.charging_process_id\n\tLEFT JOIN addresses addr ON addr.id = cp.address_id\n\tLEFT JOIN geofences geo ON geo.id = geofence_id\n\tWHERE \n\t\tc.fast_charger_present IS true\n\t\tAND c.charger_voltage = 2\n\t\tAND cp.car_id = $car_id\n\t\tAND CASE \n\t\t\tWHEN (cp.geofence_id IS NOT NULL) THEN (addr.name NOT LIKE '%Supercharger%' AND geo.name NOT LIKE '%Supercharger%')\n\t\t\tELSE addr.name NOT LIKE '%Supercharger%'\n\t\tEND\n\tGROUP BY 1\n)\nSELECT\n\tsum(cp.cost) as total\nFROM\n\tcharging_processes cp, data\nWHERE\n  $__timeFilter(end_date)\n  AND cp.cost IS NOT NULL\n  AND cp.id IN (data.charging_process_id);",
           "refId": "A",
           "select": [
             [
@@ -674,7 +734,10 @@
       "pluginVersion": "8.5.6",
       "targets": [
         {
-          "datasource": "TeslaMate",
+          "datasource": {
+            "type": "postgres",
+            "uid": "${DS_TESLAMATE}"
+          },
           "format": "table",
           "group": [],
           "metricColumn": "none",
@@ -1106,11 +1169,7 @@
   "templating": {
     "list": [
       {
-        "current": {
-          "selected": false,
-          "text": "All",
-          "value": "$__all"
-        },
+        "current": {},
         "datasource": {
           "type": "postgres",
           "uid": "${DS_TESLAMATE}"
@@ -1133,11 +1192,7 @@
         "useTags": false
       },
       {
-        "current": {
-          "selected": false,
-          "text": "http://192.168.2.249:4000",
-          "value": "http://192.168.2.249:4000"
-        },
+        "current": {},
         "datasource": {
           "type": "postgres",
           "uid": "${DS_TESLAMATE}"
@@ -1160,11 +1215,7 @@
         "useTags": false
       },
       {
-        "current": {
-          "selected": false,
-          "text": "km",
-          "value": "km"
-        },
+        "current": {},
         "datasource": {
           "type": "postgres",
           "uid": "${DS_TESLAMATE}"
@@ -1220,6 +1271,6 @@
   "timezone": "",
   "title": "Charging Tops",
   "uid": "DdLe5uFVk",
-  "version": 12,
+  "version": 13,
   "weekStart": ""
 }
