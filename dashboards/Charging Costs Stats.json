@@ -72,7 +72,7 @@
   "fiscalYearStartMonth": 0,
   "graphTooltip": 1,
   "id": null,
-  "iteration": 1672769556295,
+  "iteration": 1672789051472,
   "links": [
     {
       "icon": "dashboard",
@@ -2399,6 +2399,14 @@
                     }
                   ]
                 }
+              },
+              {
+                "id": "custom.align",
+                "value": "auto"
+              },
+              {
+                "id": "decimals",
+                "value": 1
               }
             ]
           },
@@ -2425,6 +2433,10 @@
               {
                 "id": "unit",
                 "value": "kwatth"
+              },
+              {
+                "id": "custom.align",
+                "value": "auto"
               }
             ]
           },
@@ -2441,6 +2453,10 @@
               {
                 "id": "decimals",
                 "value": 1
+              },
+              {
+                "id": "custom.align",
+                "value": "auto"
               }
             ]
           },
@@ -2453,6 +2469,10 @@
               {
                 "id": "decimals",
                 "value": 2
+              },
+              {
+                "id": "custom.align",
+                "value": "right"
               }
             ]
           },
@@ -2471,6 +2491,10 @@
                     "url": "d/TSmNYvRRk/charges?orgId=1&from=${__data.fields.date_from}&to=${__data.fields.date_to}&var-car_id=$car_id"
                   }
                 ]
+              },
+              {
+                "id": "custom.align",
+                "value": "auto"
               }
             ]
           },
@@ -2505,6 +2529,10 @@
               {
                 "id": "displayName",
                 "value": "Distance"
+              },
+              {
+                "id": "custom.align",
+                "value": "auto"
               }
             ]
           },
@@ -2545,6 +2573,10 @@
                     }
                   ]
                 }
+              },
+              {
+                "id": "custom.align",
+                "value": "auto"
               }
             ]
           },
@@ -2561,6 +2593,10 @@
               {
                 "id": "unit",
                 "value": "mi"
+              },
+              {
+                "id": "custom.align",
+                "value": "auto"
               }
             ]
           },
@@ -2580,6 +2616,10 @@
               },
               {
                 "id": "custom.width"
+              },
+              {
+                "id": "custom.align",
+                "value": "auto"
               }
             ]
           },
@@ -2599,6 +2639,10 @@
               },
               {
                 "id": "custom.width"
+              },
+              {
+                "id": "custom.align",
+                "value": "auto"
               }
             ]
           },
@@ -2633,6 +2677,10 @@
               },
               {
                 "id": "custom.width"
+              },
+              {
+                "id": "custom.align",
+                "value": "auto"
               }
             ]
           },
@@ -2670,6 +2718,10 @@
                     "type": "value"
                   }
                 ]
+              },
+              {
+                "id": "custom.align",
+                "value": "auto"
               }
             ]
           },
@@ -2686,6 +2738,10 @@
               {
                 "id": "unit",
                 "value": "fahrenheit"
+              },
+              {
+                "id": "custom.align",
+                "value": "auto"
               }
             ]
           },
@@ -3140,6 +3196,6 @@
   "timezone": "browser",
   "title": "Charging Costs Stats",
   "uid": "LdwdLXt4z",
-  "version": 7,
+  "version": 2,
   "weekStart": ""
 }
