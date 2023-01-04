@@ -72,7 +72,7 @@
   "fiscalYearStartMonth": 0,
   "graphTooltip": 1,
   "id": null,
-  "iteration": 1672789051472,
+  "iteration": 1672790710530,
   "links": [
     {
       "icon": "dashboard",
@@ -173,7 +173,7 @@
         "defaults": {
           "decimals": 2,
           "mappings": [],
-          "noValue": "0",
+          "noValue": "0.00 €",
           "thresholds": {
             "mode": "absolute",
             "steps": [
@@ -782,7 +782,7 @@
           "decimals": 2,
           "displayName": "",
           "mappings": [],
-          "noValue": "0",
+          "noValue": "0.00 €",
           "thresholds": {
             "mode": "absolute",
             "steps": [
@@ -791,7 +791,8 @@
                 "value": null
               }
             ]
-          }
+          },
+          "unit": "€"
         },
         "overrides": []
       },
@@ -866,7 +867,7 @@
           },
           "decimals": 2,
           "mappings": [],
-          "noValue": "0",
+          "noValue": "0.00 €",
           "thresholds": {
             "mode": "absolute",
             "steps": [
@@ -875,7 +876,8 @@
                 "value": null
               }
             ]
-          }
+          },
+          "unit": "€"
         },
         "overrides": []
       },
@@ -913,6 +915,16 @@
           "rawQuery": true,
           "rawSql": "SELECT (\n  SELECT sum(cost)\n  FROM charging_processes\n  WHERE $__timeFilter(end_date) AND car_id = $car_id\n) / (\n  SELECT sum(greatest(charge_energy_added, charge_energy_used))\n  FROM charging_processes\n  WHERE $__timeFilter(end_date) AND car_id = $car_id\n)",
           "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
           "table": "drives",
           "timeColumn": "start_date",
           "timeColumnType": "timestamp",
@@ -937,7 +949,7 @@
         "defaults": {
           "decimals": 2,
           "mappings": [],
-          "noValue": "0",
+          "noValue": "0.00 €",
           "thresholds": {
             "mode": "absolute",
             "steps": [
@@ -1026,7 +1038,7 @@
         "defaults": {
           "decimals": 2,
           "mappings": [],
-          "noValue": "0",
+          "noValue": "0.00 €",
           "thresholds": {
             "mode": "absolute",
             "steps": [
@@ -1115,7 +1127,7 @@
         "defaults": {
           "decimals": 2,
           "mappings": [],
-          "noValue": "0",
+          "noValue": "0.00 €",
           "thresholds": {
             "mode": "absolute",
             "steps": [
@@ -1259,7 +1271,7 @@
         "defaults": {
           "decimals": 2,
           "mappings": [],
-          "noValue": "0",
+          "noValue": "0.00 €",
           "thresholds": {
             "mode": "absolute",
             "steps": [
@@ -1745,7 +1757,7 @@
               "type": "linear"
             }
           },
-          "decimals": 2,
+          "decimals": 1,
           "mappings": [],
           "thresholds": {
             "mode": "absolute",
@@ -1869,7 +1881,7 @@
           "decimals": 2,
           "displayName": "",
           "mappings": [],
-          "noValue": "0",
+          "noValue": "0.00 €",
           "thresholds": {
             "mode": "absolute",
             "steps": [
@@ -1878,7 +1890,8 @@
                 "value": null
               }
             ]
-          }
+          },
+          "unit": "€"
         },
         "overrides": []
       },
@@ -1953,7 +1966,7 @@
           },
           "decimals": 2,
           "mappings": [],
-          "noValue": "0",
+          "noValue": "0.00 €",
           "thresholds": {
             "mode": "absolute",
             "steps": [
@@ -1962,7 +1975,8 @@
                 "value": null
               }
             ]
-          }
+          },
+          "unit": "€"
         },
         "overrides": []
       },
@@ -2034,7 +2048,7 @@
         "defaults": {
           "decimals": 2,
           "mappings": [],
-          "noValue": "0",
+          "noValue": "0.00 €",
           "thresholds": {
             "mode": "absolute",
             "steps": [
@@ -2123,7 +2137,7 @@
         "defaults": {
           "decimals": 2,
           "mappings": [],
-          "noValue": "0",
+          "noValue": "0.00 €",
           "thresholds": {
             "mode": "absolute",
             "steps": [
@@ -2212,7 +2226,7 @@
         "defaults": {
           "decimals": 2,
           "mappings": [],
-          "noValue": "0",
+          "noValue": "0.00 €",
           "thresholds": {
             "mode": "absolute",
             "steps": [
@@ -3196,6 +3210,6 @@
   "timezone": "browser",
   "title": "Charging Costs Stats",
   "uid": "LdwdLXt4z",
-  "version": 2,
+  "version": 5,
   "weekStart": ""
 }
