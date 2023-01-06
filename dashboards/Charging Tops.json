@@ -66,7 +66,7 @@
   "fiscalYearStartMonth": 0,
   "graphTooltip": 1,
   "id": null,
-  "iteration": 1672767982789,
+  "iteration": 1673001591151,
   "links": [
     {
       "icon": "dashboard",
@@ -111,6 +111,7 @@
       "fieldConfig": {
         "defaults": {
           "mappings": [],
+          "noValue": "0 kWh",
           "thresholds": {
             "mode": "absolute",
             "steps": [
@@ -155,6 +156,10 @@
       "pluginVersion": "8.5.6",
       "targets": [
         {
+          "datasource": {
+            "type": "postgres",
+            "uid": "${DS_TESLAMATE}"
+          },
           "format": "table",
           "group": [],
           "metricColumn": "none",
@@ -180,11 +185,7 @@
               "params": [],
               "type": "macro"
             }
-          ],
-          "datasource": {
-            "type": "postgres",
-            "uid": "${DS_TESLAMATE}"
-          }
+          ]
         }
       ],
       "title": "Charged in total",
@@ -295,11 +296,15 @@
       "pluginVersion": "8.5.6",
       "targets": [
         {
+          "datasource": {
+            "type": "postgres",
+            "uid": "${DS_TESLAMATE}"
+          },
           "format": "time_series",
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "WITH data AS (\n  SELECT\n\t\tcp.id,\n\t\tcp.charge_energy_added,\n\t\tCASE WHEN NULLIF(mode() within group (order by charger_phases),0) is null THEN 'DC'\n\t\t\t\t ELSE 'AC'\n\t\tEND AS current\n\tFROM charging_processes cp\n  RIGHT JOIN charges ON cp.id = charges.charging_process_id\n  WHERE\n\t  cp.car_id = $car_id\n\t  AND cp.charge_energy_added > 0.01\n\t  AND $__timeFilter(start_date)\n  GROUP BY 1,2\n)\nSELECT\n\tnow() AS time,\n\tsum(charge_energy_added) AS value,\n\tcurrent AS metric\nFROM data\nGROUP BY 3\nORDER BY metric DESC;",
+          "rawSql": "WITH data AS (\n  SELECT\n\t\tcp.id,\n\t\tcp.charge_energy_added,\n\t\tCASE WHEN NULLIF(mode() within group (order by charger_phases),0) is null THEN 'DC'\n\t\t\t\t ELSE 'AC'\n\t\tEND AS current\n\tFROM charging_processes cp\n  RIGHT JOIN charges ON cp.id = charges.charging_process_id\n  WHERE\n\t  cp.car_id = $car_id\n\t  AND cp.charge_energy_added > 0.01\n\t  AND $__timeFilter(end_date)\n  GROUP BY 1,2\n)\nSELECT\n\tnow() AS time,\n\tsum(charge_energy_added) AS value,\n\tcurrent AS metric\nFROM data\nGROUP BY 3\nORDER BY metric DESC;",
           "refId": "A",
           "select": [
             [
@@ -320,11 +325,7 @@
               "params": [],
               "type": "macro"
             }
-          ],
-          "datasource": {
-            "type": "postgres",
-            "uid": "${DS_TESLAMATE}"
-          }
+          ]
         }
       ],
       "title": "AC/DC – Energy added",
@@ -339,6 +340,7 @@
         "defaults": {
           "decimals": 2,
           "mappings": [],
+          "noValue": "0 €",
           "thresholds": {
             "mode": "absolute",
             "steps": [
@@ -354,7 +356,7 @@
       },
       "gridPos": {
         "h": 3,
-        "w": 9,
+        "w": 3,
         "x": 15,
         "y": 1
       },
@@ -383,6 +385,10 @@
       "pluginVersion": "8.5.6",
       "targets": [
         {
+          "datasource": {
+            "type": "postgres",
+            "uid": "${DS_TESLAMATE}"
+          },
           "format": "table",
           "group": [],
           "metricColumn": "none",
@@ -408,14 +414,178 @@
               "params": [],
               "type": "macro"
             }
+          ]
+        }
+      ],
+      "title": "Total charging cost",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "postgres",
+        "uid": "${DS_TESLAMATE}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "decimals": 2,
+          "displayName": "",
+          "mappings": [],
+          "noValue": "0.00 €",
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "super-light-orange",
+                "value": null
+              }
+            ]
+          },
+          "unit": "€"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 3,
+        "x": 18,
+        "y": 1
+      },
+      "id": 52,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "mean"
           ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "8.5.6",
+      "targets": [
+        {
           "datasource": {
             "type": "postgres",
             "uid": "${DS_TESLAMATE}"
-          }
+          },
+          "format": "table",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "SELECT (\n  SELECT sum(cost)\n  FROM charging_processes\n  WHERE $__timeFilter(end_date) AND car_id = $car_id\n) / (\n\tSELECT convert_km((max(odometer) - min(odometer))::numeric, '$length_unit')\n\tFROM positions\n\tWHERE $__timeFilter(date) AND car_id = $car_id\n) * 100",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "efficiency"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "table": "cars",
+          "timeColumn": "inserted_at",
+          "timeColumnType": "timestamp",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
         }
       ],
-      "title": "Total Charging Cost",
+      "title": "Cost per 100 $length_unit",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "postgres",
+        "uid": "${DS_TESLAMATE}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "decimals": 2,
+          "mappings": [],
+          "noValue": "0.00 €",
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "super-light-yellow",
+                "value": null
+              }
+            ]
+          },
+          "unit": "€"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 3,
+        "x": 21,
+        "y": 1
+      },
+      "id": 54,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "mean"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "8.5.6",
+      "targets": [
+        {
+          "datasource": {
+            "type": "postgres",
+            "uid": "${DS_TESLAMATE}"
+          },
+          "format": "table",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "SELECT (\n  SELECT sum(cost)\n  FROM charging_processes\n  WHERE $__timeFilter(end_date) AND car_id = $car_id\n) / (\n  SELECT sum(greatest(charge_energy_added, charge_energy_used))\n  FROM charging_processes\n  WHERE $__timeFilter(end_date) AND car_id = $car_id\n)",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "table": "drives",
+          "timeColumn": "start_date",
+          "timeColumnType": "timestamp",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "title": "Average cost per kWh",
       "type": "stat"
     },
     {
@@ -426,6 +596,7 @@
       "fieldConfig": {
         "defaults": {
           "mappings": [],
+          "noValue": "0 kWh",
           "thresholds": {
             "mode": "absolute",
             "steps": [
@@ -514,6 +685,7 @@
         "defaults": {
           "decimals": 2,
           "mappings": [],
+          "noValue": "0 €",
           "thresholds": {
             "mode": "absolute",
             "steps": [
@@ -566,7 +738,7 @@
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "WITH data AS (\n\tSELECT c.charging_process_id \n\tFROM charges c\n\tLEFT JOIN charging_processes cp ON cp.id = c.charging_process_id\n\tLEFT JOIN addresses addr ON addr.id = cp.address_id\n\tLEFT JOIN geofences geo ON geo.id = geofence_id\n\tWHERE \n\t\tc.fast_charger_present IS true\n\t\tAND c.charger_voltage = 2\n\t\tAND cp.car_id = $car_id\n\t\tAND (addr.name LIKE '%Supercharger%' OR geo.name LIKE '%Supercharger%')\n\tGROUP BY 1\n)\nSELECT\n\tsum(cp.cost) as total\nFROM\n\tcharging_processes cp, data\nWHERE\n  $__timeFilter(end_date)\n  AND cp.cost IS NOT NULL\n  AND cp.id IN (data.charging_process_id);",
+          "rawSql": "WITH data AS (\n\tSELECT c.charging_process_id \n\tFROM charges c\n\tLEFT JOIN charging_processes cp ON cp.id = c.charging_process_id\n\tLEFT JOIN addresses addr ON addr.id = cp.address_id\n\tLEFT JOIN geofences geo ON geo.id = geofence_id\n\tWHERE \n\t\tc.fast_charger_present IS true\n\t\tAND c.charger_voltage = 2\n\t\tAND cp.car_id = $car_id\n\t\tAND (addr.display_name LIKE '%Supercharger%' OR geo.name LIKE '%Supercharger%')\n\tGROUP BY 1\n)\nSELECT\n\tsum(cp.cost) as total\nFROM\n\tcharging_processes cp, data\nWHERE\n  $__timeFilter(end_date)\n  AND cp.cost IS NOT NULL\n  AND cp.id IN (data.charging_process_id);",
           "refId": "A",
           "select": [
             [
@@ -590,7 +762,7 @@
           ]
         }
       ],
-      "title": "Charging Cost at SuC",
+      "title": "Charging cost at SuC",
       "type": "stat"
     },
     {
@@ -602,6 +774,7 @@
         "defaults": {
           "decimals": 2,
           "mappings": [],
+          "noValue": "0 €",
           "thresholds": {
             "mode": "absolute",
             "steps": [
@@ -654,7 +827,7 @@
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "WITH data AS (\n\tSELECT c.charging_process_id \n\tFROM charges c\n\tLEFT JOIN charging_processes cp ON cp.id = c.charging_process_id\n\tLEFT JOIN addresses addr ON addr.id = cp.address_id\n\tLEFT JOIN geofences geo ON geo.id = geofence_id\n\tWHERE \n\t\tc.fast_charger_present IS true\n\t\tAND c.charger_voltage = 2\n\t\tAND cp.car_id = $car_id\n\t\tAND CASE \n\t\t\tWHEN (cp.geofence_id IS NOT NULL) THEN (addr.name NOT LIKE '%Supercharger%' AND geo.name NOT LIKE '%Supercharger%')\n\t\t\tELSE addr.name NOT LIKE '%Supercharger%'\n\t\tEND\n\tGROUP BY 1\n)\nSELECT\n\tsum(cp.cost) as total\nFROM\n\tcharging_processes cp, data\nWHERE\n  $__timeFilter(end_date)\n  AND cp.cost IS NOT NULL\n  AND cp.id IN (data.charging_process_id);",
+          "rawSql": "WITH data AS (\n\tSELECT c.charging_process_id \n\tFROM charges c\n\tLEFT JOIN charging_processes cp ON cp.id = c.charging_process_id\n\tLEFT JOIN addresses addr ON addr.id = cp.address_id\n\tLEFT JOIN geofences geo ON geo.id = geofence_id\n\tWHERE \n\t\tc.fast_charger_present IS true\n\t\tAND c.charger_voltage = 2\n\t\tAND cp.car_id = $car_id\n\t\tAND CASE \n\t\t\tWHEN (cp.geofence_id IS NOT NULL) THEN (addr.display_name NOT LIKE '%Supercharger%' AND geo.name NOT LIKE '%Supercharger%')\n\t\t\tELSE addr.display_name NOT LIKE '%Supercharger%'\n\t\tEND\n\tGROUP BY 1\n)\nSELECT\n\tsum(cp.cost) as total\nFROM\n\tcharging_processes cp, data\nWHERE\n  $__timeFilter(end_date)\n  AND cp.cost IS NOT NULL\n  AND cp.id IN (data.charging_process_id);",
           "refId": "A",
           "select": [
             [
@@ -690,6 +863,7 @@
         "defaults": {
           "decimals": 2,
           "mappings": [],
+          "noValue": "0 €",
           "thresholds": {
             "mode": "absolute",
             "steps": [
@@ -794,7 +968,8 @@
                 "value": 80
               }
             ]
-          }
+          },
+          "unit": " €"
         },
         "overrides": [
           {
@@ -825,7 +1000,7 @@
               },
               {
                 "id": "custom.align",
-                "value": "left"
+                "value": "right"
               }
             ]
           },
@@ -837,7 +1012,15 @@
             "properties": [
               {
                 "id": "custom.hidden",
-                "value": true
+                "value": false
+              },
+              {
+                "id": "displayName",
+                "value": "Cost"
+              },
+              {
+                "id": "custom.width",
+                "value": 120
               }
             ]
           }
@@ -849,7 +1032,7 @@
         "x": 0,
         "y": 7
       },
-      "id": 32,
+      "id": 4,
       "options": {
         "footer": {
           "fields": "",
@@ -871,7 +1054,7 @@
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "SELECT\n\tCOALESCE(geofence.name, CONCAT_WS(', ', COALESCE(address.name, nullif(CONCAT_WS(' ', address.road, address.house_number), '')), address.city)) AS location,\n\tCASE\n      WHEN SUM(charge_energy_added) < 1000 THEN SUM(charge_energy_added)::NUMERIC(4,0)::VARCHAR || ' kWh' \n      WHEN SUM(charge_energy_added) < 1000000 THEN (SUM(charge_energy_added) / 1000)::NUMERIC(9, 3)::VARCHAR || ' MWh' \n      WHEN SUM(charge_energy_added) >= 1000000 THEN (SUM(charge_energy_added) / 1000000)::NUMERIC(9, 3)::VARCHAR || ' GWh' \n   END as charge_energy_added, sum(cost) as cost\nFROM\n\tcharging_processes c\nLEFT JOIN addresses address ON c.address_id = address.id\nLEFT JOIN geofences geofence ON geofence_id = geofence.id\nWHERE\n\t$__timeFilter(end_date)\n\tAND car_id = $car_id\n\tAND cost = 0\nGROUP BY\n\t1\nORDER BY\n\tSUM(charge_energy_added) DESC\nLIMIT 10;",
+          "rawSql": "SELECT\n\tCOALESCE(geo.name, CONCAT_WS(', ', COALESCE(addr.name, nullif(CONCAT_WS(' ', addr.road, addr.house_number), '')), addr.city)) AS location,\n\tCASE\n      WHEN SUM(charge_energy_added) < 1000 THEN SUM(charge_energy_added)::NUMERIC(4,0)::VARCHAR || ' kWh' \n      WHEN SUM(charge_energy_added) < 1000000 THEN (SUM(charge_energy_added) / 1000)::NUMERIC(9, 3)::VARCHAR || ' MWh' \n      WHEN SUM(charge_energy_added) >= 1000000 THEN (SUM(charge_energy_added) / 1000000)::NUMERIC(9, 3)::VARCHAR || ' GWh' \n   END as charge_energy_added, sum(cost) as cost\nFROM\n\tcharging_processes cp\nLEFT JOIN addresses addr ON cp.address_id = addr.id\nLEFT JOIN geofences geo ON cp.geofence_id = geo.id\nWHERE\n\tcp.id IN (\n\t\tSELECT c.charging_process_id \n\t  FROM charges c\n  \tLEFT JOIN charging_processes cp ON cp.id = c.charging_process_id\n  \tLEFT JOIN addresses addr ON addr.id = cp.address_id\n  \tLEFT JOIN geofences geo ON geo.id = geofence_id\n  \tWHERE \n  \t  $__timeFilter(cp.end_date)\n  \t\tAND c.fast_charger_present IS NOT true\n  \t\tAND c.charger_voltage != 2\n  \t\tAND cp.car_id = $car_id\n  \tGROUP BY 1\n\t)\nGROUP BY\n\t1\nORDER BY\n\tSUM(charge_energy_added) DESC\nLIMIT 10;",
           "refId": "A",
           "select": [
             [
@@ -893,7 +1076,7 @@
           ]
         }
       ],
-      "title": "Top Free Stations",
+      "title": "Top recharges in AC stations",
       "type": "table"
     },
     {
@@ -921,7 +1104,8 @@
                 "value": 80
               }
             ]
-          }
+          },
+          "unit": " €"
         },
         "overrides": [
           {
@@ -952,7 +1136,7 @@
               },
               {
                 "id": "custom.align",
-                "value": "left"
+                "value": "right"
               }
             ]
           },
@@ -964,7 +1148,15 @@
             "properties": [
               {
                 "id": "custom.hidden",
-                "value": true
+                "value": false
+              },
+              {
+                "id": "displayName",
+                "value": "Cost"
+              },
+              {
+                "id": "custom.width",
+                "value": 120
               }
             ]
           }
@@ -976,7 +1168,7 @@
         "x": 8,
         "y": 7
       },
-      "id": 34,
+      "id": 50,
       "options": {
         "footer": {
           "fields": "",
@@ -998,7 +1190,7 @@
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "SELECT\n\tCOALESCE(geofence.name, CONCAT_WS(', ', COALESCE(address.name, nullif(CONCAT_WS(' ', address.road, address.house_number), '')), address.city)) AS location,\n\tCASE\n      WHEN SUM(charge_energy_added) < 1000 THEN SUM(charge_energy_added)::NUMERIC(4,0)::VARCHAR || ' kWh' \n      WHEN SUM(charge_energy_added) < 1000000 THEN (SUM(charge_energy_added) / 1000)::NUMERIC(9, 3)::VARCHAR || ' MWh' \n      WHEN SUM(charge_energy_added) >= 1000000 THEN (SUM(charge_energy_added) / 1000000)::NUMERIC(9, 3)::VARCHAR || ' GWh' \n   END as charge_energy_added, sum(cost) as cost\nFROM\n\tcharging_processes c\nLEFT JOIN addresses address ON c.address_id = address.id\nLEFT JOIN geofences geofence ON geofence_id = geofence.id\nWHERE\n\t$__timeFilter(end_date)\n\tAND car_id = $car_id\n\tAND (address.display_name LIKE '%Supercharger%' OR address.name LIKE '%Supercharger%')\nGROUP BY\n\t1\nORDER BY\n\tSUM(charge_energy_added) DESC\nLIMIT 10;",
+          "rawSql": "SELECT\n\tCOALESCE(geofence.name, CONCAT_WS(', ', COALESCE(address.name, nullif(CONCAT_WS(' ', address.road, address.house_number), '')), address.city)) AS location,\n\tCASE\n      WHEN SUM(charge_energy_added) < 1000 THEN SUM(charge_energy_added)::NUMERIC(4,0)::VARCHAR || ' kWh' \n      WHEN SUM(charge_energy_added) < 1000000 THEN (SUM(charge_energy_added) / 1000)::NUMERIC(9, 3)::VARCHAR || ' MWh' \n      WHEN SUM(charge_energy_added) >= 1000000 THEN (SUM(charge_energy_added) / 1000000)::NUMERIC(9, 3)::VARCHAR || ' GWh' \n   END as charge_energy_added, sum(cost) as cost\nFROM\n\tcharging_processes c\nLEFT JOIN addresses address ON c.address_id = address.id\nLEFT JOIN geofences geofence ON geofence_id = geofence.id\nWHERE\n\t$__timeFilter(end_date)\n\tAND car_id = $car_id\n\tAND (address.display_name LIKE '%Supercharger%' OR geofence.name LIKE '%Supercharger%')\nGROUP BY\n\t1\nORDER BY\n\tSUM(charge_energy_added) DESC\nLIMIT 10;",
           "refId": "A",
           "select": [
             [
@@ -1020,7 +1212,7 @@
           ]
         }
       ],
-      "title": "Top SuperCharger Stations",
+      "title": "Top recharges in SuperChargers",
       "type": "table"
     },
     {
@@ -1112,7 +1304,7 @@
         "x": 16,
         "y": 7
       },
-      "id": 4,
+      "id": 48,
       "options": {
         "footer": {
           "fields": "",
@@ -1134,7 +1326,7 @@
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "SELECT\n\tCOALESCE(geofence.name, CONCAT_WS(', ', COALESCE(address.name, nullif(CONCAT_WS(' ', address.road, address.house_number), '')), address.city)) AS location,\n\tCASE\n      WHEN SUM(charge_energy_added) < 1000 THEN SUM(charge_energy_added)::NUMERIC(4,0)::VARCHAR || ' kWh' \n      WHEN SUM(charge_energy_added) < 1000000 THEN (SUM(charge_energy_added) / 1000)::NUMERIC(9, 3)::VARCHAR || ' MWh' \n      WHEN SUM(charge_energy_added) >= 1000000 THEN (SUM(charge_energy_added) / 1000000)::NUMERIC(9, 3)::VARCHAR || ' GWh' \n   END as charge_energy_added, sum(cost) as cost\nFROM\n\tcharging_processes c\nLEFT JOIN addresses address ON c.address_id = address.id\nLEFT JOIN geofences geofence ON geofence_id = geofence.id\nWHERE\n\t$__timeFilter(end_date)\n\tAND car_id = $car_id\n\tAND cost > 0\nGROUP BY\n\t1\nORDER BY\n\tSUM(charge_energy_added) DESC\nLIMIT 10;",
+          "rawSql": "SELECT\n\tCOALESCE(geo.name, CONCAT_WS(', ', COALESCE(addr.name, nullif(CONCAT_WS(' ', addr.road, addr.house_number), '')), addr.city)) AS location,\n\tCASE\n      WHEN SUM(charge_energy_added) < 1000 THEN SUM(charge_energy_added)::NUMERIC(4,0)::VARCHAR || ' kWh' \n      WHEN SUM(charge_energy_added) < 1000000 THEN (SUM(charge_energy_added) / 1000)::NUMERIC(9, 3)::VARCHAR || ' MWh' \n      WHEN SUM(charge_energy_added) >= 1000000 THEN (SUM(charge_energy_added) / 1000000)::NUMERIC(9, 3)::VARCHAR || ' GWh' \n   END as charge_energy_added, sum(cost) as cost\nFROM\n\tcharging_processes cp\nLEFT JOIN addresses addr ON cp.address_id = addr.id\nLEFT JOIN geofences geo ON cp.geofence_id = geo.id\nWHERE\n\tcp.id IN (\n\t\tSELECT c.charging_process_id \n\t  FROM charges c\n  \tLEFT JOIN charging_processes cp ON cp.id = c.charging_process_id\n  \tLEFT JOIN addresses addr ON addr.id = cp.address_id\n  \tLEFT JOIN geofences geo ON geo.id = geofence_id\n  \tWHERE \n  \t  $__timeFilter(cp.start_date)\n  \t\tAND c.fast_charger_present IS true\n  \t\tAND c.charger_voltage = 2\n  \t\tAND cp.car_id = $car_id\n  \t\tAND CASE \n  \t\t\tWHEN (cp.geofence_id IS NOT NULL) THEN (addr.display_name NOT LIKE '%Supercharger%' AND geo.name NOT LIKE '%Supercharger%')\n  \t\t\tELSE addr.display_name NOT LIKE '%Supercharger%'\n  \t\tEND\n  \tGROUP BY 1\n\t)\nGROUP BY\n\t1\nORDER BY\n\tSUM(charge_energy_added) DESC\nLIMIT 10;",
           "refId": "A",
           "select": [
             [
@@ -1156,7 +1348,7 @@
           ]
         }
       ],
-      "title": "Top Payment Stations",
+      "title": "Top recharges in other DC stations",
       "type": "table"
     }
   ],
@@ -1235,11 +1427,30 @@
         "tagsQuery": "",
         "type": "query",
         "useTags": false
+      },
+      {
+        "current": {},
+        "datasource": {
+          "type": "postgres",
+          "uid": "${DS_TESLAMATE}"
+        },
+        "definition": "select preferred_range from settings limit 1;",
+        "hide": 2,
+        "includeAll": false,
+        "multi": false,
+        "name": "preferred_range",
+        "options": [],
+        "query": "select preferred_range from settings limit 1;",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "type": "query"
       }
     ]
   },
   "time": {
-    "from": "now-10y",
+    "from": "now-1y",
     "to": "now"
   },
   "timepicker": {
@@ -1271,6 +1482,6 @@
   "timezone": "",
   "title": "Charging Tops",
   "uid": "DdLe5uFVk",
-  "version": 13,
+  "version": 14,
   "weekStart": ""
 }
