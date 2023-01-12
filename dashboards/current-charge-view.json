@@ -57,7 +57,7 @@
   "fiscalYearStartMonth": 0,
   "graphTooltip": 1,
   "id": null,
-  "iteration": 1673191705661,
+  "iteration": 1673539449476,
   "links": [
     {
       "icon": "dashboard",
@@ -335,6 +335,117 @@
       "datasource": "TeslaMate",
       "fieldConfig": {
         "defaults": {
+          "color": {
+            "fixedColor": "light-green",
+            "mode": "thresholds"
+          },
+          "decimals": 0,
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "#e24d42",
+                "value": null
+              },
+              {
+                "color": "#EAB839",
+                "value": 10
+              },
+              {
+                "color": "green",
+                "value": 30
+              },
+              {
+                "color": "#EF843C",
+                "value": 90
+              },
+              {
+                "color": "#E24D42",
+                "value": 100
+              }
+            ]
+          },
+          "unit": "percent"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 2,
+        "x": 10,
+        "y": 1
+      },
+      "id": 40,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "first"
+          ],
+          "fields": "",
+          "values": true
+        },
+        "text": {},
+        "textMode": "auto"
+      },
+      "pluginVersion": "8.5.6",
+      "targets": [
+        {
+          "alias": "Real",
+          "datasource": "TeslaMate",
+          "format": "table",
+          "group": [],
+          "groupBy": [],
+          "hide": false,
+          "measurement": "km",
+          "metricColumn": "none",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "query": "SELECT last(\"value\") FROM \"km\" WHERE (\"entity_id\" = 'ovms_v_b_range_ideal') ",
+          "rawQuery": true,
+          "rawSql": " SELECT  battery_level as \"Initial SOC\" FROM charges \n\twhere charging_process_id=$charging_processes\n\tORDER BY DATE ASC\n \tLIMIT 1",
+          "refId": "Inital SOC",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "start_km"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "table": "drives",
+          "tags": [
+            {
+              "key": "entity_id",
+              "operator": "=",
+              "value": "ovms_v_b_range_ideal"
+            }
+          ],
+          "timeColumn": "start_date",
+          "timeColumnType": "timestamp",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "title": "Initial SOC",
+      "type": "stat"
+    },
+    {
+      "datasource": "TeslaMate",
+      "fieldConfig": {
+        "defaults": {
           "decimals": 2,
           "mappings": [],
           "thresholds": {
@@ -368,8 +479,8 @@
       },
       "gridPos": {
         "h": 3,
-        "w": 4,
-        "x": 10,
+        "w": 3,
+        "x": 12,
         "y": 1
       },
       "id": 29,
@@ -443,7 +554,7 @@
           ]
         }
       ],
-      "title": "Total charging time",
+      "title": "Elapsed time",
       "type": "stat"
     },
     {
@@ -502,8 +613,8 @@
       },
       "gridPos": {
         "h": 3,
-        "w": 4,
-        "x": 14,
+        "w": 3,
+        "x": 15,
         "y": 1
       },
       "id": 23,
@@ -675,7 +786,6 @@
               "mode": "line"
             }
           },
-          "decimals": 2,
           "links": [],
           "mappings": [],
           "thresholds": {
@@ -706,13 +816,21 @@
               },
               {
                 "id": "custom.axisPlacement",
-                "value": "right"
+                "value": "hidden"
               },
               {
                 "id": "color",
                 "value": {
                   "fixedColor": "#cec1c3",
                   "mode": "fixed"
+                }
+              },
+              {
+                "id": "custom.hideFrom",
+                "value": {
+                  "legend": true,
+                  "tooltip": false,
+                  "viz": false
                 }
               }
             ]
@@ -736,7 +854,37 @@
               },
               {
                 "id": "unit",
-                "value": "none"
+                "value": "kwatt"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "SOC [%]"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "%"
+              },
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#d1f5ef",
+                  "mode": "fixed",
+                  "seriesBy": "last"
+                }
+              },
+              {
+                "id": "custom.thresholdsStyle",
+                "value": {
+                  "mode": "off"
+                }
+              },
+              {
+                "id": "custom.axisPlacement",
+                "value": "right"
               }
             ]
           }
@@ -757,7 +905,7 @@
             "max",
             "min"
           ],
-          "displayMode": "list",
+          "displayMode": "table",
           "placement": "bottom"
         },
         "tooltip": {
@@ -775,7 +923,7 @@
           "hide": false,
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "SELECT\n\tdate AS \"time\",\n\t(case when charger_phases >= 1 then (case when charger_phases = 2 then 3 when charger_phases = 1 then 1 else 0 end) * charger_actual_current * charger_voltage / 1000.0 else charger_power end) as \"Power [kW]\",\n\t(case when battery_heater_on then 10 when battery_heater then 10 else 0 end) as \"Battery heater\"\nFROM\n\tcharges c\n\tJOIN charging_processes cp ON c.charging_process_id = cp.id\nWHERE\n cp.car_id = $car_id AND\n $__timeFilter(date)\nORDER BY date ASC",
+          "rawSql": "SELECT\n\tdate AS \"time\",\n\tbattery_level as \"SOC [%]\",\n\t(case when charger_phases >= 1 then (case when charger_phases = 2 then 3 when charger_phases = 1 then 1 else 0 end) * charger_actual_current * charger_voltage / 1000.0 else charger_power end) as \"Power [kW]\",\n\t(case when battery_heater_on then 10 when battery_heater then 10 else 0 end) as \"Battery heater\"\nFROM\n\tcharges c\n\tJOIN charging_processes cp ON c.charging_process_id = cp.id\nWHERE\n cp.car_id = $car_id AND\n $__timeFilter(date)\nORDER BY date ASC",
           "refId": "Power",
           "select": [
             [
@@ -799,7 +947,7 @@
           ]
         }
       ],
-      "title": "Power",
+      "title": "Charge detail",
       "type": "timeseries"
     },
     {
@@ -1260,7 +1408,7 @@
       "type": "stat"
     }
   ],
-  "refresh": "30s",
+  "refresh": false,
   "schemaVersion": 36,
   "style": "dark",
   "tags": [
@@ -1408,6 +1556,6 @@
   "timezone": "",
   "title": "Custom - Current Charge View",
   "uid": "K9VmZD54k",
-  "version": 3,
+  "version": 4,
   "weekStart": ""
 }
