@@ -4,7 +4,7 @@
 
 ## How to import boards
 
-Tested with Teslamate v1.27.1 and Grafana v8.5.6
+Tested with Teslamate v1.27.1+ and Grafana v8.5.6+
 
 1. Sign in to Grafana
 2. Create an API key (More information below)

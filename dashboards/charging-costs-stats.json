@@ -11,7 +11,7 @@
       "type": "grafana",
       "id": "grafana",
       "name": "Grafana",
-      "version": "8.5.6"
+      "version": "8.5.15"
     },
     {
       "type": "datasource",
@@ -62,7 +62,7 @@
   "fiscalYearStartMonth": 0,
   "graphTooltip": 1,
   "id": null,
-  "iteration": 1672790710530,
+  "iteration": 1673621413295,
   "links": [
     {
       "icon": "dashboard",
@@ -112,7 +112,7 @@
         "content": "",
         "mode": "markdown"
       },
-      "pluginVersion": "8.5.6",
+      "pluginVersion": "8.5.15",
       "targets": [
         {
           "datasource": "TeslaMate",
@@ -196,7 +196,7 @@
         },
         "textMode": "value"
       },
-      "pluginVersion": "8.5.6",
+      "pluginVersion": "8.5.15",
       "targets": [
         {
           "datasource": "TeslaMate",
@@ -303,7 +303,7 @@
         },
         "textMode": "value"
       },
-      "pluginVersion": "8.5.6",
+      "pluginVersion": "8.5.15",
       "targets": [
         {
           "datasource": "TeslaMate",
@@ -385,7 +385,7 @@
         },
         "textMode": "value"
       },
-      "pluginVersion": "8.5.6",
+      "pluginVersion": "8.5.15",
       "targets": [
         {
           "datasource": "TeslaMate",
@@ -468,7 +468,7 @@
         },
         "textMode": "value"
       },
-      "pluginVersion": "8.5.6",
+      "pluginVersion": "8.5.15",
       "targets": [
         {
           "datasource": "TeslaMate",
@@ -551,7 +551,7 @@
         },
         "textMode": "value"
       },
-      "pluginVersion": "8.5.6",
+      "pluginVersion": "8.5.15",
       "targets": [
         {
           "datasource": "TeslaMate",
@@ -762,7 +762,7 @@
         },
         "textMode": "auto"
       },
-      "pluginVersion": "8.5.6",
+      "pluginVersion": "8.5.15",
       "targets": [
         {
           "datasource": "TeslaMate",
@@ -841,7 +841,7 @@
         },
         "textMode": "auto"
       },
-      "pluginVersion": "8.5.6",
+      "pluginVersion": "8.5.15",
       "targets": [
         {
           "datasource": "TeslaMate",
@@ -924,7 +924,7 @@
         },
         "textMode": "value"
       },
-      "pluginVersion": "8.5.6",
+      "pluginVersion": "8.5.15",
       "targets": [
         {
           "datasource": "TeslaMate",
@@ -932,7 +932,7 @@
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "WITH data AS (\n\tSELECT c.charging_process_id \n\tFROM charges c\n\tLEFT JOIN charging_processes cp ON cp.id = c.charging_process_id\n\tLEFT JOIN addresses addr ON addr.id = cp.address_id\n\tLEFT JOIN geofences geo ON geo.id = geofence_id\n\tWHERE \n\t\tc.fast_charger_present IS true\n\t\tAND c.charger_voltage = 2\n\t\tAND cp.car_id = $car_id\n\t\tAND (addr.name LIKE '%Supercharger%' OR geo.name LIKE '%Supercharger%')\n\tGROUP BY 1\n)\nSELECT\n\tsum(cp.cost) as total\nFROM\n\tcharging_processes cp, data\nWHERE\n  $__timeFilter(end_date)\n  AND cp.cost IS NOT NULL\n  AND cp.id IN (data.charging_process_id);",
+          "rawSql": "WITH data AS (\n\tSELECT c.charging_process_id \n\tFROM charges c\n\tLEFT JOIN charging_processes cp ON cp.id = c.charging_process_id\n\tLEFT JOIN addresses addr ON addr.id = cp.address_id\n\tLEFT JOIN geofences geo ON geo.id = geofence_id\n\tWHERE \n\t\tc.fast_charger_present IS true\n\t\tAND c.charger_voltage = 2\n\t\tAND cp.car_id = $car_id\n\t\tAND (addr.name ILIKE '%supercharger%' OR geo.name ILIKE '%supercharger%')\n\tGROUP BY 1\n)\nSELECT\n\tsum(cp.cost) as total\nFROM\n\tcharging_processes cp, data\nWHERE\n  $__timeFilter(end_date)\n  AND cp.cost IS NOT NULL\n  AND cp.id IN (data.charging_process_id);",
           "refId": "A",
           "select": [
             [
@@ -1007,7 +1007,7 @@
         },
         "textMode": "value"
       },
-      "pluginVersion": "8.5.6",
+      "pluginVersion": "8.5.15",
       "targets": [
         {
           "datasource": "TeslaMate",
@@ -1015,7 +1015,7 @@
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "WITH data AS (\n\tSELECT c.charging_process_id \n\tFROM charges c\n\tLEFT JOIN charging_processes cp ON cp.id = c.charging_process_id\n\tLEFT JOIN addresses addr ON addr.id = cp.address_id\n\tLEFT JOIN geofences geo ON geo.id = geofence_id\n\tWHERE \n\t\tc.fast_charger_present IS true\n\t\tAND c.charger_voltage = 2\n\t\tAND cp.car_id = $car_id\n\t\tAND CASE \n\t\t\tWHEN (cp.geofence_id IS NOT NULL) THEN (addr.name NOT LIKE '%Supercharger%' AND geo.name NOT LIKE '%Supercharger%')\n\t\t\tELSE addr.name NOT LIKE '%Supercharger%'\n\t\tEND\n\tGROUP BY 1\n)\nSELECT\n\tsum(cp.cost) as total\nFROM\n\tcharging_processes cp, data\nWHERE\n  $__timeFilter(end_date)\n  AND cp.cost IS NOT NULL\n  AND cp.id IN (data.charging_process_id);",
+          "rawSql": "WITH data AS (\n\tSELECT c.charging_process_id \n\tFROM charges c\n\tLEFT JOIN charging_processes cp ON cp.id = c.charging_process_id\n\tLEFT JOIN addresses addr ON addr.id = cp.address_id\n\tLEFT JOIN geofences geo ON geo.id = geofence_id\n\tWHERE \n\t\tc.fast_charger_present IS true\n\t\tAND c.charger_voltage = 2\n\t\tAND cp.car_id = $car_id\n\t\tAND CASE \n\t\t\tWHEN (cp.geofence_id IS NOT NULL) THEN (addr.name NOT ILIKE '%supercharger%' AND geo.name NOT ILIKE '%supercharger%')\n\t\t\tELSE addr.name NOT ILIKE '%supercharger%'\n\t\tEND\n\tGROUP BY 1\n)\nSELECT\n\tsum(cp.cost) as total\nFROM\n\tcharging_processes cp, data\nWHERE\n  $__timeFilter(end_date)\n  AND cp.cost IS NOT NULL\n  AND cp.id IN (data.charging_process_id);",
           "refId": "A",
           "select": [
             [
@@ -1090,7 +1090,7 @@
         },
         "textMode": "value"
       },
-      "pluginVersion": "8.5.6",
+      "pluginVersion": "8.5.15",
       "targets": [
         {
           "datasource": "TeslaMate",
@@ -1138,7 +1138,7 @@
         "content": "# Totals",
         "mode": "markdown"
       },
-      "pluginVersion": "8.5.6",
+      "pluginVersion": "8.5.15",
       "targets": [
         {
           "datasource": "TeslaMate",
@@ -1222,7 +1222,7 @@
         },
         "textMode": "value"
       },
-      "pluginVersion": "8.5.6",
+      "pluginVersion": "8.5.15",
       "targets": [
         {
           "datasource": "TeslaMate",
@@ -1329,7 +1329,7 @@
         },
         "textMode": "value"
       },
-      "pluginVersion": "8.5.6",
+      "pluginVersion": "8.5.15",
       "targets": [
         {
           "datasource": "TeslaMate",
@@ -1411,7 +1411,7 @@
         },
         "textMode": "value"
       },
-      "pluginVersion": "8.5.6",
+      "pluginVersion": "8.5.15",
       "targets": [
         {
           "datasource": "TeslaMate",
@@ -1495,7 +1495,7 @@
         "text": {},
         "textMode": "value"
       },
-      "pluginVersion": "8.5.6",
+      "pluginVersion": "8.5.15",
       "targets": [
         {
           "datasource": "TeslaMate",
@@ -1578,7 +1578,7 @@
         },
         "textMode": "value"
       },
-      "pluginVersion": "8.5.6",
+      "pluginVersion": "8.5.15",
       "targets": [
         {
           "datasource": "TeslaMate",
@@ -1789,7 +1789,7 @@
         },
         "textMode": "auto"
       },
-      "pluginVersion": "8.5.6",
+      "pluginVersion": "8.5.15",
       "targets": [
         {
           "datasource": "TeslaMate",
@@ -1868,7 +1868,7 @@
         },
         "textMode": "auto"
       },
-      "pluginVersion": "8.5.6",
+      "pluginVersion": "8.5.15",
       "targets": [
         {
           "datasource": "TeslaMate",
@@ -1951,7 +1951,7 @@
         },
         "textMode": "value"
       },
-      "pluginVersion": "8.5.6",
+      "pluginVersion": "8.5.15",
       "targets": [
         {
           "datasource": "TeslaMate",
@@ -1959,7 +1959,7 @@
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "WITH data AS (\n\tSELECT c.charging_process_id \n\tFROM charges c\n\tLEFT JOIN charging_processes cp ON cp.id = c.charging_process_id\n\tLEFT JOIN addresses addr ON addr.id = cp.address_id\n\tLEFT JOIN geofences geo ON geo.id = geofence_id\n\tWHERE \n\t\tc.fast_charger_present IS true\n\t\tAND c.charger_voltage = 2\n\t\tAND cp.car_id = $car_id\n\t\tAND (addr.name LIKE '%Supercharger%' OR geo.name LIKE '%Supercharger%')\n\tGROUP BY 1\n)\nSELECT\n\tsum(cp.cost) as total\nFROM\n\tcharging_processes cp, data\nWHERE\n  cp.cost IS NOT NULL\n  AND cp.id IN (data.charging_process_id);",
+          "rawSql": "WITH data AS (\n\tSELECT c.charging_process_id \n\tFROM charges c\n\tLEFT JOIN charging_processes cp ON cp.id = c.charging_process_id\n\tLEFT JOIN addresses addr ON addr.id = cp.address_id\n\tLEFT JOIN geofences geo ON geo.id = geofence_id\n\tWHERE \n\t\tc.fast_charger_present IS true\n\t\tAND c.charger_voltage = 2\n\t\tAND cp.car_id = $car_id\n\t\tAND (addr.name ILIKE '%supercharger%' OR geo.name ILIKE '%supercharger%')\n\tGROUP BY 1\n)\nSELECT\n\tsum(cp.cost) as total\nFROM\n\tcharging_processes cp, data\nWHERE\n  cp.cost IS NOT NULL\n  AND cp.id IN (data.charging_process_id);",
           "refId": "A",
           "select": [
             [
@@ -2034,7 +2034,7 @@
         },
         "textMode": "value"
       },
-      "pluginVersion": "8.5.6",
+      "pluginVersion": "8.5.15",
       "targets": [
         {
           "datasource": "TeslaMate",
@@ -2042,7 +2042,7 @@
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "WITH data AS (\n\tSELECT c.charging_process_id \n\tFROM charges c\n\tLEFT JOIN charging_processes cp ON cp.id = c.charging_process_id\n\tLEFT JOIN addresses addr ON addr.id = cp.address_id\n\tLEFT JOIN geofences geo ON geo.id = geofence_id\n\tWHERE \n\t\tc.fast_charger_present IS true\n\t\tAND c.charger_voltage = 2\n\t\tAND cp.car_id = $car_id\n\t\tAND CASE \n\t\t\tWHEN (cp.geofence_id IS NOT NULL) THEN (addr.name NOT LIKE '%Supercharger%' AND geo.name NOT LIKE '%Supercharger%')\n\t\t\tELSE addr.name NOT LIKE '%Supercharger%'\n\t\tEND\n\tGROUP BY 1\n)\nSELECT\n\tsum(cp.cost) as total\nFROM\n\tcharging_processes cp, data\nWHERE\n  cp.cost IS NOT NULL\n  AND cp.id IN (data.charging_process_id);",
+          "rawSql": "WITH data AS (\n\tSELECT c.charging_process_id \n\tFROM charges c\n\tLEFT JOIN charging_processes cp ON cp.id = c.charging_process_id\n\tLEFT JOIN addresses addr ON addr.id = cp.address_id\n\tLEFT JOIN geofences geo ON geo.id = geofence_id\n\tWHERE \n\t\tc.fast_charger_present IS true\n\t\tAND c.charger_voltage = 2\n\t\tAND cp.car_id = $car_id\n\t\tAND CASE \n\t\t\tWHEN (cp.geofence_id IS NOT NULL) THEN (addr.name NOT ILIKE '%supercharger%' AND geo.name NOT ILIKE '%supercharger%')\n\t\t\tELSE addr.name NOT ILIKE '%supercharger%'\n\t\tEND\n\tGROUP BY 1\n)\nSELECT\n\tsum(cp.cost) as total\nFROM\n\tcharging_processes cp, data\nWHERE\n  cp.cost IS NOT NULL\n  AND cp.id IN (data.charging_process_id);",
           "refId": "A",
           "select": [
             [
@@ -2117,7 +2117,7 @@
         },
         "textMode": "value"
       },
-      "pluginVersion": "8.5.6",
+      "pluginVersion": "8.5.15",
       "targets": [
         {
           "datasource": "TeslaMate",
@@ -2654,7 +2654,7 @@
           }
         ]
       },
-      "pluginVersion": "8.5.6",
+      "pluginVersion": "8.5.15",
       "repeatDirection": "h",
       "targets": [
         {
@@ -3026,6 +3026,6 @@
   "timezone": "browser",
   "title": "Custom - Charging Costs Stats",
   "uid": "LdwdLXt4z",
-  "version": 5,
+  "version": 6,
   "weekStart": ""
 }

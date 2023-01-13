@@ -11,7 +11,7 @@
       "type": "grafana",
       "id": "grafana",
       "name": "Grafana",
-      "version": "8.5.6"
+      "version": "8.5.15"
     },
     {
       "type": "datasource",
@@ -56,7 +56,7 @@
   "fiscalYearStartMonth": 0,
   "graphTooltip": 1,
   "id": null,
-  "iteration": 1673001591151,
+  "iteration": 1673621414662,
   "links": [
     {
       "icon": "dashboard",
@@ -140,7 +140,7 @@
         },
         "textMode": "value"
       },
-      "pluginVersion": "8.5.6",
+      "pluginVersion": "8.5.15",
       "targets": [
         {
           "datasource": "TeslaMate",
@@ -357,7 +357,7 @@
         },
         "textMode": "value"
       },
-      "pluginVersion": "8.5.6",
+      "pluginVersion": "8.5.15",
       "targets": [
         {
           "datasource": "TeslaMate",
@@ -434,7 +434,7 @@
         },
         "textMode": "auto"
       },
-      "pluginVersion": "8.5.6",
+      "pluginVersion": "8.5.15",
       "targets": [
         {
           "datasource": "TeslaMate",
@@ -513,7 +513,7 @@
         },
         "textMode": "auto"
       },
-      "pluginVersion": "8.5.6",
+      "pluginVersion": "8.5.15",
       "targets": [
         {
           "datasource": "TeslaMate",
@@ -595,7 +595,7 @@
         },
         "textMode": "value"
       },
-      "pluginVersion": "8.5.6",
+      "pluginVersion": "8.5.15",
       "targets": [
         {
           "datasource": "TeslaMate",
@@ -678,7 +678,7 @@
         },
         "textMode": "value"
       },
-      "pluginVersion": "8.5.6",
+      "pluginVersion": "8.5.15",
       "targets": [
         {
           "datasource": "TeslaMate",
@@ -761,7 +761,7 @@
         },
         "textMode": "value"
       },
-      "pluginVersion": "8.5.6",
+      "pluginVersion": "8.5.15",
       "targets": [
         {
           "datasource": "TeslaMate",
@@ -844,7 +844,7 @@
         },
         "textMode": "value"
       },
-      "pluginVersion": "8.5.6",
+      "pluginVersion": "8.5.15",
       "targets": [
         {
           "datasource": "TeslaMate",
@@ -976,7 +976,7 @@
         },
         "showHeader": true
       },
-      "pluginVersion": "8.5.6",
+      "pluginVersion": "8.5.15",
       "targets": [
         {
           "datasource": "TeslaMate",
@@ -1106,7 +1106,7 @@
         },
         "showHeader": true
       },
-      "pluginVersion": "8.5.6",
+      "pluginVersion": "8.5.15",
       "targets": [
         {
           "datasource": "TeslaMate",
@@ -1114,7 +1114,7 @@
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "SELECT\n\tCOALESCE(geofence.name, CONCAT_WS(', ', COALESCE(address.name, nullif(CONCAT_WS(' ', address.road, address.house_number), '')), address.city)) AS location,\n\tCASE\n      WHEN SUM(charge_energy_added) < 1000 THEN SUM(charge_energy_added)::NUMERIC(4,0)::VARCHAR || ' kWh' \n      WHEN SUM(charge_energy_added) < 1000000 THEN (SUM(charge_energy_added) / 1000)::NUMERIC(9, 3)::VARCHAR || ' MWh' \n      WHEN SUM(charge_energy_added) >= 1000000 THEN (SUM(charge_energy_added) / 1000000)::NUMERIC(9, 3)::VARCHAR || ' GWh' \n   END as charge_energy_added, sum(cost) as cost\nFROM\n\tcharging_processes c\nLEFT JOIN addresses address ON c.address_id = address.id\nLEFT JOIN geofences geofence ON geofence_id = geofence.id\nWHERE\n\t$__timeFilter(end_date)\n\tAND car_id = $car_id\n\tAND (address.display_name LIKE '%Supercharger%' OR geofence.name LIKE '%Supercharger%')\nGROUP BY\n\t1\nORDER BY\n\tSUM(charge_energy_added) DESC\nLIMIT 10;",
+          "rawSql": "SELECT\n\tCOALESCE(geofence.name, CONCAT_WS(', ', COALESCE(address.name, nullif(CONCAT_WS(' ', address.road, address.house_number), '')), address.city)) AS location,\n\tCASE\n      WHEN SUM(charge_energy_added) < 1000 THEN SUM(charge_energy_added)::NUMERIC(4,0)::VARCHAR || ' kWh' \n      WHEN SUM(charge_energy_added) < 1000000 THEN (SUM(charge_energy_added) / 1000)::NUMERIC(9, 3)::VARCHAR || ' MWh' \n      WHEN SUM(charge_energy_added) >= 1000000 THEN (SUM(charge_energy_added) / 1000000)::NUMERIC(9, 3)::VARCHAR || ' GWh' \n   END as charge_energy_added, sum(cost) as cost\nFROM\n\tcharging_processes c\nLEFT JOIN addresses address ON c.address_id = address.id\nLEFT JOIN geofences geofence ON geofence_id = geofence.id\nWHERE\n\t$__timeFilter(end_date)\n\tAND car_id = $car_id\n\tAND (address.display_name ILIKE '%supercharger%' OR geofence.name ILIKE '%supercharger%')\nGROUP BY\n\t1\nORDER BY\n\tSUM(charge_energy_added) DESC\nLIMIT 10;",
           "refId": "A",
           "select": [
             [
@@ -1236,7 +1236,7 @@
         },
         "showHeader": true
       },
-      "pluginVersion": "8.5.6",
+      "pluginVersion": "8.5.15",
       "targets": [
         {
           "datasource": "TeslaMate",
@@ -1244,7 +1244,7 @@
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "SELECT\n\tCOALESCE(geo.name, CONCAT_WS(', ', COALESCE(addr.name, nullif(CONCAT_WS(' ', addr.road, addr.house_number), '')), addr.city)) AS location,\n\tCASE\n      WHEN SUM(charge_energy_added) < 1000 THEN SUM(charge_energy_added)::NUMERIC(4,0)::VARCHAR || ' kWh' \n      WHEN SUM(charge_energy_added) < 1000000 THEN (SUM(charge_energy_added) / 1000)::NUMERIC(9, 3)::VARCHAR || ' MWh' \n      WHEN SUM(charge_energy_added) >= 1000000 THEN (SUM(charge_energy_added) / 1000000)::NUMERIC(9, 3)::VARCHAR || ' GWh' \n   END as charge_energy_added, sum(cost) as cost\nFROM\n\tcharging_processes cp\nLEFT JOIN addresses addr ON cp.address_id = addr.id\nLEFT JOIN geofences geo ON cp.geofence_id = geo.id\nWHERE\n\tcp.id IN (\n\t\tSELECT c.charging_process_id \n\t  FROM charges c\n  \tLEFT JOIN charging_processes cp ON cp.id = c.charging_process_id\n  \tLEFT JOIN addresses addr ON addr.id = cp.address_id\n  \tLEFT JOIN geofences geo ON geo.id = geofence_id\n  \tWHERE \n  \t  $__timeFilter(cp.start_date)\n  \t\tAND c.fast_charger_present IS true\n  \t\tAND c.charger_voltage = 2\n  \t\tAND cp.car_id = $car_id\n  \t\tAND CASE \n  \t\t\tWHEN (cp.geofence_id IS NOT NULL) THEN (addr.display_name NOT LIKE '%Supercharger%' AND geo.name NOT LIKE '%Supercharger%')\n  \t\t\tELSE addr.display_name NOT LIKE '%Supercharger%'\n  \t\tEND\n  \tGROUP BY 1\n\t)\nGROUP BY\n\t1\nORDER BY\n\tSUM(charge_energy_added) DESC\nLIMIT 10;",
+          "rawSql": "SELECT\n\tCOALESCE(geo.name, CONCAT_WS(', ', COALESCE(addr.name, nullif(CONCAT_WS(' ', addr.road, addr.house_number), '')), addr.city)) AS location,\n\tCASE\n      WHEN SUM(charge_energy_added) < 1000 THEN SUM(charge_energy_added)::NUMERIC(4,0)::VARCHAR || ' kWh' \n      WHEN SUM(charge_energy_added) < 1000000 THEN (SUM(charge_energy_added) / 1000)::NUMERIC(9, 3)::VARCHAR || ' MWh' \n      WHEN SUM(charge_energy_added) >= 1000000 THEN (SUM(charge_energy_added) / 1000000)::NUMERIC(9, 3)::VARCHAR || ' GWh' \n   END as charge_energy_added, sum(cost) as cost\nFROM\n\tcharging_processes cp\nLEFT JOIN addresses addr ON cp.address_id = addr.id\nLEFT JOIN geofences geo ON cp.geofence_id = geo.id\nWHERE\n\tcp.id IN (\n\t\tSELECT c.charging_process_id \n\t  FROM charges c\n  \tLEFT JOIN charging_processes cp ON cp.id = c.charging_process_id\n  \tLEFT JOIN addresses addr ON addr.id = cp.address_id\n  \tLEFT JOIN geofences geo ON geo.id = geofence_id\n  \tWHERE \n  \t  $__timeFilter(cp.start_date)\n  \t\tAND c.fast_charger_present IS true\n  \t\tAND c.charger_voltage = 2\n  \t\tAND cp.car_id = $car_id\n  \t\tAND CASE \n  \t\t\tWHEN (cp.geofence_id IS NOT NULL) THEN (addr.display_name NOT ILIKE '%supercharger%' AND geo.name NOT ILIKE '%supercharger%')\n  \t\t\tELSE addr.display_name NOT ILIKE '%supercharger%'\n  \t\tEND\n  \tGROUP BY 1\n\t)\nGROUP BY\n\t1\nORDER BY\n\tSUM(charge_energy_added) DESC\nLIMIT 10;",
           "refId": "A",
           "select": [
             [
@@ -1388,6 +1388,6 @@
   "timezone": "",
   "title": "Custom - Charging Tops",
   "uid": "DdLe5uFVk",
-  "version": 14,
+  "version": 6,
   "weekStart": ""
 }
