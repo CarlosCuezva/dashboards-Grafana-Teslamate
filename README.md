@@ -45,21 +45,25 @@ You have to execute the command "./dashboards.sh restore" modifying the URL and 
 
 ## Screenshots
 
-**Charging Tops**
-
-![Charging Tops](./screenshots/charging_tops.png)
-
-**Charging Curves**
-
-![Charging Curves](./screenshots/charging_curves.png)
-
 **Current Charge View**
 
 ![Charging Curves](./screenshots/current_charge_view.png)
 
+**Battery Health**
+
+![Battery Health](./screenshots/battery_health.png)
+
+**Charging Tops**
+
+![Charging Tops](./screenshots/charging_tops.png)
+
 **Charging Costs Stats**
 
 ![Charging Costs Stats](./screenshots/charging_costs_stats.png)
+
+**Charging Curves**
+
+![Charging Curves](./screenshots/charging_curves.png)
 
 ## Credits
 
