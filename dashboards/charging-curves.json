@@ -1,25 +1,4 @@
 {
-  "__elements": [],
-  "__requires": [
-    {
-      "type": "grafana",
-      "id": "grafana",
-      "name": "Grafana",
-      "version": "8.5.15"
-    },
-    {
-      "type": "panel",
-      "id": "natel-plotly-panel",
-      "name": "Plotly",
-      "version": "0.0.7"
-    },
-    {
-      "type": "datasource",
-      "id": "postgres",
-      "name": "PostgreSQL",
-      "version": "1.0.0"
-    }
-  ],
   "annotations": {
     "list": [
       {
