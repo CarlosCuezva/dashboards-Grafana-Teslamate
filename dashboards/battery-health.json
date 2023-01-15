@@ -55,7 +55,7 @@
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
   "id": null,
-  "iteration": 1673724669977,
+  "iteration": 1673743579151,
   "links": [
     {
       "asDropdown": false,
@@ -115,7 +115,7 @@
             "axisPlacement": "auto",
             "barAlignment": 0,
             "drawStyle": "line",
-            "fillOpacity": 30,
+            "fillOpacity": 35,
             "gradientMode": "scheme",
             "hideFrom": {
               "legend": false,
@@ -131,7 +131,7 @@
             "scaleDistribution": {
               "type": "linear"
             },
-            "showPoints": "auto",
+            "showPoints": "never",
             "spanNulls": false,
             "stacking": {
               "group": "A",
@@ -148,7 +148,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "semi-dark-purple",
+                "color": "transparent",
                 "value": null
               }
             ]
@@ -191,7 +191,7 @@
           "hide": false,
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "SELECT\n\n\t$__timeGroup(date, 1d) AS time,\n\tconvert_km((sum([[preferred_range]]_battery_range_km) / nullif(sum(coalesce(usable_battery_level,battery_level)),0) * 100)::numeric, '$length_unit') \n\t* ($battery_capacity + ($battery_capacity * $degradation / 100.0)) / $max_range AS \"kWh\"\nFROM\n\t(\n    select battery_level, usable_battery_level, date,\n      rated_battery_range_km, ideal_battery_range_km, outside_temp\n    from positions\n    where\n      car_id = $car_id and $__timeFilter(date) and ideal_battery_range_km is not null\n    union all\n    select battery_level, coalesce(usable_battery_level,battery_level) as usable_battery_level, date,\n      rated_battery_range_km, ideal_battery_range_km, outside_temp\n    from charges c\n    join\n      charging_processes p ON p.id = c.charging_process_id \n    where\n      $__timeFilter(date) and p.car_id = $car_id\n    ) as data\n\nGROUP BY\n\t1\nhaving convert_km((sum([[preferred_range]]_battery_range_km) / nullif(sum(coalesce(usable_battery_level,battery_level)),0) * 100)::numeric, '$length_unit') is not null\nORDER BY\n\t1,2  DESC",
+          "rawSql": "SELECT\n\n\t$__timeGroup(date, 1w) AS time,\n\tconvert_km((sum([[preferred_range]]_battery_range_km) / nullif(sum(coalesce(usable_battery_level,battery_level)),0) * 100)::numeric, '$length_unit') \n\t* ($battery_capacity + ($battery_capacity * $degradation / 100.0)) / $max_range AS \"kWh\"\nFROM\n\t(\n    select battery_level, usable_battery_level, date,\n      rated_battery_range_km, ideal_battery_range_km, outside_temp\n    from positions\n    where\n      car_id = $car_id and $__timeFilter(date) and ideal_battery_range_km is not null\n    union all\n    select battery_level, coalesce(usable_battery_level,battery_level) as usable_battery_level, date,\n      rated_battery_range_km, ideal_battery_range_km, outside_temp\n    from charges c\n    join\n      charging_processes p ON p.id = c.charging_process_id \n    where\n      $__timeFilter(date) and p.car_id = $car_id\n    ) as data\n\nGROUP BY\n\t1\nhaving convert_km((sum([[preferred_range]]_battery_range_km) / nullif(sum(coalesce(usable_battery_level,battery_level)),0) * 100)::numeric, '$length_unit') is not null\nORDER BY\n\t1,2  DESC",
           "refId": "Projected Range",
           "select": [
             [
@@ -503,7 +503,7 @@
           {
             "matcher": {
               "id": "byName",
-              "options": "range_km"
+              "options": "max_range_km"
             },
             "properties": [
               {
@@ -515,7 +515,7 @@
           {
             "matcher": {
               "id": "byName",
-              "options": "range_mi"
+              "options": "max_range_mi"
             },
             "properties": [
               {
@@ -565,7 +565,7 @@
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "SELECT $__time(date), (range * 100.0 / battery_level) as max_range_km\nFROM (\n\t(SELECT date, convert_km(rated_battery_range_km, '$length_unit') AS range, usable_battery_level as battery_level\n\tFROM positions\n\tWHERE car_id = $car_id AND rated_battery_range_km IS NOT NULL\n  ORDER BY date DESC\n\tLIMIT 1)\n\tUNION ALL\n\t(SELECT date, convert_km([[preferred_range]]_battery_range_km, '$length_unit') AS range, usable_battery_level as battery_level\n\tFROM charges c\n\tJOIN charging_processes p ON p.id = c.charging_process_id\n\tWHERE p.car_id = $car_id\n\tORDER BY date DESC\n\tLIMIT 1)\n) AS data\nORDER BY date DESC\nLIMIT 1;",
+          "rawSql": "SELECT $__time(date), (range * 100.0 / battery_level) as \"max_range_$length_unit\"\nFROM (\n\t(SELECT date, convert_km(rated_battery_range_km, '$length_unit') AS range, usable_battery_level as battery_level\n\tFROM positions\n\tWHERE car_id = $car_id AND rated_battery_range_km IS NOT NULL\n  ORDER BY date DESC\n\tLIMIT 1)\n\tUNION ALL\n\t(SELECT date, convert_km([[preferred_range]]_battery_range_km, '$length_unit') AS range, usable_battery_level as battery_level\n\tFROM charges c\n\tJOIN charging_processes p ON p.id = c.charging_process_id\n\tWHERE p.car_id = $car_id\n\tORDER BY date DESC\n\tLIMIT 1)\n) AS data\nORDER BY date DESC\nLIMIT 1;",
           "refId": "A",
           "select": [
             [
@@ -1153,13 +1153,13 @@
           "type": "postgres",
           "uid": "TeslaMate"
         },
-        "definition": "WITH lastTopCharges AS (\n  SELECT 100-((end_rated_range_km * 100.0)/(end_battery_level * $max_range / 100.0)) as Battery_Degradation\n  FROM charging_processes \n WHERE car_id = $car_id AND end_date IS NOT NULL and  charge_energy_added > 5.0 \n  ORDER BY end_date DESC  \n  LIMIT 10\n)\nSELECT battery_degradation FROM lastTopCharges ORDER BY 1 DESC LIMIT 1",
+        "definition": "WITH lastTopCharges AS (\n  SELECT 100-((convert_km(end_rated_range_km, '$length_unit') * 100.0)/(end_battery_level * $max_range / 100.0)) as Battery_Degradation\n  FROM charging_processes \n WHERE car_id = $car_id AND end_date IS NOT NULL and  charge_energy_added > 5.0 \n  ORDER BY end_date DESC  \n  LIMIT 10\n)\nSELECT battery_degradation FROM lastTopCharges ORDER BY 1 DESC LIMIT 1",
         "hide": 2,
         "includeAll": false,
         "multi": false,
         "name": "degradation",
         "options": [],
-        "query": "WITH lastTopCharges AS (\n  SELECT 100-((end_rated_range_km * 100.0)/(end_battery_level * $max_range / 100.0)) as Battery_Degradation\n  FROM charging_processes \n WHERE car_id = $car_id AND end_date IS NOT NULL and  charge_energy_added > 5.0 \n  ORDER BY end_date DESC  \n  LIMIT 10\n)\nSELECT battery_degradation FROM lastTopCharges ORDER BY 1 DESC LIMIT 1",
+        "query": "WITH lastTopCharges AS (\n  SELECT 100-((convert_km(end_rated_range_km, '$length_unit') * 100.0)/(end_battery_level * $max_range / 100.0)) as Battery_Degradation\n  FROM charging_processes \n WHERE car_id = $car_id AND end_date IS NOT NULL and  charge_energy_added > 5.0 \n  ORDER BY end_date DESC  \n  LIMIT 10\n)\nSELECT battery_degradation FROM lastTopCharges ORDER BY 1 DESC LIMIT 1",
         "refresh": 1,
         "regex": "",
         "skipUrlSync": false,
@@ -1195,6 +1195,6 @@
   "timezone": "browser",
   "title": "Custom - Battery Health",
   "uid": "eYPXK_24k",
-  "version": 3,
+  "version": 4,
   "weekStart": ""
 }

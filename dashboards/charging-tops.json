@@ -56,7 +56,7 @@
   "fiscalYearStartMonth": 0,
   "graphTooltip": 1,
   "id": null,
-  "iteration": 1673621414662,
+  "iteration": 1673743976508,
   "links": [
     {
       "icon": "dashboard",
@@ -94,7 +94,10 @@
       "type": "row"
     },
     {
-      "datasource": "TeslaMate",
+      "datasource": {
+        "type": "postgres",
+        "uid": "TeslaMate"
+      },
       "fieldConfig": {
         "defaults": {
           "mappings": [],
@@ -143,7 +146,10 @@
       "pluginVersion": "8.5.15",
       "targets": [
         {
-          "datasource": "TeslaMate",
+          "datasource": {
+            "type": "postgres",
+            "uid": "TeslaMate"
+          },
           "format": "table",
           "group": [],
           "metricColumn": "none",
@@ -176,7 +182,10 @@
       "type": "stat"
     },
     {
-      "datasource": "TeslaMate",
+      "datasource": {
+        "type": "postgres",
+        "uid": "TeslaMate"
+      },
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -277,7 +286,10 @@
       "pluginVersion": "8.5.6",
       "targets": [
         {
-          "datasource": "TeslaMate",
+          "datasource": {
+            "type": "postgres",
+            "uid": "TeslaMate"
+          },
           "format": "time_series",
           "group": [],
           "metricColumn": "none",
@@ -310,12 +322,15 @@
       "type": "barchart"
     },
     {
-      "datasource": "TeslaMate",
+      "datasource": {
+        "type": "postgres",
+        "uid": "TeslaMate"
+      },
       "fieldConfig": {
         "defaults": {
           "decimals": 2,
           "mappings": [],
-          "noValue": "0 €",
+          "noValue": "0",
           "thresholds": {
             "mode": "absolute",
             "steps": [
@@ -325,7 +340,7 @@
               }
             ]
           },
-          "unit": "€"
+          "unit": "none"
         },
         "overrides": []
       },
@@ -360,7 +375,10 @@
       "pluginVersion": "8.5.15",
       "targets": [
         {
-          "datasource": "TeslaMate",
+          "datasource": {
+            "type": "postgres",
+            "uid": "TeslaMate"
+          },
           "format": "table",
           "group": [],
           "metricColumn": "none",
@@ -393,13 +411,16 @@
       "type": "stat"
     },
     {
-      "datasource": "TeslaMate",
+      "datasource": {
+        "type": "postgres",
+        "uid": "TeslaMate"
+      },
       "fieldConfig": {
         "defaults": {
           "decimals": 2,
           "displayName": "",
           "mappings": [],
-          "noValue": "0.00 €",
+          "noValue": "0",
           "thresholds": {
             "mode": "absolute",
             "steps": [
@@ -409,7 +430,7 @@
               }
             ]
           },
-          "unit": "€"
+          "unit": "none"
         },
         "overrides": []
       },
@@ -437,7 +458,10 @@
       "pluginVersion": "8.5.15",
       "targets": [
         {
-          "datasource": "TeslaMate",
+          "datasource": {
+            "type": "postgres",
+            "uid": "TeslaMate"
+          },
           "format": "table",
           "group": [],
           "metricColumn": "none",
@@ -470,7 +494,10 @@
       "type": "stat"
     },
     {
-      "datasource": "TeslaMate",
+      "datasource": {
+        "type": "postgres",
+        "uid": "TeslaMate"
+      },
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -478,7 +505,7 @@
           },
           "decimals": 2,
           "mappings": [],
-          "noValue": "0.00 €",
+          "noValue": "0",
           "thresholds": {
             "mode": "absolute",
             "steps": [
@@ -488,7 +515,7 @@
               }
             ]
           },
-          "unit": "€"
+          "unit": "none"
         },
         "overrides": []
       },
@@ -516,7 +543,10 @@
       "pluginVersion": "8.5.15",
       "targets": [
         {
-          "datasource": "TeslaMate",
+          "datasource": {
+            "type": "postgres",
+            "uid": "TeslaMate"
+          },
           "format": "table",
           "group": [],
           "metricColumn": "none",
@@ -549,7 +579,10 @@
       "type": "stat"
     },
     {
-      "datasource": "TeslaMate",
+      "datasource": {
+        "type": "postgres",
+        "uid": "TeslaMate"
+      },
       "fieldConfig": {
         "defaults": {
           "mappings": [],
@@ -598,7 +631,10 @@
       "pluginVersion": "8.5.15",
       "targets": [
         {
-          "datasource": "TeslaMate",
+          "datasource": {
+            "type": "postgres",
+            "uid": "TeslaMate"
+          },
           "format": "table",
           "group": [],
           "metricColumn": "none",
@@ -631,12 +667,15 @@
       "type": "stat"
     },
     {
-      "datasource": "TeslaMate",
+      "datasource": {
+        "type": "postgres",
+        "uid": "TeslaMate"
+      },
       "fieldConfig": {
         "defaults": {
           "decimals": 2,
           "mappings": [],
-          "noValue": "0 €",
+          "noValue": "0",
           "thresholds": {
             "mode": "absolute",
             "steps": [
@@ -646,7 +685,7 @@
               }
             ]
           },
-          "unit": "€"
+          "unit": "none"
         },
         "overrides": []
       },
@@ -681,7 +720,10 @@
       "pluginVersion": "8.5.15",
       "targets": [
         {
-          "datasource": "TeslaMate",
+          "datasource": {
+            "type": "postgres",
+            "uid": "TeslaMate"
+          },
           "format": "table",
           "group": [],
           "metricColumn": "none",
@@ -714,12 +756,15 @@
       "type": "stat"
     },
     {
-      "datasource": "TeslaMate",
+      "datasource": {
+        "type": "postgres",
+        "uid": "TeslaMate"
+      },
       "fieldConfig": {
         "defaults": {
           "decimals": 2,
           "mappings": [],
-          "noValue": "0 €",
+          "noValue": "0",
           "thresholds": {
             "mode": "absolute",
             "steps": [
@@ -729,7 +774,7 @@
               }
             ]
           },
-          "unit": "€"
+          "unit": "none"
         },
         "overrides": []
       },
@@ -764,7 +809,10 @@
       "pluginVersion": "8.5.15",
       "targets": [
         {
-          "datasource": "TeslaMate",
+          "datasource": {
+            "type": "postgres",
+            "uid": "TeslaMate"
+          },
           "format": "table",
           "group": [],
           "metricColumn": "none",
@@ -797,12 +845,15 @@
       "type": "stat"
     },
     {
-      "datasource": "TeslaMate",
+      "datasource": {
+        "type": "postgres",
+        "uid": "TeslaMate"
+      },
       "fieldConfig": {
         "defaults": {
           "decimals": 2,
           "mappings": [],
-          "noValue": "0 €",
+          "noValue": "0",
           "thresholds": {
             "mode": "absolute",
             "steps": [
@@ -812,7 +863,7 @@
               }
             ]
           },
-          "unit": "€"
+          "unit": "none"
         },
         "overrides": []
       },
@@ -847,7 +898,10 @@
       "pluginVersion": "8.5.15",
       "targets": [
         {
-          "datasource": "TeslaMate",
+          "datasource": {
+            "type": "postgres",
+            "uid": "TeslaMate"
+          },
           "format": "table",
           "group": [],
           "metricColumn": "none",
@@ -880,7 +934,10 @@
       "type": "stat"
     },
     {
-      "datasource": "TeslaMate",
+      "datasource": {
+        "type": "postgres",
+        "uid": "TeslaMate"
+      },
       "fieldConfig": {
         "defaults": {
           "custom": {
@@ -902,7 +959,7 @@
               }
             ]
           },
-          "unit": " €"
+          "unit": "none"
         },
         "overrides": [
           {
@@ -979,7 +1036,10 @@
       "pluginVersion": "8.5.15",
       "targets": [
         {
-          "datasource": "TeslaMate",
+          "datasource": {
+            "type": "postgres",
+            "uid": "TeslaMate"
+          },
           "format": "table",
           "group": [],
           "metricColumn": "none",
@@ -1010,7 +1070,10 @@
       "type": "table"
     },
     {
-      "datasource": "TeslaMate",
+      "datasource": {
+        "type": "postgres",
+        "uid": "TeslaMate"
+      },
       "fieldConfig": {
         "defaults": {
           "custom": {
@@ -1032,7 +1095,7 @@
               }
             ]
           },
-          "unit": " €"
+          "unit": "none"
         },
         "overrides": [
           {
@@ -1109,7 +1172,10 @@
       "pluginVersion": "8.5.15",
       "targets": [
         {
-          "datasource": "TeslaMate",
+          "datasource": {
+            "type": "postgres",
+            "uid": "TeslaMate"
+          },
           "format": "table",
           "group": [],
           "metricColumn": "none",
@@ -1140,7 +1206,10 @@
       "type": "table"
     },
     {
-      "datasource": "TeslaMate",
+      "datasource": {
+        "type": "postgres",
+        "uid": "TeslaMate"
+      },
       "fieldConfig": {
         "defaults": {
           "custom": {
@@ -1162,7 +1231,7 @@
               }
             ]
           },
-          "unit": " €"
+          "unit": "none"
         },
         "overrides": [
           {
@@ -1239,7 +1308,10 @@
       "pluginVersion": "8.5.15",
       "targets": [
         {
-          "datasource": "TeslaMate",
+          "datasource": {
+            "type": "postgres",
+            "uid": "TeslaMate"
+          },
           "format": "table",
           "group": [],
           "metricColumn": "none",
@@ -1280,7 +1352,10 @@
     "list": [
       {
         "current": {},
-        "datasource": "TeslaMate",
+        "datasource": {
+          "type": "postgres",
+          "uid": "TeslaMate"
+        },
         "definition": "SELECT name AS __text, id AS __value FROM cars ORDER BY display_priority ASC, name ASC;",
         "hide": 2,
         "includeAll": true,
@@ -1300,7 +1375,10 @@
       },
       {
         "current": {},
-        "datasource": "TeslaMate",
+        "datasource": {
+          "type": "postgres",
+          "uid": "TeslaMate"
+        },
         "definition": "select base_url from settings limit 1;",
         "hide": 2,
         "includeAll": false,
@@ -1320,7 +1398,10 @@
       },
       {
         "current": {},
-        "datasource": "TeslaMate",
+        "datasource": {
+          "type": "postgres",
+          "uid": "TeslaMate"
+        },
         "definition": "select unit_of_length from settings limit 1;",
         "hide": 2,
         "includeAll": false,
@@ -1339,7 +1420,10 @@
       },
       {
         "current": {},
-        "datasource": "TeslaMate",
+        "datasource": {
+          "type": "postgres",
+          "uid": "TeslaMate"
+        },
         "definition": "select preferred_range from settings limit 1;",
         "hide": 2,
         "includeAll": false,
@@ -1356,7 +1440,7 @@
     ]
   },
   "time": {
-    "from": "now-1y",
+    "from": "now-10y",
     "to": "now"
   },
   "timepicker": {
@@ -1388,6 +1472,6 @@
   "timezone": "",
   "title": "Custom - Charging Tops",
   "uid": "DdLe5uFVk",
-  "version": 6,
+  "version": 7,
   "weekStart": ""
 }
