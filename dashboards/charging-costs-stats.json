@@ -23,7 +23,7 @@
   "fiscalYearStartMonth": 0,
   "graphTooltip": 1,
   "id": null,
-  "iteration": 1673793875990,
+  "iteration": 1673802782897,
   "links": [
     {
       "icon": "dashboard",
@@ -1157,7 +1157,7 @@
       },
       "gridPos": {
         "h": 3,
-        "w": 3,
+        "w": 8,
         "x": 0,
         "y": 9
       },
@@ -1222,6 +1222,172 @@
       "datasource": "TeslaMate",
       "fieldConfig": {
         "defaults": {
+          "decimals": 2,
+          "mappings": [],
+          "noValue": "0",
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "orange",
+                "value": null
+              }
+            ]
+          },
+          "unit": "none"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 6,
+        "x": 8,
+        "y": 9
+      },
+      "id": 90,
+      "links": [],
+      "maxDataPoints": 100,
+      "options": {
+        "colorMode": "value",
+        "fieldOptions": {
+          "calcs": [
+            "mean"
+          ]
+        },
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "mean"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "value"
+      },
+      "pluginVersion": "8.5.15",
+      "targets": [
+        {
+          "datasource": "TeslaMate",
+          "format": "table",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "SELECT \n\t($total_charging_cost / round(((EXTRACT(epoch from age(updated_at, inserted_at)) / 86400)) / 30)) total_per_month\nFROM cars\nWHERE\n\tid = $car_id",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "latitude"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "table": "addresses",
+          "timeColumn": "inserted_at",
+          "timeColumnType": "timestamp",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "title": "Cost per month",
+      "type": "stat"
+    },
+    {
+      "datasource": "TeslaMate",
+      "fieldConfig": {
+        "defaults": {
+          "decimals": 1,
+          "mappings": [],
+          "noValue": "0",
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "orange",
+                "value": null
+              }
+            ]
+          },
+          "unit": "kwatth"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 6,
+        "x": 14,
+        "y": 9
+      },
+      "id": 91,
+      "links": [],
+      "maxDataPoints": 100,
+      "options": {
+        "colorMode": "value",
+        "fieldOptions": {
+          "calcs": [
+            "mean"
+          ]
+        },
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "mean"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "value"
+      },
+      "pluginVersion": "8.5.15",
+      "targets": [
+        {
+          "datasource": "TeslaMate",
+          "format": "table",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "SELECT \n\t($total_charged / round(((EXTRACT(epoch from age(updated_at, inserted_at)) / 86400)) / 30)) total_per_month\nFROM cars\nWHERE\n\tid = $car_id",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "latitude"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "table": "addresses",
+          "timeColumn": "inserted_at",
+          "timeColumnType": "timestamp",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "title": "Energy recharged per month",
+      "type": "stat"
+    },
+    {
+      "datasource": "TeslaMate",
+      "fieldConfig": {
+        "defaults": {
           "mappings": [],
           "noValue": "0",
           "thresholds": {
@@ -1264,8 +1430,8 @@
       },
       "gridPos": {
         "h": 3,
-        "w": 3,
-        "x": 3,
+        "w": 4,
+        "x": 20,
         "y": 9
       },
       "id": 87,
@@ -1346,9 +1512,9 @@
       },
       "gridPos": {
         "h": 3,
-        "w": 3,
-        "x": 6,
-        "y": 9
+        "w": 7,
+        "x": 0,
+        "y": 12
       },
       "id": 79,
       "links": [],
@@ -1429,9 +1595,9 @@
       },
       "gridPos": {
         "h": 3,
-        "w": 5,
-        "x": 9,
-        "y": 9
+        "w": 6,
+        "x": 7,
+        "y": 12
       },
       "id": 88,
       "links": [],
@@ -1464,7 +1630,7 @@
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "SELECT\n\tsum(greatest(charge_energy_added,charge_energy_used))\nFROM\n\tcharging_processes\nWHERE\n\tcar_id = $car_id AND charge_energy_added > 0.01;\n",
+          "rawSql": "SELECT\n\t$total_charged",
           "refId": "A",
           "select": [
             [
@@ -1513,9 +1679,9 @@
       },
       "gridPos": {
         "h": 3,
-        "w": 4,
-        "x": 14,
-        "y": 9
+        "w": 5,
+        "x": 13,
+        "y": 12
       },
       "id": 89,
       "links": [],
@@ -1647,7 +1813,7 @@
         "h": 6,
         "w": 6,
         "x": 18,
-        "y": 9
+        "y": 12
       },
       "id": 83,
       "links": [],
@@ -1713,89 +1879,6 @@
       "fieldConfig": {
         "defaults": {
           "decimals": 2,
-          "mappings": [],
-          "noValue": "0",
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "orange",
-                "value": null
-              }
-            ]
-          },
-          "unit": "none"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 3,
-        "w": 3,
-        "x": 0,
-        "y": 12
-      },
-      "id": 90,
-      "links": [],
-      "maxDataPoints": 100,
-      "options": {
-        "colorMode": "value",
-        "fieldOptions": {
-          "calcs": [
-            "mean"
-          ]
-        },
-        "graphMode": "none",
-        "justifyMode": "auto",
-        "orientation": "horizontal",
-        "reduceOptions": {
-          "calcs": [
-            "mean"
-          ],
-          "fields": "",
-          "values": false
-        },
-        "textMode": "value"
-      },
-      "pluginVersion": "8.5.15",
-      "targets": [
-        {
-          "datasource": "TeslaMate",
-          "format": "table",
-          "group": [],
-          "metricColumn": "none",
-          "rawQuery": true,
-          "rawSql": "SELECT \n\t($total_charging_cost / round(((EXTRACT(epoch from age(updated_at, inserted_at)) / 86400)) / 30)) total_per_month\nFROM cars\nWHERE\n\tid = $car_id",
-          "refId": "A",
-          "select": [
-            [
-              {
-                "params": [
-                  "latitude"
-                ],
-                "type": "column"
-              }
-            ]
-          ],
-          "table": "addresses",
-          "timeColumn": "inserted_at",
-          "timeColumnType": "timestamp",
-          "where": [
-            {
-              "name": "$__timeFilter",
-              "params": [],
-              "type": "macro"
-            }
-          ]
-        }
-      ],
-      "title": "Cost per month",
-      "type": "stat"
-    },
-    {
-      "datasource": "TeslaMate",
-      "fieldConfig": {
-        "defaults": {
-          "decimals": 2,
           "displayName": "",
           "mappings": [],
           "noValue": "0",
@@ -1815,8 +1898,8 @@
       "gridPos": {
         "h": 3,
         "w": 3,
-        "x": 3,
-        "y": 12
+        "x": 0,
+        "y": 15
       },
       "id": 78,
       "options": {
@@ -1894,8 +1977,8 @@
       "gridPos": {
         "h": 3,
         "w": 3,
-        "x": 6,
-        "y": 12
+        "x": 3,
+        "y": 15
       },
       "id": 80,
       "options": {
@@ -1969,9 +2052,9 @@
       },
       "gridPos": {
         "h": 3,
-        "w": 3,
-        "x": 9,
-        "y": 12
+        "w": 4,
+        "x": 6,
+        "y": 15
       },
       "id": 84,
       "links": [],
@@ -2052,9 +2135,9 @@
       },
       "gridPos": {
         "h": 3,
-        "w": 3,
-        "x": 12,
-        "y": 12
+        "w": 4,
+        "x": 10,
+        "y": 15
       },
       "id": 85,
       "links": [],
@@ -2135,9 +2218,9 @@
       },
       "gridPos": {
         "h": 3,
-        "w": 3,
-        "x": 15,
-        "y": 12
+        "w": 4,
+        "x": 14,
+        "y": 15
       },
       "id": 86,
       "links": [],
@@ -2676,7 +2759,7 @@
         "h": 14,
         "w": 24,
         "x": 0,
-        "y": 15
+        "y": 18
       },
       "id": 33,
       "maxPerRow": 2,
@@ -3037,6 +3120,7 @@
       },
       {
         "current": {},
+        "datasource": "TeslaMate",
         "definition": "SELECT\n\tsum(cost)\nFROM\n\tcharging_processes\nWHERE\n\tcar_id = $car_id;",
         "hide": 2,
         "includeAll": false,
@@ -3044,6 +3128,21 @@
         "name": "total_charging_cost",
         "options": [],
         "query": "SELECT\n\tsum(cost)\nFROM\n\tcharging_processes\nWHERE\n\tcar_id = $car_id;",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "type": "query"
+      },
+      {
+        "current": {},
+        "definition": "SELECT\n\tsum(greatest(charge_energy_added,charge_energy_used))\nFROM\n\tcharging_processes\nWHERE\n\tcar_id = $car_id AND charge_energy_added > 0.01;",
+        "hide": 2,
+        "includeAll": false,
+        "multi": false,
+        "name": "total_charged",
+        "options": [],
+        "query": "SELECT\n\tsum(greatest(charge_energy_added,charge_energy_used))\nFROM\n\tcharging_processes\nWHERE\n\tcar_id = $car_id AND charge_energy_added > 0.01;",
         "refresh": 1,
         "regex": "",
         "skipUrlSync": false,
@@ -3085,6 +3184,6 @@
   "timezone": "browser",
   "title": "Custom - Charging Costs Stats",
   "uid": "LdwdLXt4z",
-  "version": 58,
+  "version": 4,
   "weekStart": ""
 }
