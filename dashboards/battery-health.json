@@ -21,8 +21,7 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": null,
-  "iteration": 1673743579151,
+  "iteration": 1673847679249,
   "links": [
     {
       "asDropdown": false,
@@ -35,6 +34,20 @@
       "tooltip": "",
       "type": "link",
       "url": "[[base_url:raw]]"
+    },
+    {
+      "asDropdown": true,
+      "icon": "external link",
+      "includeVars": false,
+      "keepTime": false,
+      "tags": [
+        "customTeslamate"
+      ],
+      "targetBlank": false,
+      "title": "Custom Dashboards",
+      "tooltip": "",
+      "type": "dashboards",
+      "url": ""
     },
     {
       "asDropdown": true,
@@ -982,12 +995,17 @@
   "schemaVersion": 36,
   "style": "dark",
   "tags": [
-    "tesla"
+    "tesla",
+    "customTeslamate"
   ],
   "templating": {
     "list": [
       {
-        "current": {},
+        "current": {
+          "selected": false,
+          "text": "Jo-El",
+          "value": "1"
+        },
         "datasource": "TeslaMate",
         "definition": "SELECT name AS __text, id AS __value FROM cars ORDER BY display_priority ASC, name ASC;",
         "hide": 2,
@@ -1004,7 +1022,11 @@
         "type": "query"
       },
       {
-        "current": {},
+        "current": {
+          "selected": false,
+          "text": "km",
+          "value": "km"
+        },
         "datasource": "TeslaMate",
         "definition": "select unit_of_length from settings limit 1;",
         "hide": 2,
@@ -1020,7 +1042,11 @@
         "type": "query"
       },
       {
-        "current": {},
+        "current": {
+          "selected": false,
+          "text": "rated",
+          "value": "rated"
+        },
         "datasource": "TeslaMate",
         "definition": "select  preferred_range from settings;",
         "hide": 2,
@@ -1036,7 +1062,11 @@
         "type": "query"
       },
       {
-        "current": {},
+        "current": {
+          "selected": false,
+          "text": "75.78787878787878",
+          "value": "75.78787878787878"
+        },
         "datasource": "TeslaMate",
         "definition": "SELECT (100.0 * charge_energy_added) / (end_battery_level - start_battery_level) as battery_capacity\nFROM charging_processes\nWHERE charge_energy_added >= 10  AND car_id = $car_id\nORDER BY end_date DESC\nLIMIT 1;",
         "hide": 2,
@@ -1052,7 +1082,11 @@
         "type": "query"
       },
       {
-        "current": {},
+        "current": {
+          "selected": false,
+          "text": "4.219903815466555",
+          "value": "4.219903815466555"
+        },
         "datasource": "TeslaMate",
         "definition": "WITH lastTopCharges AS (\n  SELECT 100-((convert_km(end_rated_range_km, '$length_unit') * 100.0)/(end_battery_level * $max_range / 100.0)) as Battery_Degradation\n  FROM charging_processes \n WHERE car_id = $car_id AND end_date IS NOT NULL and  charge_energy_added > 5.0 \n  ORDER BY end_date DESC  \n  LIMIT 10\n)\nSELECT battery_degradation FROM lastTopCharges ORDER BY 1 DESC LIMIT 1",
         "hide": 2,
@@ -1068,7 +1102,11 @@
         "type": "query"
       },
       {
-        "current": {},
+        "current": {
+          "selected": false,
+          "text": "576.9333333333333",
+          "value": "576.9333333333333"
+        },
         "datasource": "TeslaMate",
         "definition": "WITH ProjectedRange AS (\nSELECT\n\t$__timeGroup(date, 12h) AS time,\n\tconvert_km((sum([[preferred_range]]_battery_range_km) / nullif(sum(coalesce(usable_battery_level,battery_level)),0) * 100)::numeric, '$length_unit') AS \"Projected [[preferred_range]] range [$length_unit]\"\nFROM\n\t(\n    select battery_level, usable_battery_level, date,\n      rated_battery_range_km, ideal_battery_range_km, outside_temp\n    from positions\n    where\n      car_id = $car_id and ideal_battery_range_km is not null\n    union all\n    select battery_level, coalesce(usable_battery_level,battery_level) as usable_battery_level, date,\n      rated_battery_range_km, ideal_battery_range_km, outside_temp\n    from charges c\n    join\n      charging_processes p ON p.id = c.charging_process_id \n    where\n       p.car_id = $car_id\n    ) as data\n\nGROUP BY\n\t1\nhaving convert_km((sum([[preferred_range]]_battery_range_km) / nullif(sum(coalesce(usable_battery_level,battery_level)),0) * 100)::numeric, '$length_unit') is not null\nORDER BY\n\t1,2  DESC )\nSELECT max(\"Projected [[preferred_range]] range [$length_unit]\") FROM ProjectedRange \n",
         "hide": 2,
@@ -1091,8 +1129,8 @@
   },
   "timepicker": {},
   "timezone": "browser",
-  "title": "Custom - Battery Health",
+  "title": "Battery Health",
   "uid": "eYPXK_24k",
-  "version": 4,
+  "version": 6,
   "weekStart": ""
 }

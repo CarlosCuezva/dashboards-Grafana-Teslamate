@@ -19,12 +19,10 @@
       }
     ]
   },
-  "description": "",
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 1,
-  "id": null,
-  "iteration": 1673743581038,
+  "iteration": 1673846903359,
   "links": [
     {
       "icon": "dashboard",
@@ -33,6 +31,20 @@
       "tooltip": "",
       "type": "link",
       "url": "[[base_url:raw]]"
+    },
+    {
+      "asDropdown": true,
+      "icon": "external link",
+      "includeVars": false,
+      "keepTime": false,
+      "tags": [
+        "customTeslamate"
+      ],
+      "targetBlank": false,
+      "title": "Custom Dashboards",
+      "tooltip": "",
+      "type": "dashboards",
+      "url": ""
     },
     {
       "asDropdown": true,
@@ -1379,12 +1391,17 @@
   "schemaVersion": 36,
   "style": "dark",
   "tags": [
-    "tesla"
+    "tesla",
+    "customTeslamate"
   ],
   "templating": {
     "list": [
       {
-        "current": {},
+        "current": {
+          "selected": false,
+          "text": "All",
+          "value": "$__all"
+        },
         "datasource": "TeslaMate",
         "definition": "SELECT name AS __text, id AS __value FROM cars ORDER BY display_priority ASC, name ASC;",
         "hide": 2,
@@ -1404,7 +1421,11 @@
         "useTags": false
       },
       {
-        "current": {},
+        "current": {
+          "selected": false,
+          "text": "km",
+          "value": "km"
+        },
         "datasource": "TeslaMate",
         "definition": "select unit_of_length from settings limit 1;",
         "hide": 2,
@@ -1423,7 +1444,11 @@
         "useTags": false
       },
       {
-        "current": {},
+        "current": {
+          "selected": false,
+          "text": "C",
+          "value": "C"
+        },
         "datasource": "TeslaMate",
         "definition": "select unit_of_temperature from settings limit 1;",
         "hide": 2,
@@ -1442,7 +1467,11 @@
         "useTags": false
       },
       {
-        "current": {},
+        "current": {
+          "selected": false,
+          "text": "http://192.168.2.249:4000",
+          "value": "http://192.168.2.249:4000"
+        },
         "datasource": "TeslaMate",
         "definition": "select base_url from settings limit 1;",
         "hide": 2,
@@ -1462,7 +1491,11 @@
         "useTags": false
       },
       {
-        "current": {},
+        "current": {
+          "selected": false,
+          "text": "rated",
+          "value": "rated"
+        },
         "datasource": "TeslaMate",
         "definition": "select  preferred_range from settings;",
         "hide": 2,
@@ -1478,7 +1511,11 @@
         "type": "query"
       },
       {
-        "current": {},
+        "current": {
+          "selected": false,
+          "text": "342",
+          "value": "342"
+        },
         "datasource": "TeslaMate",
         "definition": "SELECT id\n  FROM charging_processes\n  WHERE car_id = $car_id\n  ORDER BY start_date DESC LIMIT 1",
         "hide": 2,
@@ -1521,8 +1558,8 @@
     ]
   },
   "timezone": "",
-  "title": "Custom - Current Charge View",
+  "title": "Current Charge View",
   "uid": "K9VmZD54k",
-  "version": 5,
+  "version": 2,
   "weekStart": ""
 }

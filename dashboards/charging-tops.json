@@ -22,8 +22,7 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 1,
-  "id": null,
-  "iteration": 1673743976508,
+  "iteration": 1673847673250,
   "links": [
     {
       "icon": "dashboard",
@@ -32,6 +31,20 @@
       "tooltip": "",
       "type": "link",
       "url": "[[base_url:raw]]"
+    },
+    {
+      "asDropdown": true,
+      "icon": "external link",
+      "includeVars": false,
+      "keepTime": false,
+      "tags": [
+        "customTeslamate"
+      ],
+      "targetBlank": false,
+      "title": "Custom Dashboards",
+      "tooltip": "",
+      "type": "dashboards",
+      "url": ""
     },
     {
       "asDropdown": true,
@@ -1241,12 +1254,17 @@
   "schemaVersion": 36,
   "style": "dark",
   "tags": [
-    "tesla"
+    "tesla",
+    "customTeslamate"
   ],
   "templating": {
     "list": [
       {
-        "current": {},
+        "current": {
+          "selected": false,
+          "text": "All",
+          "value": "$__all"
+        },
         "datasource": "TeslaMate",
         "definition": "SELECT name AS __text, id AS __value FROM cars ORDER BY display_priority ASC, name ASC;",
         "hide": 2,
@@ -1266,7 +1284,11 @@
         "useTags": false
       },
       {
-        "current": {},
+        "current": {
+          "selected": false,
+          "text": "http://192.168.2.249:4000",
+          "value": "http://192.168.2.249:4000"
+        },
         "datasource": "TeslaMate",
         "definition": "select base_url from settings limit 1;",
         "hide": 2,
@@ -1286,7 +1308,11 @@
         "useTags": false
       },
       {
-        "current": {},
+        "current": {
+          "selected": false,
+          "text": "km",
+          "value": "km"
+        },
         "datasource": "TeslaMate",
         "definition": "select unit_of_length from settings limit 1;",
         "hide": 2,
@@ -1305,7 +1331,11 @@
         "useTags": false
       },
       {
-        "current": {},
+        "current": {
+          "selected": false,
+          "text": "rated",
+          "value": "rated"
+        },
         "datasource": "TeslaMate",
         "definition": "select preferred_range from settings limit 1;",
         "hide": 2,
@@ -1353,8 +1383,8 @@
     ]
   },
   "timezone": "",
-  "title": "Custom - Charging Tops",
+  "title": "Charging Tops",
   "uid": "DdLe5uFVk",
-  "version": 7,
+  "version": 4,
   "weekStart": ""
 }
