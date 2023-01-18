@@ -21,7 +21,7 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "iteration": 1673847679249,
+  "iteration": 1674060354486,
   "links": [
     {
       "asDropdown": false,
@@ -34,20 +34,6 @@
       "tooltip": "",
       "type": "link",
       "url": "[[base_url:raw]]"
-    },
-    {
-      "asDropdown": true,
-      "icon": "external link",
-      "includeVars": false,
-      "keepTime": false,
-      "tags": [
-        "customTeslamate"
-      ],
-      "targetBlank": false,
-      "title": "Custom Dashboards",
-      "tooltip": "",
-      "type": "dashboards",
-      "url": ""
     },
     {
       "asDropdown": true,
@@ -995,8 +981,7 @@
   "schemaVersion": 36,
   "style": "dark",
   "tags": [
-    "tesla",
-    "customTeslamate"
+    "tesla"
   ],
   "templating": {
     "list": [
@@ -1068,13 +1053,13 @@
           "value": "75.78787878787878"
         },
         "datasource": "TeslaMate",
-        "definition": "SELECT (100.0 * charge_energy_added) / (end_battery_level - start_battery_level) as battery_capacity\nFROM charging_processes\nWHERE charge_energy_added >= 10  AND car_id = $car_id\nORDER BY end_date DESC\nLIMIT 1;",
+        "definition": "SELECT (100.0 * charge_energy_added) / (end_battery_level - start_battery_level)\nFROM charging_processes\nWHERE charge_energy_added >= 10  AND car_id = $car_id\nORDER BY end_date DESC\nLIMIT 1;",
         "hide": 2,
         "includeAll": false,
         "multi": false,
         "name": "battery_capacity",
         "options": [],
-        "query": "SELECT (100.0 * charge_energy_added) / (end_battery_level - start_battery_level) as battery_capacity\nFROM charging_processes\nWHERE charge_energy_added >= 10  AND car_id = $car_id\nORDER BY end_date DESC\nLIMIT 1;",
+        "query": "SELECT (100.0 * charge_energy_added) / (end_battery_level - start_battery_level)\nFROM charging_processes\nWHERE charge_energy_added >= 10  AND car_id = $car_id\nORDER BY end_date DESC\nLIMIT 1;",
         "refresh": 1,
         "regex": "",
         "skipUrlSync": false,
@@ -1088,13 +1073,13 @@
           "value": "4.219903815466555"
         },
         "datasource": "TeslaMate",
-        "definition": "WITH lastTopCharges AS (\n  SELECT 100-((convert_km(end_rated_range_km, '$length_unit') * 100.0)/(end_battery_level * $max_range / 100.0)) as Battery_Degradation\n  FROM charging_processes \n WHERE car_id = $car_id AND end_date IS NOT NULL and  charge_energy_added > 5.0 \n  ORDER BY end_date DESC  \n  LIMIT 10\n)\nSELECT battery_degradation FROM lastTopCharges ORDER BY 1 DESC LIMIT 1",
+        "definition": "SELECT 100-((convert_km(end_rated_range_km, '$length_unit') * 100.0)/(end_battery_level * $max_range / 100.0)) as Battery_Degradation\n  FROM charging_processes \n WHERE car_id = $car_id AND end_date IS NOT NULL and  charge_energy_added > 5.0 \n  ORDER BY end_date DESC  \n  LIMIT 1",
         "hide": 2,
         "includeAll": false,
         "multi": false,
         "name": "degradation",
         "options": [],
-        "query": "WITH lastTopCharges AS (\n  SELECT 100-((convert_km(end_rated_range_km, '$length_unit') * 100.0)/(end_battery_level * $max_range / 100.0)) as Battery_Degradation\n  FROM charging_processes \n WHERE car_id = $car_id AND end_date IS NOT NULL and  charge_energy_added > 5.0 \n  ORDER BY end_date DESC  \n  LIMIT 10\n)\nSELECT battery_degradation FROM lastTopCharges ORDER BY 1 DESC LIMIT 1",
+        "query": "SELECT 100-((convert_km(end_rated_range_km, '$length_unit') * 100.0)/(end_battery_level * $max_range / 100.0)) as Battery_Degradation\n  FROM charging_processes \n WHERE car_id = $car_id AND end_date IS NOT NULL and  charge_energy_added > 5.0 \n  ORDER BY end_date DESC  \n  LIMIT 1",
         "refresh": 1,
         "regex": "",
         "skipUrlSync": false,
@@ -1131,6 +1116,6 @@
   "timezone": "browser",
   "title": "Battery Health",
   "uid": "eYPXK_24k",
-  "version": 6,
+  "version": 1,
   "weekStart": ""
 }

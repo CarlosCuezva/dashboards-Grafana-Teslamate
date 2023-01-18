@@ -35,20 +35,6 @@
     {
       "asDropdown": true,
       "icon": "external link",
-      "includeVars": false,
-      "keepTime": false,
-      "tags": [
-        "customTeslamate"
-      ],
-      "targetBlank": false,
-      "title": "Custom Dashboards",
-      "tooltip": "",
-      "type": "dashboards",
-      "url": ""
-    },
-    {
-      "asDropdown": true,
-      "icon": "external link",
       "tags": [
         "tesla"
       ],
@@ -1254,8 +1240,7 @@
   "schemaVersion": 36,
   "style": "dark",
   "tags": [
-    "tesla",
-    "customTeslamate"
+    "tesla"
   ],
   "templating": {
     "list": [
@@ -1385,6 +1370,6 @@
   "timezone": "",
   "title": "Charging Tops",
   "uid": "DdLe5uFVk",
-  "version": 4,
+  "version": 1,
   "weekStart": ""
 }

@@ -22,7 +22,7 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 1,
-  "iteration": 1673847676917,
+  "iteration": 1674060663887,
   "links": [
     {
       "icon": "dashboard",
@@ -31,20 +31,6 @@
       "tooltip": "",
       "type": "link",
       "url": "[[base_url:raw]]"
-    },
-    {
-      "asDropdown": true,
-      "icon": "external link",
-      "includeVars": false,
-      "keepTime": false,
-      "tags": [
-        "customTeslamate"
-      ],
-      "targetBlank": false,
-      "title": "Custom Dashboards",
-      "tooltip": "",
-      "type": "dashboards",
-      "url": ""
     },
     {
       "asDropdown": true,
@@ -2294,6 +2280,103 @@
     },
     {
       "datasource": "TeslaMate",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "continuous-GrYlRd"
+          },
+          "custom": {
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "axisSoftMin": 0,
+            "fillOpacity": 80,
+            "gradientMode": "scheme",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineWidth": 1,
+            "scaleDistribution": {
+              "type": "linear"
+            }
+          },
+          "decimals": 2,
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 24,
+        "x": 0,
+        "y": 18
+      },
+      "id": 93,
+      "options": {
+        "barRadius": 0,
+        "barWidth": 0.82,
+        "groupWidth": 0.7,
+        "legend": {
+          "calcs": [],
+          "displayMode": "hidden",
+          "placement": "bottom"
+        },
+        "orientation": "auto",
+        "showValue": "auto",
+        "stacking": "none",
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        },
+        "xTickLabelRotation": 0,
+        "xTickLabelSpacing": 0
+      },
+      "targets": [
+        {
+          "datasource": "TeslaMate",
+          "format": "table",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "SELECT to_char(end_date,'YYYY-MM') as \"Date\",\r\n       sum(cost) as \"Amount\"\r\nFROM charging_processes\r\nWHERE \r\n  car_id = $car_id\r\nGROUP BY 1\r\nORDER BY 1;",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "efficiency"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "table": "cars",
+          "timeColumn": "inserted_at",
+          "timeColumnType": "timestamp",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "title": "Cost per months",
+      "type": "barchart"
+    },
+    {
+      "datasource": "TeslaMate",
       "description": "",
       "fieldConfig": {
         "defaults": {
@@ -2769,10 +2852,10 @@
         ]
       },
       "gridPos": {
-        "h": 14,
+        "h": 8,
         "w": 24,
         "x": 0,
-        "y": 18
+        "y": 25
       },
       "id": 33,
       "maxPerRow": 2,
@@ -3019,8 +3102,7 @@
   "schemaVersion": 36,
   "style": "dark",
   "tags": [
-    "tesla",
-    "customTeslamate"
+    "tesla"
   ],
   "templating": {
     "list": [
@@ -3179,8 +3261,8 @@
       {
         "current": {
           "selected": false,
-          "text": "3964.04",
-          "value": "3964.04"
+          "text": "3964.87",
+          "value": "3964.87"
         },
         "datasource": "TeslaMate",
         "definition": "SELECT\n\tsum(greatest(charge_energy_added,charge_energy_used))\nFROM\n\tcharging_processes\nWHERE\n\tcar_id = $car_id AND charge_energy_added > 0.01;",
@@ -3231,6 +3313,6 @@
   "timezone": "browser",
   "title": "Charging Costs Stats",
   "uid": "LdwdLXt4z",
-  "version": 5,
+  "version": 1,
   "weekStart": ""
 }

@@ -35,20 +35,6 @@
     {
       "asDropdown": true,
       "icon": "external link",
-      "includeVars": false,
-      "keepTime": false,
-      "tags": [
-        "customTeslamate"
-      ],
-      "targetBlank": false,
-      "title": "Custom Dashboards",
-      "tooltip": "",
-      "type": "dashboards",
-      "url": ""
-    },
-    {
-      "asDropdown": true,
-      "icon": "external link",
       "tags": [
         "tesla"
       ],
@@ -1391,8 +1377,7 @@
   "schemaVersion": 36,
   "style": "dark",
   "tags": [
-    "tesla",
-    "customTeslamate"
+    "tesla"
   ],
   "templating": {
     "list": [
@@ -1560,6 +1545,6 @@
   "timezone": "",
   "title": "Current Charge View",
   "uid": "K9VmZD54k",
-  "version": 2,
+  "version": 1,
   "weekStart": ""
 }
