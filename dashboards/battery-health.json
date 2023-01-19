@@ -21,7 +21,7 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "iteration": 1674060354486,
+  "iteration": 1674106402489,
   "links": [
     {
       "asDropdown": false,
@@ -1049,17 +1049,17 @@
       {
         "current": {
           "selected": false,
-          "text": "75.78787878787878",
-          "value": "75.78787878787878"
+          "text": "77.77777777777777",
+          "value": "77.77777777777777"
         },
         "datasource": "TeslaMate",
-        "definition": "SELECT (100.0 * charge_energy_added) / (end_battery_level - start_battery_level)\nFROM charging_processes\nWHERE charge_energy_added >= 10  AND car_id = $car_id\nORDER BY end_date DESC\nLIMIT 1;",
+        "definition": "WITH lastCharges AS (\n\tSELECT (100.0 * charge_energy_added) / (end_battery_level - start_battery_level)\n\tFROM charging_processes\n\tWHERE charge_energy_added >= 10  AND car_id = 1\n\tORDER BY end_date DESC\n\tLIMIT 5\n)\nSELECT * FROM lastCharges \nORDER BY 1 DESC\nLIMIT 1",
         "hide": 2,
         "includeAll": false,
         "multi": false,
         "name": "battery_capacity",
         "options": [],
-        "query": "SELECT (100.0 * charge_energy_added) / (end_battery_level - start_battery_level)\nFROM charging_processes\nWHERE charge_energy_added >= 10  AND car_id = $car_id\nORDER BY end_date DESC\nLIMIT 1;",
+        "query": "WITH lastCharges AS (\n\tSELECT (100.0 * charge_energy_added) / (end_battery_level - start_battery_level)\n\tFROM charging_processes\n\tWHERE charge_energy_added >= 10  AND car_id = 1\n\tORDER BY end_date DESC\n\tLIMIT 5\n)\nSELECT * FROM lastCharges \nORDER BY 1 DESC\nLIMIT 1",
         "refresh": 1,
         "regex": "",
         "skipUrlSync": false,
@@ -1073,13 +1073,13 @@
           "value": "4.219903815466555"
         },
         "datasource": "TeslaMate",
-        "definition": "SELECT 100-((convert_km(end_rated_range_km, '$length_unit') * 100.0)/(end_battery_level * $max_range / 100.0)) as Battery_Degradation\n  FROM charging_processes \n WHERE car_id = $car_id AND end_date IS NOT NULL and  charge_energy_added > 5.0 \n  ORDER BY end_date DESC  \n  LIMIT 1",
+        "definition": "WITH lastCharges AS (\n\tSELECT 100 - convert_km(((end_rated_range_km * 100.0)/(end_battery_level * $max_range / 100.0)), '$length_unit') as Battery_Degradation\n\tFROM charging_processes \n\tWHERE car_id = $car_id AND end_date IS NOT NULL and  charge_energy_added > 10 \n\tORDER BY end_date DESC  \n\tLIMIT 5\n)\nSELECT * FROM lastCharges \nORDER BY 1 DESC \nLIMIT 1",
         "hide": 2,
         "includeAll": false,
         "multi": false,
         "name": "degradation",
         "options": [],
-        "query": "SELECT 100-((convert_km(end_rated_range_km, '$length_unit') * 100.0)/(end_battery_level * $max_range / 100.0)) as Battery_Degradation\n  FROM charging_processes \n WHERE car_id = $car_id AND end_date IS NOT NULL and  charge_energy_added > 5.0 \n  ORDER BY end_date DESC  \n  LIMIT 1",
+        "query": "WITH lastCharges AS (\n\tSELECT 100 - convert_km(((end_rated_range_km * 100.0)/(end_battery_level * $max_range / 100.0)), '$length_unit') as Battery_Degradation\n\tFROM charging_processes \n\tWHERE car_id = $car_id AND end_date IS NOT NULL and  charge_energy_added > 10 \n\tORDER BY end_date DESC  \n\tLIMIT 5\n)\nSELECT * FROM lastCharges \nORDER BY 1 DESC \nLIMIT 1",
         "refresh": 1,
         "regex": "",
         "skipUrlSync": false,
@@ -1093,13 +1093,13 @@
           "value": "576.9333333333333"
         },
         "datasource": "TeslaMate",
-        "definition": "WITH ProjectedRange AS (\nSELECT\n\t$__timeGroup(date, 12h) AS time,\n\tconvert_km((sum([[preferred_range]]_battery_range_km) / nullif(sum(coalesce(usable_battery_level,battery_level)),0) * 100)::numeric, '$length_unit') AS \"Projected [[preferred_range]] range [$length_unit]\"\nFROM\n\t(\n    select battery_level, usable_battery_level, date,\n      rated_battery_range_km, ideal_battery_range_km, outside_temp\n    from positions\n    where\n      car_id = $car_id and ideal_battery_range_km is not null\n    union all\n    select battery_level, coalesce(usable_battery_level,battery_level) as usable_battery_level, date,\n      rated_battery_range_km, ideal_battery_range_km, outside_temp\n    from charges c\n    join\n      charging_processes p ON p.id = c.charging_process_id \n    where\n       p.car_id = $car_id\n    ) as data\n\nGROUP BY\n\t1\nhaving convert_km((sum([[preferred_range]]_battery_range_km) / nullif(sum(coalesce(usable_battery_level,battery_level)),0) * 100)::numeric, '$length_unit') is not null\nORDER BY\n\t1,2  DESC )\nSELECT max(\"Projected [[preferred_range]] range [$length_unit]\") FROM ProjectedRange \n",
+        "definition": "WITH projectedRange AS (\n\tSELECT\n\t\t$__timeGroup(date, 12h) AS time,\n\t\tconvert_km((sum([[preferred_range]]_battery_range_km) / nullif(sum(coalesce(usable_battery_level,battery_level)),0) * 100)::numeric, '$length_unit') AS \"Projected [[preferred_range]] range [$length_unit]\"\n\tFROM\n\t\t(\n\t\t\tSELECT \n\t\t\t\tbattery_level, usable_battery_level, date, rated_battery_range_km, ideal_battery_range_km, outside_temp\n    \t\tFROM positions\n    \t\tWHERE\n      \t\t\tcar_id = $car_id \n\t\t\t\tAND ideal_battery_range_km IS NOT null\n    \t\tUNION ALL\n    \t\t\tSELECT \n\t\t\t\t\tbattery_level, coalesce(usable_battery_level,battery_level) as usable_battery_level, date, rated_battery_range_km, ideal_battery_range_km, outside_temp\n\t\t    \tFROM charges c\n    \t\t\tJOIN\n      \t\t\t\tcharging_processes p ON p.id = c.charging_process_id \n    \t\t\tWHERE\n       \t\t\t\tp.car_id = $car_id\n    \t) AS data\n\tGROUP BY 1\n\tHAVING convert_km((sum([[preferred_range]]_battery_range_km) / nullif(sum(coalesce(usable_battery_level,battery_level)),0) * 100)::numeric, '$length_unit') IS NOT null\n\tORDER BY 1, 2 DESC\n)\nSELECT MAX(\"Projected [[preferred_range]] range [$length_unit]\") FROM projectedRange \n",
         "hide": 2,
         "includeAll": false,
         "multi": false,
         "name": "max_range",
         "options": [],
-        "query": "WITH ProjectedRange AS (\nSELECT\n\t$__timeGroup(date, 12h) AS time,\n\tconvert_km((sum([[preferred_range]]_battery_range_km) / nullif(sum(coalesce(usable_battery_level,battery_level)),0) * 100)::numeric, '$length_unit') AS \"Projected [[preferred_range]] range [$length_unit]\"\nFROM\n\t(\n    select battery_level, usable_battery_level, date,\n      rated_battery_range_km, ideal_battery_range_km, outside_temp\n    from positions\n    where\n      car_id = $car_id and ideal_battery_range_km is not null\n    union all\n    select battery_level, coalesce(usable_battery_level,battery_level) as usable_battery_level, date,\n      rated_battery_range_km, ideal_battery_range_km, outside_temp\n    from charges c\n    join\n      charging_processes p ON p.id = c.charging_process_id \n    where\n       p.car_id = $car_id\n    ) as data\n\nGROUP BY\n\t1\nhaving convert_km((sum([[preferred_range]]_battery_range_km) / nullif(sum(coalesce(usable_battery_level,battery_level)),0) * 100)::numeric, '$length_unit') is not null\nORDER BY\n\t1,2  DESC )\nSELECT max(\"Projected [[preferred_range]] range [$length_unit]\") FROM ProjectedRange \n",
+        "query": "WITH projectedRange AS (\n\tSELECT\n\t\t$__timeGroup(date, 12h) AS time,\n\t\tconvert_km((sum([[preferred_range]]_battery_range_km) / nullif(sum(coalesce(usable_battery_level,battery_level)),0) * 100)::numeric, '$length_unit') AS \"Projected [[preferred_range]] range [$length_unit]\"\n\tFROM\n\t\t(\n\t\t\tSELECT \n\t\t\t\tbattery_level, usable_battery_level, date, rated_battery_range_km, ideal_battery_range_km, outside_temp\n    \t\tFROM positions\n    \t\tWHERE\n      \t\t\tcar_id = $car_id \n\t\t\t\tAND ideal_battery_range_km IS NOT null\n    \t\tUNION ALL\n    \t\t\tSELECT \n\t\t\t\t\tbattery_level, coalesce(usable_battery_level,battery_level) as usable_battery_level, date, rated_battery_range_km, ideal_battery_range_km, outside_temp\n\t\t    \tFROM charges c\n    \t\t\tJOIN\n      \t\t\t\tcharging_processes p ON p.id = c.charging_process_id \n    \t\t\tWHERE\n       \t\t\t\tp.car_id = $car_id\n    \t) AS data\n\tGROUP BY 1\n\tHAVING convert_km((sum([[preferred_range]]_battery_range_km) / nullif(sum(coalesce(usable_battery_level,battery_level)),0) * 100)::numeric, '$length_unit') IS NOT null\n\tORDER BY 1, 2 DESC\n)\nSELECT MAX(\"Projected [[preferred_range]] range [$length_unit]\") FROM projectedRange \n",
         "refresh": 1,
         "regex": "",
         "skipUrlSync": false,
