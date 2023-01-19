@@ -8,7 +8,7 @@ Tested with Teslamate v1.27.1+ and Grafana v8.5.6+
 
 1. Sign in to Grafana
 2. Create an API key (More information below)
-3. Import dashboards one by one manually or run the *dashboards.sh* file to import them automatically
+3. Import dashboards [one by one manually](#import-dashboards-manually) or [run the *dashboards.sh* file](#import-dashboards-automatically-with-dashboardssh) to import them automatically
 
 ## Create an API key
 
