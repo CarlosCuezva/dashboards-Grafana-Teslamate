@@ -22,7 +22,7 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 1,
-  "iteration": 1673847675441,
+  "iteration": 1674146873239,
   "links": [
     {
       "icon": "dashboard",
@@ -61,11 +61,248 @@
     },
     {
       "datasource": "TeslaMate",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "continuous-GrYlRd"
+          },
+          "custom": {
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "axisSoftMin": 0,
+            "fillOpacity": 80,
+            "gradientMode": "scheme",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineWidth": 1,
+            "scaleDistribution": {
+              "type": "linear"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "n"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Total"
+              }
+            ]
+          }
+        ]
+      },
       "gridPos": {
-        "h": 16,
-        "w": 24,
+        "h": 6,
+        "w": 17,
         "x": 0,
         "y": 1
+      },
+      "id": 32,
+      "links": [],
+      "options": {
+        "barRadius": 0,
+        "barWidth": 0.97,
+        "groupWidth": 0.7,
+        "legend": {
+          "calcs": [],
+          "displayMode": "hidden",
+          "placement": "bottom"
+        },
+        "orientation": "auto",
+        "showValue": "auto",
+        "stacking": "none",
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        },
+        "xField": "Power [kW]",
+        "xTickLabelRotation": -45,
+        "xTickLabelSpacing": 0
+      },
+      "pluginVersion": "8.5.15",
+      "targets": [
+        {
+          "datasource": "TeslaMate",
+          "format": "table",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "WITH data AS (\n    SELECT ROUND(MAX(c.charger_power) / 5, 0) * 5 AS \"power\"\n    FROM charging_processes cp\n    LEFT JOIN charges c ON cp.id = c.charging_process_id\n    WHERE \n      $__timeFilter(c.date) \n      AND cp.car_id = $car_id \n      AND cp.charge_energy_added > 0.01 \n      AND c.fast_charger_present\n    GROUP BY cp.id\n)\nSELECT power AS \"Power [kW]\", COUNT(power) AS n\nFROM data\nWHERE power > 22\nGROUP BY 1\nORDER BY 1 ASC\n",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "timeColumn": "time",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "title": "Max power per recharge",
+      "type": "barchart"
+    },
+    {
+      "datasource": "TeslaMate",
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "continuous-YlBl"
+          },
+          "custom": {
+            "axisLabel": "Number of recharges",
+            "axisPlacement": "auto",
+            "axisSoftMin": 0,
+            "fillOpacity": 52,
+            "gradientMode": "scheme",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineWidth": 1,
+            "scaleDistribution": {
+              "type": "linear"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "n"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Recharges"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "location"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Location"
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 7,
+        "x": 17,
+        "y": 1
+      },
+      "id": 34,
+      "options": {
+        "barRadius": 0,
+        "barWidth": 0.97,
+        "groupWidth": 0.7,
+        "legend": {
+          "calcs": [],
+          "displayMode": "hidden",
+          "placement": "bottom"
+        },
+        "orientation": "auto",
+        "showValue": "auto",
+        "stacking": "none",
+        "tooltip": {
+          "mode": "none",
+          "sort": "none"
+        },
+        "xTickLabelRotation": 0,
+        "xTickLabelSpacing": 0
+      },
+      "pluginVersion": "8.5.15",
+      "targets": [
+        {
+          "datasource": "TeslaMate",
+          "format": "table",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "WITH charges_summary AS (\n    SELECT\n        cp.id,\n        COALESCE(geo.name, CONCAT_WS(', ', COALESCE(addr.name, nullif(CONCAT_WS(' ', addr.road, addr.house_number), '')), addr.city)) AS location,\n        COUNT(c.charging_process_id)\n    FROM\n        charging_processes cp\n    LEFT JOIN \n        addresses addr ON addr.id = address_id\n    LEFT JOIN\n        geofences geo ON geo.id = geofence_id\n    LEFT JOIN\n        charges c ON cp.id = c.charging_process_id\n    WHERE\n        $__timeFilter(date) AND\n        cp.car_id = $car_id AND cp.charge_energy_added > 0.01 AND c.fast_charger_present \n    GROUP BY 1, 2\n)\nSELECT \n    CASE\n        WHEN location ILIKE '%supercharger%' THEN 'Tesla SuperCharger'\n        ELSE 'Other DC Stations' END AS location,\n    COUNT(location) AS n\nFROM charges_summary\nGROUP BY 1",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "start_km"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "table": "drives",
+          "timeColumn": "start_date",
+          "timeColumnType": "timestamp",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "title": "Fast charging networks",
+      "type": "barchart"
+    },
+    {
+      "datasource": "TeslaMate",
+      "gridPos": {
+        "h": 13,
+        "w": 12,
+        "x": 0,
+        "y": 7
       },
       "id": 29,
       "links": [],
@@ -246,17 +483,17 @@
           ]
         }
       ],
-      "title": "SuperCharger Charging Curve",
+      "title": "Tesla SuperCharger charging curve",
       "type": "natel-plotly-panel",
       "version": 1
     },
     {
       "datasource": "TeslaMate",
       "gridPos": {
-        "h": 16,
-        "w": 24,
-        "x": 0,
-        "y": 17
+        "h": 13,
+        "w": 12,
+        "x": 12,
+        "y": 7
       },
       "id": 30,
       "links": [],
@@ -437,7 +674,7 @@
           ]
         }
       ],
-      "title": "DC Charging Curve",
+      "title": "DC charging curve",
       "type": "natel-plotly-panel",
       "version": 1
     }
