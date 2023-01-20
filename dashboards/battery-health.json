@@ -21,7 +21,7 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "iteration": 1674106402489,
+  "iteration": 1674214827447,
   "links": [
     {
       "asDropdown": false,
@@ -121,7 +121,7 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 15,
+        "h": 18,
         "w": 13,
         "x": 0,
         "y": 1
@@ -151,7 +151,7 @@
           "hide": false,
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "SELECT\n\n\t$__timeGroup(date, 1w) AS time,\n\tconvert_km((sum([[preferred_range]]_battery_range_km) / nullif(sum(coalesce(usable_battery_level,battery_level)),0) * 100)::numeric, '$length_unit') \n\t* ($battery_capacity + ($battery_capacity * $degradation / 100.0)) / $max_range AS \"kWh\"\nFROM\n\t(\n    select battery_level, usable_battery_level, date,\n      rated_battery_range_km, ideal_battery_range_km, outside_temp\n    from positions\n    where\n      car_id = $car_id and $__timeFilter(date) and ideal_battery_range_km is not null\n    union all\n    select battery_level, coalesce(usable_battery_level,battery_level) as usable_battery_level, date,\n      rated_battery_range_km, ideal_battery_range_km, outside_temp\n    from charges c\n    join\n      charging_processes p ON p.id = c.charging_process_id \n    where\n      $__timeFilter(date) and p.car_id = $car_id\n    ) as data\n\nGROUP BY\n\t1\nhaving convert_km((sum([[preferred_range]]_battery_range_km) / nullif(sum(coalesce(usable_battery_level,battery_level)),0) * 100)::numeric, '$length_unit') is not null\nORDER BY\n\t1,2  DESC",
+          "rawSql": "SELECT\n\t$__timeGroup(date, 2w) AS time,\n\tconvert_km((sum([[preferred_range]]_battery_range_km) / nullif(sum(coalesce(usable_battery_level,battery_level)),0) * 100)::numeric, '$length_unit') \n\t* ($battery_capacity + ($battery_capacity * $degradation / 100.0)) / $max_range AS \"kWh\"\nFROM\n\t(\n    SELECT \n      battery_level, usable_battery_level, date, rated_battery_range_km, ideal_battery_range_km, outside_temp\n    FROM positions\n    WHERE\n      car_id = $car_id \n      AND $__timeFilter(date) \n      AND ideal_battery_range_km is not null\n    UNION ALL\n    SELECT \n      battery_level, coalesce(usable_battery_level,battery_level) as usable_battery_level, date, \n      rated_battery_range_km, ideal_battery_range_km, outside_temp\n    FROM charges c\n    JOIN\n      charging_processes p ON p.id = c.charging_process_id \n    where\n      $__timeFilter(date) \n      AND p.car_id = $car_id\n    ) AS data\nGROUP BY 1\nHAVING \n  convert_km((sum([[preferred_range]]_battery_range_km) / nullif(sum(coalesce(usable_battery_level,battery_level)),0) * 100)::numeric, '$length_unit') IS NOT NULL\nORDER BY 1, 2  DESC",
           "refId": "Projected Range",
           "select": [
             [
@@ -175,6 +175,182 @@
       ],
       "title": "Estimated battery capacity",
       "type": "timeseries"
+    },
+    {
+      "datasource": "TeslaMate",
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "decimals": 1,
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "#EAB839",
+                "value": 10
+              },
+              {
+                "color": "dark-red",
+                "value": 20
+              }
+            ]
+          },
+          "unit": "%"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 3,
+        "x": 13,
+        "y": 1
+      },
+      "id": 9,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "value"
+      },
+      "pluginVersion": "8.5.15",
+      "targets": [
+        {
+          "datasource": "TeslaMate",
+          "format": "table",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "SELECT  \n  $degradation as \"Degradation\"\nFROM settings \nWHERE id = 1",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "start_km"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "table": "drives",
+          "timeColumn": "start_date",
+          "timeColumnType": "timestamp",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "title": "Estimated degradation",
+      "type": "stat"
+    },
+    {
+      "datasource": "TeslaMate",
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "decimals": 1,
+          "mappings": [],
+          "max": 100,
+          "min": 1,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "dark-red",
+                "value": null
+              },
+              {
+                "color": "#EAB839",
+                "value": 80
+              },
+              {
+                "color": "light-green",
+                "value": 90
+              }
+            ]
+          },
+          "unit": "%"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 8,
+        "x": 16,
+        "y": 1
+      },
+      "id": 11,
+      "options": {
+        "displayMode": "gradient",
+        "minVizHeight": 10,
+        "minVizWidth": 0,
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showUnfilled": true
+      },
+      "pluginVersion": "8.5.15",
+      "targets": [
+        {
+          "datasource": "TeslaMate",
+          "format": "table",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "SELECT  \n  (100 - $degradation) as \"Battery Health (%)\"",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "start_km"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "table": "drives",
+          "timeColumn": "start_date",
+          "timeColumnType": "timestamp",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "title": "Battery Health",
+      "type": "bargauge"
     },
     {
       "datasource": "TeslaMate",
@@ -221,7 +397,7 @@
         "h": 3,
         "w": 5,
         "x": 13,
-        "y": 1
+        "y": 4
       },
       "id": 4,
       "options": {
@@ -267,7 +443,7 @@
           "policy": "default",
           "query": "SELECT last(\"soc\") FROM \"ovms\" WHERE $timeFilter",
           "rawQuery": true,
-          "rawSql": "(SELECT battery_level, date\n  FROM positions\n  WHERE car_id = $car_id\n  ORDER BY date DESC\n  LIMIT 1\n)\nUNION\n  SELECT battery_level, date\n  FROM charges c\n  JOIN charging_processes p ON p.id = c.charging_process_id\n  WHERE $__timeFilter(date) AND p.car_id = $car_id\n  ORDER BY date DESC\n  LIMIT 1\n",
+          "rawSql": "(SELECT usable_battery_level, date\n  FROM positions\n  WHERE car_id = $car_id\n  ORDER BY date DESC\n  LIMIT 1\n)\nUNION\n  SELECT usable_battery_level, date\n  FROM charges c\n  JOIN charging_processes p ON p.id = c.charging_process_id\n  WHERE $__timeFilter(date) AND p.car_id = $car_id\n  ORDER BY date DESC\n  LIMIT 1\n",
           "refId": "SOC",
           "resultFormat": "time_series",
           "select": [
@@ -360,7 +536,7 @@
         "h": 3,
         "w": 3,
         "x": 18,
-        "y": 1
+        "y": 4
       },
       "id": 17,
       "links": [],
@@ -475,7 +651,7 @@
         "h": 3,
         "w": 3,
         "x": 21,
-        "y": 1
+        "y": 4
       },
       "id": 6,
       "links": [],
@@ -540,49 +716,67 @@
           "color": {
             "mode": "thresholds"
           },
-          "decimals": 1,
+          "decimals": 2,
           "mappings": [],
+          "min": 0,
           "thresholds": {
-            "mode": "absolute",
+            "mode": "percentage",
             "steps": [
               {
-                "color": "green",
+                "color": "dark-red",
                 "value": null
               },
               {
                 "color": "#EAB839",
+                "value": 5
+              },
+              {
+                "color": "green",
                 "value": 10
               },
               {
-                "color": "dark-red",
-                "value": 20
+                "color": "green",
+                "value": 30
+              },
+              {
+                "color": "green",
+                "value": 60
+              },
+              {
+                "color": "dark-yellow",
+                "value": 90
+              },
+              {
+                "color": "semi-dark-red",
+                "value": 95
               }
             ]
           },
-          "unit": "%"
+          "unit": "kwatth"
         },
         "overrides": []
       },
       "gridPos": {
         "h": 3,
-        "w": 3,
+        "w": 8,
         "x": 13,
-        "y": 4
+        "y": 7
       },
-      "id": 9,
+      "id": 19,
       "options": {
-        "colorMode": "value",
-        "graphMode": "none",
-        "justifyMode": "auto",
+        "displayMode": "gradient",
+        "minVizHeight": 10,
+        "minVizWidth": 0,
         "orientation": "horizontal",
         "reduceOptions": {
           "calcs": [
-            "lastNotNull"
+            "first"
           ],
-          "fields": "",
+          "fields": "/^kwh$/",
           "values": false
         },
-        "textMode": "value"
+        "showUnfilled": true,
+        "text": {}
       },
       "pluginVersion": "8.5.15",
       "targets": [
@@ -590,22 +784,53 @@
           "datasource": "TeslaMate",
           "format": "table",
           "group": [],
+          "hide": false,
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "SELECT  \n  $degradation as \"Degradation\"\nFROM settings \nWHERE id = 1",
+          "rawSql": "(\n  SELECT date, usable_battery_level * $battery_capacity / 100 as kWh\n  FROM positions\n  WHERE car_id = $car_id\n  ORDER BY date DESC\n  LIMIT 1\n)\nUNION\nSELECT date, usable_battery_level * $battery_capacity / 100 as kWh\nFROM charges c\nJOIN charging_processes p ON p.id = c.charging_process_id\nWHERE $__timeFilter(date) AND p.car_id = $car_id\nORDER BY date DESC\nLIMIT 1",
           "refId": "A",
           "select": [
             [
               {
                 "params": [
-                  "start_km"
+                  "outside_temp"
                 ],
                 "type": "column"
               }
             ]
           ],
-          "table": "drives",
-          "timeColumn": "start_date",
+          "table": "positions",
+          "timeColumn": "date",
+          "timeColumnType": "timestamp",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        },
+        {
+          "datasource": "TeslaMate",
+          "format": "table",
+          "group": [],
+          "hide": false,
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "SELECT  \n  $battery_capacity AS battery_capacity",
+          "refId": "B",
+          "select": [
+            [
+              {
+                "params": [
+                  "efficiency"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "table": "cars",
+          "timeColumn": "inserted_at",
           "timeColumnType": "timestamp",
           "where": [
             {
@@ -616,8 +841,8 @@
           ]
         }
       ],
-      "title": "Estimated degradation",
-      "type": "stat"
+      "title": "Current capacity",
+      "type": "bargauge"
     },
     {
       "datasource": "TeslaMate",
@@ -679,8 +904,8 @@
       "gridPos": {
         "h": 3,
         "w": 3,
-        "x": 16,
-        "y": 4
+        "x": 21,
+        "y": 7
       },
       "id": 7,
       "links": [],
@@ -736,95 +961,6 @@
       ],
       "title": "Current battery capacity",
       "type": "stat"
-    },
-    {
-      "datasource": "TeslaMate",
-      "description": "",
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "decimals": 1,
-          "mappings": [],
-          "max": 100,
-          "min": 1,
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "dark-red",
-                "value": null
-              },
-              {
-                "color": "#EAB839",
-                "value": 80
-              },
-              {
-                "color": "light-green",
-                "value": 90
-              }
-            ]
-          },
-          "unit": "%"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 3,
-        "w": 5,
-        "x": 19,
-        "y": 4
-      },
-      "id": 11,
-      "options": {
-        "displayMode": "gradient",
-        "minVizHeight": 10,
-        "minVizWidth": 0,
-        "orientation": "horizontal",
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
-          "fields": "",
-          "values": false
-        },
-        "showUnfilled": true
-      },
-      "pluginVersion": "8.5.15",
-      "targets": [
-        {
-          "datasource": "TeslaMate",
-          "format": "table",
-          "group": [],
-          "metricColumn": "none",
-          "rawQuery": true,
-          "rawSql": "SELECT  \n  (100 - $degradation) as \"Battery Health (%)\"\nFROM settings WHERE id=1",
-          "refId": "A",
-          "select": [
-            [
-              {
-                "params": [
-                  "start_km"
-                ],
-                "type": "column"
-              }
-            ]
-          ],
-          "table": "drives",
-          "timeColumn": "start_date",
-          "timeColumnType": "timestamp",
-          "where": [
-            {
-              "name": "$__timeFilter",
-              "params": [],
-              "type": "macro"
-            }
-          ]
-        }
-      ],
-      "title": "Battery Health",
-      "type": "bargauge"
     },
     {
       "datasource": "TeslaMate",
@@ -895,7 +1031,7 @@
         "h": 9,
         "w": 11,
         "x": 13,
-        "y": 7
+        "y": 10
       },
       "id": 15,
       "links": [],
@@ -1053,13 +1189,13 @@
           "value": "77.77777777777777"
         },
         "datasource": "TeslaMate",
-        "definition": "WITH lastCharges AS (\n\tSELECT (100.0 * charge_energy_added) / (end_battery_level - start_battery_level)\n\tFROM charging_processes\n\tWHERE charge_energy_added >= 10  AND car_id = 1\n\tORDER BY end_date DESC\n\tLIMIT 5\n)\nSELECT * FROM lastCharges \nORDER BY 1 DESC\nLIMIT 1",
+        "definition": "WITH lastCharges AS (\n\tSELECT (100.0 * charge_energy_added) / (end_battery_level - start_battery_level)\n\tFROM charging_processes\n\tWHERE \n\t\tcharge_energy_added >= 10\n\t\tAND car_id = $car_id\n\tORDER BY end_date DESC\n\tLIMIT 5\n)\nSELECT * FROM lastCharges \nORDER BY 1 DESC\nLIMIT 1",
         "hide": 2,
         "includeAll": false,
         "multi": false,
         "name": "battery_capacity",
         "options": [],
-        "query": "WITH lastCharges AS (\n\tSELECT (100.0 * charge_energy_added) / (end_battery_level - start_battery_level)\n\tFROM charging_processes\n\tWHERE charge_energy_added >= 10  AND car_id = 1\n\tORDER BY end_date DESC\n\tLIMIT 5\n)\nSELECT * FROM lastCharges \nORDER BY 1 DESC\nLIMIT 1",
+        "query": "WITH lastCharges AS (\n\tSELECT (100.0 * charge_energy_added) / (end_battery_level - start_battery_level)\n\tFROM charging_processes\n\tWHERE \n\t\tcharge_energy_added >= 10\n\t\tAND car_id = $car_id\n\tORDER BY end_date DESC\n\tLIMIT 5\n)\nSELECT * FROM lastCharges \nORDER BY 1 DESC\nLIMIT 1",
         "refresh": 1,
         "regex": "",
         "skipUrlSync": false,
@@ -1069,17 +1205,17 @@
       {
         "current": {
           "selected": false,
-          "text": "4.219903815466555",
-          "value": "4.219903815466555"
+          "text": "3.685151373827492",
+          "value": "3.685151373827492"
         },
         "datasource": "TeslaMate",
-        "definition": "WITH lastCharges AS (\n\tSELECT 100 - convert_km(((end_rated_range_km * 100.0)/(end_battery_level * $max_range / 100.0)), '$length_unit') as Battery_Degradation\n\tFROM charging_processes \n\tWHERE car_id = $car_id AND end_date IS NOT NULL and  charge_energy_added > 10 \n\tORDER BY end_date DESC  \n\tLIMIT 5\n)\nSELECT * FROM lastCharges \nORDER BY 1 DESC \nLIMIT 1",
+        "definition": "SELECT AVG(data.degradation) FROM\n(\n\tSELECT 100 - convert_km(((end_rated_range_km * 100.0)/(end_battery_level * $max_range / 100.0)), '$length_unit')::float as degradation\n\tFROM charging_processes \n\tWHERE \n\t\tcar_id = $car_id \n\t\tAND end_date IS NOT NULL \n\t\tAND charge_energy_added > 10 \n\tORDER BY end_date DESC  \n\tLIMIT 5\n) AS data\n",
         "hide": 2,
         "includeAll": false,
         "multi": false,
         "name": "degradation",
         "options": [],
-        "query": "WITH lastCharges AS (\n\tSELECT 100 - convert_km(((end_rated_range_km * 100.0)/(end_battery_level * $max_range / 100.0)), '$length_unit') as Battery_Degradation\n\tFROM charging_processes \n\tWHERE car_id = $car_id AND end_date IS NOT NULL and  charge_energy_added > 10 \n\tORDER BY end_date DESC  \n\tLIMIT 5\n)\nSELECT * FROM lastCharges \nORDER BY 1 DESC \nLIMIT 1",
+        "query": "SELECT AVG(data.degradation) FROM\n(\n\tSELECT 100 - convert_km(((end_rated_range_km * 100.0)/(end_battery_level * $max_range / 100.0)), '$length_unit')::float as degradation\n\tFROM charging_processes \n\tWHERE \n\t\tcar_id = $car_id \n\t\tAND end_date IS NOT NULL \n\t\tAND charge_energy_added > 10 \n\tORDER BY end_date DESC  \n\tLIMIT 5\n) AS data\n",
         "refresh": 1,
         "regex": "",
         "skipUrlSync": false,
