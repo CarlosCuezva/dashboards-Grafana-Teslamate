@@ -22,7 +22,7 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 1,
-  "iteration": 1674232559450,
+  "iteration": 1674398970543,
   "links": [
     {
       "icon": "dashboard",
@@ -2901,6 +2901,16 @@
               {
                 "id": "custom.align",
                 "value": "right"
+              },
+              {
+                "id": "links",
+                "value": [
+                  {
+                    "targetBlank": true,
+                    "title": "Charging Costs Stats",
+                    "url": "d/LdwdLXt4z/charging-costs-stats?orgId=1&from=${__data.fields.date_from}&to=${__data.fields.date_to}&var-car_id=$car_id"
+                  }
+                ]
               }
             ]
           },
@@ -3609,8 +3619,8 @@
       {
         "current": {
           "selected": false,
-          "text": "3684.21",
-          "value": "3684.21"
+          "text": "3695.98",
+          "value": "3695.98"
         },
         "datasource": "TeslaMate",
         "definition": "SELECT\n\tsum(charge_energy_added)\nFROM\n\tcharging_processes\nWHERE\n\tcar_id = $car_id AND charge_energy_added > 0.01;",
