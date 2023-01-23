@@ -43,7 +43,6 @@ DESTINATION_DIRECTORY: $DESTINATION_DIRECTORY
 
 restore() {
   create_folder
-  folder_id=$(get_folder_id)
   
   find "$DASHBOARDS_DIRECTORY" -type f -name \*.json -print0 |
       while IFS= read -r -d '' dashboard_path; do
@@ -55,7 +54,7 @@ restore() {
             --header "Authorization: Bearer $TOKEN" \
             --data-raw "{
               \"dashboard\": $(cat "$dashboard_path"),
-              \"folderId\":$folder_id, \
+              \"folderUid\": \"$DIRECTORY_UID\", \
               \"overwrite\": true,
               \"inputs\": [
                 {
@@ -71,15 +70,6 @@ restore() {
       done
 }
 
-get_folder_id() {
-  curl \
-    --silent \
-    --location \
-    --request GET "$URL/api/folders/$DIRECTORY_UID" \
-    --header "Content-Type: application/json" \
-    --header "Authorization: Bearer $TOKEN" | 
-    jq '.id'
-}
 
 create_folder() {
   curl \
@@ -93,5 +83,6 @@ create_folder() {
       \"title\": \"$DESTINATION_DIRECTORY\"
     }"
 }
+
 
 main "$@"
