@@ -2,7 +2,7 @@
 
 # Author: Carlos Cuezva
 # Created: January 2023
-# Last updated: 01/10/2023
+# Last updated: 01/23/2023
 # Source: https://github.com/CarlosCuezva/dashboards-Grafana-Teslamate/blob/main/dashboards.sh
 #
 # URL specifies the URL of the Grafana instance.
