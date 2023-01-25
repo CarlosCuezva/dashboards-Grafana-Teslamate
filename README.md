@@ -83,13 +83,17 @@ More info in [Grafana documentation](https://grafana.com/docs/grafana/v8.5/admin
 
 ![Charging Curves](./screenshots/charging_curves.png)
 
+### Overview v2
+
+![Overview v2](./screenshots/overview_v2.png)
+
 ## Donations
 
 Hello! 
 
-If you like my work and want to support me, you can buy me a coffee, I would appreciate it a lot!
+If you like my work and want to support me, you can invite me a coffee, I´ll appreciate a lot!
 
-Your support helps me to keep improving these contents.
+Your support will help me to continue improving these contents.
 
 Thanks!
 
