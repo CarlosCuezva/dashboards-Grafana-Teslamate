@@ -1,5 +1,14 @@
 # TeslaMate - Custom dashboards for Grafana
 
+![GitHub release (latest by date)](https://img.shields.io/github/v/release/CarlosCuezva/dashboards-Grafana-Teslamate)
+![GitHub](https://img.shields.io/github/license/CarlosCuezva/dashboards-Grafana-Teslamate)
+[![](https://img.shields.io/badge/Donate-PayPal-ff69b4.svg)](https://www.paypal.com/donate?hosted_button_id=QF2MBMQZP4V2J)
+
+![GitHub contributors](https://img.shields.io/github/contributors/CarlosCuezva/dashboards-Grafana-Teslamate)
+![GitHub Repo stars](https://img.shields.io/github/stars/CarlosCuezva/dashboards-Grafana-Teslamate)
+![GitHub Discussions](https://img.shields.io/github/discussions/CarlosCuezva/dashboards-Grafana-Teslamate)
+
+
 Here you will find a series of original dashboards to expand those included by default in Teslamate to fully squeeze the data of your Tesla.
 
 These **Custom Dashboards** have been tested with versions of Teslamate v1.27.1 and Grafana v8.5.6 or higher
