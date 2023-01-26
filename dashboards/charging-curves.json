@@ -22,7 +22,7 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 1,
-  "iteration": 1674146873239,
+  "iteration": 1674710935701,
   "links": [
     {
       "icon": "dashboard",
@@ -622,7 +622,7 @@
           "hide": false,
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "SELECT\r\n  c.battery_level as \"SOC [%]\",\r\n  round(avg(c.charger_power), 0) as \"Power [kW]\",\r\n  c.charging_process_id as \"charging_process_id\",\r\n  COALESCE(g.name, a.name) || ' ' || to_char(c.date, 'YYYY-MM-dd') as \"Charge\"\r\nFROM\r\n  charges c\r\nJOIN charging_processes p ON p.id = c.charging_process_id \r\nJOIN addresses a ON a.id = p.address_id\r\nLEFT JOIN geofences g ON g.id = p.geofence_id\r\nWHERE\r\n  $__timeFilter(date)\r\n AND p.car_id = $car_id\r\n AND charger_power > 0\r\n AND c.fast_charger_present\r\n AND CASE \r\n\t\t\tWHEN (p.geofence_id IS NOT NULL) THEN (a.name NOT ILIKE '%supercharger%' AND g.name NOT ILIKE '%supercharger%')\r\n\t\t\tELSE a.name NOT ILIKE '%supercharger%'\r\n\t\tEND\r\nGROUP BY c.battery_level, c.charging_process_id, a.name, g.name, to_char(c.date, 'YYYY-MM-dd')",
+          "rawSql": "SELECT\n\tc.battery_level as \"SOC [%]\", round(avg(c.charger_power), 0) as \"Power [kW]\",\n\tc.charging_process_id as \"charging_process_id\",\n\tCOALESCE(g.name, a.name) || ' ' || to_char(c.date, 'YYYY-MM-dd') as \"Charge\"\nFROM\n  charges c\nJOIN charging_processes p ON p.id = c.charging_process_id \nJOIN addresses a ON a.id = p.address_id\nLEFT JOIN geofences g ON g.id = p.geofence_id\nWHERE\n\t$__timeFilter(date)\n\tAND p.car_id = $car_id\n\tAND c.fast_charger_present\n\tAND c.charger_power > 0.01\n\tAND CASE \n\t\tWHEN (p.geofence_id IS NOT NULL) THEN (a.name NOT ILIKE '%supercharger%' AND g.name NOT ILIKE '%supercharger%')\n\t\tELSE a.name NOT ILIKE '%supercharger%'\n\tEND\n\tAND c.charging_process_id IN (\n\t\tSELECT c.charging_process_id\n\t\tFROM charging_processes cp\n\t\tLEFT JOIN charges c ON cp.id = c.charging_process_id\n\t\tWHERE \n\t\t\t$__timeFilter(c.date)\n\t\t\tAND cp.car_id = $car_id\n\t\t\tAND c.fast_charger_present\n\t\tGROUP BY 1\n\t\tHAVING MAX(c.charger_power) > $min_max_power\n\t)\nGROUP BY c.battery_level, c.charging_process_id, a.name, g.name, to_char(c.date, 'YYYY-MM-dd')",
           "refId": "A",
           "select": [
             [
@@ -650,7 +650,7 @@
           "hide": false,
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "SELECT\n  c.battery_level as \"B - SOC [%]\",\n  PERCENTILE_CONT(0.5) WITHIN GROUP(ORDER BY charger_power) as \"B - Avg Power [kW]\"\nFROM\n  charges c\nJOIN charging_processes p ON p.id = c.charging_process_id \nJOIN addresses a ON a.id = p.address_id\nLEFT JOIN geofences g ON g.id = p.geofence_id\nWHERE\n  $__timeFilter(date)\n AND p.car_id = $car_id\n AND charger_power > 0\n AND c.fast_charger_present\n AND CASE \n\t\t\tWHEN (p.geofence_id IS NOT NULL) THEN (a.name NOT ILIKE '%supercharger%' AND g.name NOT ILIKE '%supercharger%')\n\t\t\tELSE a.name NOT ILIKE '%supercharger%'\n\t\tEND\nGROUP BY battery_level",
+          "rawSql": "SELECT\n\tc.battery_level as \"B - SOC [%]\", PERCENTILE_CONT(0.5) WITHIN GROUP(ORDER BY charger_power) as \"B - Avg Power [kW]\"\nFROM\n\tcharges c\nJOIN charging_processes p ON p.id = c.charging_process_id \nJOIN addresses a ON a.id = p.address_id\nLEFT JOIN geofences g ON g.id = p.geofence_id\nWHERE\n\t$__timeFilter(date)\n\tAND p.car_id = $car_id\n\tAND charger_power > 22\n\tAND c.fast_charger_present\n\tAND CASE \n\t\tWHEN (p.geofence_id IS NOT NULL) THEN (a.name NOT ILIKE '%supercharger%' AND g.name NOT ILIKE '%supercharger%')\n\t\tELSE a.name NOT ILIKE '%supercharger%'\n\tEND\n\tAND c.charging_process_id IN (\n\t\tSELECT c.charging_process_id\n\t\tFROM charging_processes cp\n\t\tLEFT JOIN charges c ON cp.id = c.charging_process_id\n\t\tWHERE \n\t\t\t$__timeFilter(c.date)\n\t\t\tAND cp.car_id = $car_id\n\t\t\tAND c.fast_charger_present\n\t\tGROUP BY 1\n\t\tHAVING MAX(c.charger_power) > $min_max_power\n\t)\nGROUP BY battery_level",
           "refId": "B",
           "select": [
             [
@@ -738,25 +738,22 @@
       {
         "current": {
           "selected": false,
-          "text": "km",
-          "value": "km"
+          "text": "50",
+          "value": "50"
         },
-        "datasource": "TeslaMate",
-        "definition": "select unit_of_length from settings limit 1;",
-        "hide": 2,
-        "includeAll": false,
-        "multi": false,
-        "name": "length_unit",
-        "options": [],
-        "query": "select unit_of_length from settings limit 1;",
-        "refresh": 1,
-        "regex": "",
+        "hide": 0,
+        "label": "Minimum maximum power (kW)",
+        "name": "min_max_power",
+        "options": [
+          {
+            "selected": true,
+            "text": "50",
+            "value": "50"
+          }
+        ],
+        "query": "50",
         "skipUrlSync": false,
-        "sort": 0,
-        "tagValuesQuery": "",
-        "tagsQuery": "",
-        "type": "query",
-        "useTags": false
+        "type": "textbox"
       }
     ]
   },
