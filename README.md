@@ -32,7 +32,7 @@ URL=http://localhost:3000 TOKEN=XXXXXXXXXXXX ./dashboards.sh restore
 Also, you can specify the source directory of the dashboards.
 
 ```shell
-URL=http://localhost:3000 TOKEN=XXXXXXXXXXXX DESTINATION_DIRECTORY=/tmp/dashboards ./dashboards.sh restore
+URL=http://localhost:3000 TOKEN=XXXXXXXXXXXX DASHBOARDS_DIRECTORY=/tmp/dashboards ./dashboards.sh restore
 ```
 
 ### HOW-TO: Create a Grafana API key
