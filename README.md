@@ -17,23 +17,31 @@ These **Custom Dashboards** have been tested with versions of Teslamate v1.27.1 
 
 ## Import dashboards automatically with `dashboards.sh`
 
-With this script (*dashboards.sh*), you can create or update automatically all dashboards. But, first of all, you need to generate a API KEY in your Grafana ([HOW-TO](#create-an-api-key)).
+With this script (*dashboards.sh*), you can download de latest release and install automatically all dashboards. But, first of all, you need to generate a API KEY in your Grafana ([HOW-TO](#create-an-api-key)). You do not need to stop the Grafana service if you have it installed under docker and it will allow you to do it both locally and remotely.
 
-You have to execute the command `./dashboards.sh restore` modifying the URL and TOKEN variables as indicated in the example.
+If this is your first time using the new dashboards.sh, you have to generate a configuration file; don't worry, dashboards.sh will guide you step by step.
 
-**URL** specifies the URL of the Grafana instance
+![List of options](screenshots/capture_1.png)
 
-**TOKEN** specifies the security key of the API, it's generated in Grafana.
+### Option 1: Generate config file
 
-```shell
-URL=http://localhost:3000 TOKEN=XXXXXXXXXXXX ./dashboards.sh restore
-```
+Attention! If you already had a configuration file created and you complete the wizard, it'll completely overwrite your previous configuration.
 
-Also, you can specify the source directory of the dashboards.
+The questions that the wizard will ask you to generate the configuration file are the following:
 
-```shell
-URL=http://localhost:3000 TOKEN=XXXXXXXXXXXX DASHBOARDS_DIRECTORY=/tmp/dashboards ./dashboards.sh restore
-```
+- Enter the Grafana URL: Specifies the URL of the Grafana instance without `/` at the end (e.g. http://localhost:3000)
+- Enter the Grafana TOKEN: Specifies the security key of the API, it's generated in Grafana ([HOW-TO](#create-an-api-key)).
+- Path of the dashboards directory: Enter the relative or absolute path of the dashboards directory, default is `./dashboards`.
+
+When you have completed the wizard, a file named `config.sh` will be created in the same directory as **dashboards.sh**.
+
+### Option 2: Download the latest release
+
+This option downloads the latest stable version published on [GitHub](https://github.com/CarlosCuezva/dashboards-Grafana-Teslamate). At the end of the process, it tells you the version that has been downloaded.
+
+### Option 4: Install/Update dashboards
+
+Install or update all the dashboards that are located in the directory indicated in your Grafana
 
 ### HOW-TO: Create a Grafana API key
 
@@ -52,7 +60,7 @@ More info in [Grafana documentation](https://grafana.com/docs/grafana/v8.5/admin
 
 1. Sign in to Grafana
 2. Click in "Dashboards" option and select "Browse"
-3. Create a personal folder, e.g. "Teslamate-Extra"
+3. Create a personal folder, e.g. "Teslamate - Custom"
 4. Go to new folder
 5. Press the "Import" button
 6. Press the "Upload JSON file" button
