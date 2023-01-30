@@ -123,11 +123,11 @@ config_file() {
   [ -f "$filename" ] && rm $filename
 
   cat <<EOT >> $filename
-readonly URL="$url"
-readonly TOKEN="$token"
-readonly DASHBOARDS_DIRECTORY="$dashboards_directory"
-readonly DESTINATION_DIRECTORY="Teslamate - Custom"
-readonly DIRECTORY_UID="AySq122Vh"
+URL="$url"
+TOKEN="$token"
+DASHBOARDS_DIRECTORY="$dashboards_directory"
+DESTINATION_DIRECTORY="Teslamate - Custom"
+DIRECTORY_UID="AySq122Vh"
 EOT
 
   echo -e "\nFile \"$filename\" generated correctly."
