@@ -22,7 +22,7 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 1,
-  "iteration": 1673846903359,
+  "iteration": 1675098717123,
   "links": [
     {
       "icon": "dashboard",
@@ -239,7 +239,7 @@
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "(\n\tSELECT NOW() as time, c.charge_energy_added\n\tFROM charges c\n\tLEFT JOIN charging_processes cp ON cp.id = c.charging_process_id\n\tWHERE cp.car_id = $car_id\n\tORDER BY date DESC\n\tLIMIT 1\n)\nUNION \n\tSELECT NOW() as time, MAX(c.charge_energy_added) - MIN(c.charge_energy_added) as charge_energy_added\n\tFROM charging_processes cp\n\tRIGHT JOIN charges c ON cp.id = c.charging_process_id\n\tWHERE \n\t\t$__timeFilter(c.date)\n\t\tAND cp.car_id = $car_id\n\t\tAND c.charging_process_id = $charging_processes\n\tLIMIT 1\n",
+          "rawSql": "(\n\tSELECT NOW() as time, c.charge_energy_added\n\tFROM charges c\n\tLEFT JOIN charging_processes cp ON cp.id = c.charging_process_id\n\tWHERE cp.car_id = $car_id\n\tORDER BY date DESC\n\tLIMIT 1\n)\nUNION \n\tSELECT NOW() as time, MAX(c.charge_energy_added) - MIN(c.charge_energy_added) as charge_energy_added\n\tFROM charging_processes cp\n\tRIGHT JOIN charges c ON cp.id = c.charging_process_id\n\tWHERE \n\t\t$__timeFilter(c.date)\n\t\tAND cp.car_id = $car_id\n\tLIMIT 1\n",
           "refId": "A",
           "select": [
             [
@@ -1498,8 +1498,8 @@
       {
         "current": {
           "selected": false,
-          "text": "342",
-          "value": "342"
+          "text": "350",
+          "value": "350"
         },
         "datasource": "TeslaMate",
         "definition": "SELECT id\n  FROM charging_processes\n  WHERE car_id = $car_id\n  ORDER BY start_date DESC LIMIT 1",
