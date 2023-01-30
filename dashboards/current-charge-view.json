@@ -22,7 +22,7 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 1,
-  "iteration": 1675098717123,
+  "iteration": 1675102698542,
   "links": [
     {
       "icon": "dashboard",
@@ -491,7 +491,7 @@
           "policy": "default",
           "query": "SELECT last(\"utc\") - first(\"utc\") as Seconds FROM \"ovms\" WHERE $timeFilter  and  is_charging = true",
           "rawQuery": true,
-          "rawSql": "WITH start_process AS (\n  SELECT date FROM charges \n\twhere charging_process_id=$charging_processes\n\tORDER BY DATE ASC\n \tLIMIT 1\n)\nSELECT\n   EXTRACT(EPOCH FROM (charges.date - start_process.date)) AS \"Elapsed\"\nFROM charges, start_process\nWHERE \n  charging_process_id = $charging_processes AND\n  $__timeFilter(charges.date)\norder by charges.date desc  \nLIMIT 1",
+          "rawSql": "WITH elapsed_times AS (\n\tSELECT\n\t\tc.charging_process_id, \n\t\tEXTRACT(EPOCH FROM (MAX(c.date) - MIN(c.date))) AS total\n\tFROM charges c\n\tJOIN charging_processes cp ON cp.id = c.charging_process_id\n\tWHERE \n  \t\t$__timeFilter(c.date)\n\t\tAND cp.car_id = $car_id\n\tGROUP BY charging_process_id\n)\nSELECT\n\tSUM(et.total) AS Elapsed\nFROM elapsed_times et",
           "refId": "A",
           "resultFormat": "time_series",
           "select": [
@@ -1373,7 +1373,7 @@
       "type": "stat"
     }
   ],
-  "refresh": false,
+  "refresh": "30s",
   "schemaVersion": 36,
   "style": "dark",
   "tags": [
