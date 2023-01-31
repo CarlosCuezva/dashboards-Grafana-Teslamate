@@ -2,7 +2,7 @@
 
 # Author: Carlos Cuezva
 # Created: January 2023
-# Last updated: 01/29/2023
+# Last updated: 01/31/2023
 # Source: https://github.com/CarlosCuezva/dashboards-Grafana-Teslamate/blob/main/dashboards.sh
 #
 # URL specifies the URL of the Grafana instance.
@@ -117,8 +117,17 @@ config_file() {
   echo -e "\n"
   
   read -p "Enter the Grafana URL (e.g. http://localhost:3000): " url
-  read -p "Enter the Grafana TOKEN: " token
+  url="${url:=http://localhost:3000}"
   read -p "Enter the relative or absolute path of the dashboards directory  (e.g. ./dashboards): " dashboards_directory
+  dashboards_directory="${dashboards_directory:=./dashboards}"
+  read -p "Enter the Grafana TOKEN: " token
+
+#TODO: check if token is valid
+  if [ -z "$token" ]
+  then
+  echo "Grafana TOKEN cant be empty"
+  return 1
+  fi
 
   [ -f "$filename" ] && rm $filename
 
