@@ -125,13 +125,13 @@ config_file() {
 #TODO: check if token is valid
   if [ -z "$token" ]
   then
-  echo "Grafana TOKEN cant be empty"
-  return 1
-  fi
+    echo -e "\nGrafana TOKEN can't be empty"
+    read -n 1 -s -r -p "Press any key to continue"
 
-  [ -f "$filename" ] && rm $filename
+  else
+    [ -f "$filename" ] && rm $filename
 
-  cat <<EOT >> $filename
+    cat <<EOT >> $filename
 URL="$url"
 TOKEN="$token"
 DASHBOARDS_DIRECTORY="$dashboards_directory"
@@ -139,8 +139,9 @@ DESTINATION_DIRECTORY="Teslamate - Custom"
 DIRECTORY_UID="AySq122Vh"
 EOT
 
-  echo -e "\nFile \"$filename\" generated correctly."
-  read -n 1 -s -r -p "Press any key to continue"
+    echo -e "\nFile \"$filename\" generated correctly."
+    read -n 1 -s -r -p "Press any key to continue"
+  fi
 
   main
 }
