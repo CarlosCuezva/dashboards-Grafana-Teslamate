@@ -22,7 +22,7 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 1,
-  "iteration": 1674829655639,
+  "iteration": 1675272026376,
   "links": [
     {
       "icon": "dashboard",
@@ -2752,8 +2752,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               }
             ]
           }
@@ -2984,8 +2983,8 @@
       {
         "current": {
           "selected": false,
-          "text": "3727.02",
-          "value": "3727.02"
+          "text": "3777.82",
+          "value": "3777.82"
         },
         "datasource": "TeslaMate",
         "definition": "SELECT\n\tsum(charge_energy_added)\nFROM\n\tcharging_processes\nWHERE\n\tcar_id = $car_id AND charge_energy_added > 0.01;",
@@ -3004,7 +3003,7 @@
     ]
   },
   "time": {
-    "from": "now/M",
+    "from": "now-1M",
     "to": "now"
   },
   "timepicker": {
