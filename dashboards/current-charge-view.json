@@ -22,7 +22,7 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 1,
-  "iteration": 1675102698542,
+  "iteration": 1675273216904,
   "links": [
     {
       "icon": "dashboard",
@@ -102,7 +102,7 @@
       },
       "gridPos": {
         "h": 3,
-        "w": 5,
+        "w": 4,
         "x": 0,
         "y": 1
       },
@@ -211,8 +211,8 @@
       },
       "gridPos": {
         "h": 3,
-        "w": 5,
-        "x": 5,
+        "w": 3,
+        "x": 4,
         "y": 1
       },
       "id": 11,
@@ -220,7 +220,7 @@
         "displayMode": "gradient",
         "minVizHeight": 10,
         "minVizWidth": 0,
-        "orientation": "horizontal",
+        "orientation": "vertical",
         "reduceOptions": {
           "calcs": [
             "firstNotNull"
@@ -239,7 +239,7 @@
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "(\n\tSELECT NOW() as time, c.charge_energy_added\n\tFROM charges c\n\tLEFT JOIN charging_processes cp ON cp.id = c.charging_process_id\n\tWHERE cp.car_id = $car_id\n\tORDER BY date DESC\n\tLIMIT 1\n)\nUNION \n\tSELECT NOW() as time, MAX(c.charge_energy_added) - MIN(c.charge_energy_added) as charge_energy_added\n\tFROM charging_processes cp\n\tRIGHT JOIN charges c ON cp.id = c.charging_process_id\n\tWHERE \n\t\t$__timeFilter(c.date)\n\t\tAND cp.car_id = $car_id\n\tLIMIT 1\n",
+          "rawSql": "SELECT NOW() as time, MAX(c.charge_energy_added) - MIN(c.charge_energy_added) as charge_energy_added\nFROM charging_processes cp\nRIGHT JOIN charges c ON cp.id = c.charging_process_id\nWHERE \n  $__timeFilter(c.date)\n\tAND cp.car_id = $car_id\nLIMIT 1\n",
           "refId": "A",
           "select": [
             [
@@ -264,12 +264,12 @@
         },
         {
           "datasource": "TeslaMate",
-          "format": "time_series",
+          "format": "table",
           "group": [],
           "hide": false,
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "WITH lastTopCharges AS (\n    SELECT (100.0 * charge_energy_added) / (end_battery_level - start_battery_level) as Battery_Capacity\n    FROM charging_processes\n    WHERE charge_energy_added > 5  AND car_id = $car_id\n    ORDER BY end_date DESC\n    LIMIT 5\n)\nSELECT NOW() as time, Battery_Capacity FROM lastTopCharges ORDER BY 1 DESC LIMIT 1",
+          "rawSql": "SELECT $battery_capacity",
           "refId": "B",
           "select": [
             [
@@ -293,7 +293,119 @@
           ]
         }
       ],
-      "title": "Energy added",
+      "title": "Added in period",
+      "type": "bargauge"
+    },
+    {
+      "datasource": "TeslaMate",
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "decimals": 2,
+          "mappings": [],
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "semi-dark-green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "kwatth"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 3,
+        "x": 7,
+        "y": 1
+      },
+      "id": 41,
+      "options": {
+        "displayMode": "gradient",
+        "minVizHeight": 10,
+        "minVizWidth": 0,
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "firstNotNull"
+          ],
+          "fields": "/^charge_energy_added$/",
+          "values": false
+        },
+        "showUnfilled": true,
+        "text": {}
+      },
+      "pluginVersion": "8.5.15",
+      "targets": [
+        {
+          "datasource": "TeslaMate",
+          "format": "table",
+          "group": [],
+          "hide": false,
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "SELECT NOW() as time, c.charge_energy_added\nFROM charges c\nLEFT JOIN charging_processes cp ON cp.id = c.charging_process_id\nWHERE \n  cp.car_id = $car_id \n  AND cp.id = $charging_processes\nORDER BY date DESC\nLIMIT 1",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "outside_temp"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "table": "positions",
+          "timeColumn": "date",
+          "timeColumnType": "timestamp",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        },
+        {
+          "datasource": "TeslaMate",
+          "format": "table",
+          "group": [],
+          "hide": false,
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "SELECT $battery_capacity",
+          "refId": "B",
+          "select": [
+            [
+              {
+                "params": [
+                  "efficiency"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "table": "cars",
+          "timeColumn": "inserted_at",
+          "timeColumnType": "timestamp",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "title": "Added in session",
       "type": "bargauge"
     },
     {
@@ -1498,8 +1610,8 @@
       {
         "current": {
           "selected": false,
-          "text": "350",
-          "value": "350"
+          "text": "352",
+          "value": "352"
         },
         "datasource": "TeslaMate",
         "definition": "SELECT id\n  FROM charging_processes\n  WHERE car_id = $car_id\n  ORDER BY start_date DESC LIMIT 1",
@@ -1509,6 +1621,26 @@
         "name": "charging_processes",
         "options": [],
         "query": "SELECT id\n  FROM charging_processes\n  WHERE car_id = $car_id\n  ORDER BY start_date DESC LIMIT 1",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "type": "query"
+      },
+      {
+        "current": {
+          "selected": false,
+          "text": "78.46666666666667",
+          "value": "78.46666666666667"
+        },
+        "datasource": "TeslaMate",
+        "definition": "WITH lastCharges AS (\n\tSELECT (100.0 * charge_energy_added) / (end_battery_level - start_battery_level)\n\tFROM charging_processes\n\tWHERE \n\t\tcharge_energy_added >= 10\n\t\tAND car_id = $car_id\n\tORDER BY end_date DESC\n\tLIMIT 5\n)\nSELECT * FROM lastCharges \nORDER BY 1 DESC\nLIMIT 1",
+        "hide": 2,
+        "includeAll": false,
+        "multi": false,
+        "name": "battery_capacity",
+        "options": [],
+        "query": "WITH lastCharges AS (\n\tSELECT (100.0 * charge_energy_added) / (end_battery_level - start_battery_level)\n\tFROM charging_processes\n\tWHERE \n\t\tcharge_energy_added >= 10\n\t\tAND car_id = $car_id\n\tORDER BY end_date DESC\n\tLIMIT 5\n)\nSELECT * FROM lastCharges \nORDER BY 1 DESC\nLIMIT 1",
         "refresh": 1,
         "regex": "",
         "skipUrlSync": false,
