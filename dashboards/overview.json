@@ -23,7 +23,7 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 1,
-  "iteration": 1673974949990,
+  "iteration": 1675445156432,
   "links": [
     {
       "icon": "dashboard",
@@ -1127,7 +1127,7 @@
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "SELECT\n  convert_tire_pressure(tpms_pressure_fl, '$pressure_unit') AS \"Front left\",\n  convert_tire_pressure(tpms_pressure_fr, '$pressure_unit') AS \"Front right\",\n  convert_tire_pressure(tpms_pressure_rl, '$pressure_unit') AS \"Rear left\",\n  convert_tire_pressure(tpms_pressure_rr, '$pressure_unit') AS \"Rear right\"\nFROM positions\nWHERE\n  $__timeFilter(date)\n  AND car_id = $car_id\nORDER BY date DESC \nLIMIT 1",
+          "rawSql": "SELECT\n  convert_tire_pressure(tpms_pressure_fl, '$pressure_unit') AS \"Front left\",\n  convert_tire_pressure(tpms_pressure_fr, '$pressure_unit') AS \"Front right\",\n  convert_tire_pressure(tpms_pressure_rl, '$pressure_unit') AS \"Rear left\",\n  convert_tire_pressure(tpms_pressure_rr, '$pressure_unit') AS \"Rear right\"\nFROM positions\nWHERE\n  car_id = $car_id\nORDER BY date DESC \nLIMIT 1",
           "refId": "A",
           "select": [
             [
@@ -1863,8 +1863,8 @@
       {
         "current": {
           "selected": false,
-          "text": "http://localhost:4000",
-          "value": "http://localhost:4000"
+          "text": "http://192.168.2.249:4000",
+          "value": "http://192.168.2.249:4000"
         },
         "datasource": "TeslaMate",
         "definition": "select base_url from settings limit 1;",
