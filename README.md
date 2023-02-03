@@ -93,6 +93,8 @@ More info in [Grafana documentation](https://grafana.com/docs/grafana/v8.5/admin
 
 ### Overview v2
 
+<p style="text-align:center; font-style: italic;">Expanded version of the original Teslamate dashboard</p>
+
 ![Overview v2](./screenshots/overview_v2.png)
 
 ## Donations
