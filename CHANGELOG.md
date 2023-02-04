@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.13.4] - 2023-02-04
+
+### Dashboards
+
+- Battery Health: Battery degradation calculation improvements
+- Battery Health: Added support to miles
+- Overview v2: Always shows the last recorded tire pressure
+
 ## [1.13.3] - 2023-02-01
 
 ### Dashboards
@@ -204,6 +212,7 @@
 
 ## [1.0.0] - 2022-12-19
 
+[1.13.4]: https://github.com/CarlosCuezva/dashboards-Grafana-Teslamate/compare/v1.13.3...v1.13.4
 [1.13.3]: https://github.com/CarlosCuezva/dashboards-Grafana-Teslamate/compare/v1.13.2...v1.13.3
 [1.13.2]: https://github.com/CarlosCuezva/dashboards-Grafana-Teslamate/compare/v1.13.1...v1.13.2
 [1.13.1]: https://github.com/CarlosCuezva/dashboards-Grafana-Teslamate/compare/v1.13.0...v1.13.1
