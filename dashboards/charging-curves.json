@@ -22,7 +22,7 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 1,
-  "iteration": 1674976843623,
+  "iteration": 1675799376295,
   "links": [
     {
       "icon": "dashboard",
@@ -44,21 +44,6 @@
   ],
   "liveNow": false,
   "panels": [
-    {
-      "collapsed": false,
-      "datasource": "TeslaMate",
-      "gridPos": {
-        "h": 1,
-        "w": 24,
-        "x": 0,
-        "y": 0
-      },
-      "id": 12,
-      "panels": [],
-      "repeat": "car_id",
-      "title": "$car_id",
-      "type": "row"
-    },
     {
       "datasource": "TeslaMate",
       "fieldConfig": {
@@ -112,7 +97,7 @@
         "h": 6,
         "w": 17,
         "x": 0,
-        "y": 1
+        "y": 0
       },
       "id": 32,
       "links": [],
@@ -239,7 +224,7 @@
         "h": 6,
         "w": 7,
         "x": 17,
-        "y": 1
+        "y": 0
       },
       "id": 34,
       "options": {
@@ -302,7 +287,7 @@
         "h": 12,
         "w": 12,
         "x": 0,
-        "y": 7
+        "y": 6
       },
       "id": 29,
       "links": [],
@@ -501,7 +486,7 @@
         "h": 12,
         "w": 12,
         "x": 12,
-        "y": 7
+        "y": 6
       },
       "id": 30,
       "links": [],
@@ -706,13 +691,13 @@
       {
         "current": {
           "selected": false,
-          "text": "All",
-          "value": "$__all"
+          "text": "Jo-El",
+          "value": "1"
         },
         "datasource": "TeslaMate",
         "definition": "SELECT name AS __text, id AS __value FROM cars ORDER BY display_priority ASC, name ASC;",
-        "hide": 2,
-        "includeAll": true,
+        "hide": 0,
+        "includeAll": false,
         "label": "Car",
         "multi": false,
         "name": "car_id",

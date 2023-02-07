@@ -22,7 +22,7 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 1,
-  "iteration": 1675273216904,
+  "iteration": 1675799523383,
   "links": [
     {
       "icon": "dashboard",
@@ -44,21 +44,6 @@
   ],
   "liveNow": false,
   "panels": [
-    {
-      "collapsed": false,
-      "datasource": "TeslaMate",
-      "gridPos": {
-        "h": 1,
-        "w": 24,
-        "x": 0,
-        "y": 0
-      },
-      "id": 18,
-      "panels": [],
-      "repeat": "car_id",
-      "title": "$car_id",
-      "type": "row"
-    },
     {
       "datasource": "TeslaMate",
       "description": "",
@@ -104,7 +89,7 @@
         "h": 3,
         "w": 4,
         "x": 0,
-        "y": 1
+        "y": 0
       },
       "id": 38,
       "options": {
@@ -213,7 +198,7 @@
         "h": 3,
         "w": 3,
         "x": 4,
-        "y": 1
+        "y": 0
       },
       "id": 11,
       "options": {
@@ -324,7 +309,7 @@
         "h": 3,
         "w": 3,
         "x": 7,
-        "y": 1
+        "y": 0
       },
       "id": 41,
       "options": {
@@ -451,7 +436,7 @@
         "h": 3,
         "w": 2,
         "x": 10,
-        "y": 1
+        "y": 0
       },
       "id": 40,
       "options": {
@@ -558,7 +543,7 @@
         "h": 3,
         "w": 3,
         "x": 12,
-        "y": 1
+        "y": 0
       },
       "id": 29,
       "options": {
@@ -692,7 +677,7 @@
         "h": 3,
         "w": 3,
         "x": 15,
-        "y": 1
+        "y": 0
       },
       "id": 23,
       "links": [],
@@ -774,7 +759,7 @@
         "h": 4,
         "w": 6,
         "x": 18,
-        "y": 1
+        "y": 0
       },
       "id": 37,
       "options": {
@@ -971,7 +956,7 @@
         "h": 12,
         "w": 18,
         "x": 0,
-        "y": 4
+        "y": 3
       },
       "id": 27,
       "links": [],
@@ -1071,7 +1056,7 @@
         "h": 3,
         "w": 2,
         "x": 18,
-        "y": 5
+        "y": 4
       },
       "id": 25,
       "options": {
@@ -1167,7 +1152,7 @@
         "h": 3,
         "w": 2,
         "x": 20,
-        "y": 5
+        "y": 4
       },
       "id": 34,
       "options": {
@@ -1263,7 +1248,7 @@
         "h": 3,
         "w": 2,
         "x": 22,
-        "y": 5
+        "y": 4
       },
       "id": 35,
       "options": {
@@ -1341,7 +1326,7 @@
         "h": 4,
         "w": 6,
         "x": 18,
-        "y": 8
+        "y": 7
       },
       "id": 31,
       "options": {
@@ -1431,7 +1416,7 @@
         "h": 4,
         "w": 6,
         "x": 18,
-        "y": 12
+        "y": 11
       },
       "id": 33,
       "options": {
@@ -1495,14 +1480,14 @@
     "list": [
       {
         "current": {
-          "selected": false,
-          "text": "All",
-          "value": "$__all"
+          "selected": true,
+          "text": "Jo-El",
+          "value": "1"
         },
         "datasource": "TeslaMate",
         "definition": "SELECT name AS __text, id AS __value FROM cars ORDER BY display_priority ASC, name ASC;",
-        "hide": 2,
-        "includeAll": true,
+        "hide": 0,
+        "includeAll": false,
         "label": "Car",
         "multi": false,
         "name": "car_id",
@@ -1610,8 +1595,8 @@
       {
         "current": {
           "selected": false,
-          "text": "352",
-          "value": "352"
+          "text": "356",
+          "value": "356"
         },
         "datasource": "TeslaMate",
         "definition": "SELECT id\n  FROM charging_processes\n  WHERE car_id = $car_id\n  ORDER BY start_date DESC LIMIT 1",

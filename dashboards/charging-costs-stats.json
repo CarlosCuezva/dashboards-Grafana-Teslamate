@@ -22,7 +22,7 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 1,
-  "iteration": 1675792331122,
+  "iteration": 1675799281145,
   "links": [
     {
       "icon": "dashboard",
@@ -45,27 +45,12 @@
   "liveNow": false,
   "panels": [
     {
-      "collapsed": false,
       "datasource": "TeslaMate",
       "gridPos": {
         "h": 1,
         "w": 24,
         "x": 0,
         "y": 0
-      },
-      "id": 12,
-      "panels": [],
-      "repeat": "car_id",
-      "title": "$car_id",
-      "type": "row"
-    },
-    {
-      "datasource": "TeslaMate",
-      "gridPos": {
-        "h": 1,
-        "w": 24,
-        "x": 0,
-        "y": 1
       },
       "id": 36,
       "options": {
@@ -132,7 +117,7 @@
         "h": 6,
         "w": 3,
         "x": 0,
-        "y": 2
+        "y": 1
       },
       "id": 65,
       "links": [],
@@ -239,7 +224,7 @@
         "h": 3,
         "w": 3,
         "x": 3,
-        "y": 2
+        "y": 1
       },
       "id": 45,
       "links": [],
@@ -321,7 +306,7 @@
         "h": 3,
         "w": 3,
         "x": 6,
-        "y": 2
+        "y": 1
       },
       "id": 47,
       "links": [],
@@ -404,7 +389,7 @@
         "h": 3,
         "w": 4,
         "x": 9,
-        "y": 2
+        "y": 1
       },
       "id": 94,
       "links": [],
@@ -487,7 +472,7 @@
         "h": 3,
         "w": 4,
         "x": 13,
-        "y": 2
+        "y": 1
       },
       "id": 73,
       "links": [],
@@ -578,7 +563,7 @@
         "h": 3,
         "w": 4,
         "x": 17,
-        "y": 2
+        "y": 1
       },
       "id": 95,
       "links": [],
@@ -710,7 +695,7 @@
         "h": 6,
         "w": 3,
         "x": 21,
-        "y": 2
+        "y": 1
       },
       "id": 63,
       "links": [],
@@ -796,7 +781,7 @@
         "h": 3,
         "w": 3,
         "x": 3,
-        "y": 5
+        "y": 4
       },
       "id": 49,
       "options": {
@@ -875,7 +860,7 @@
         "h": 3,
         "w": 3,
         "x": 6,
-        "y": 5
+        "y": 4
       },
       "id": 51,
       "options": {
@@ -951,7 +936,7 @@
         "h": 3,
         "w": 3,
         "x": 9,
-        "y": 5
+        "y": 4
       },
       "id": 75,
       "links": [],
@@ -1034,7 +1019,7 @@
         "h": 3,
         "w": 3,
         "x": 12,
-        "y": 5
+        "y": 4
       },
       "id": 67,
       "links": [],
@@ -1117,7 +1102,7 @@
         "h": 3,
         "w": 3,
         "x": 15,
-        "y": 5
+        "y": 4
       },
       "id": 69,
       "links": [],
@@ -1200,7 +1185,7 @@
         "h": 3,
         "w": 3,
         "x": 18,
-        "y": 5
+        "y": 4
       },
       "id": 71,
       "links": [],
@@ -1265,7 +1250,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 8
+        "y": 7
       },
       "id": 35,
       "options": {
@@ -1332,7 +1317,7 @@
         "h": 3,
         "w": 8,
         "x": 0,
-        "y": 9
+        "y": 8
       },
       "id": 76,
       "links": [],
@@ -1415,7 +1400,7 @@
         "h": 3,
         "w": 6,
         "x": 8,
-        "y": 9
+        "y": 8
       },
       "id": 90,
       "links": [],
@@ -1498,7 +1483,7 @@
         "h": 3,
         "w": 6,
         "x": 14,
-        "y": 9
+        "y": 8
       },
       "id": 91,
       "links": [],
@@ -1605,7 +1590,7 @@
         "h": 3,
         "w": 4,
         "x": 20,
-        "y": 9
+        "y": 8
       },
       "id": 87,
       "links": [],
@@ -1687,7 +1672,7 @@
         "h": 3,
         "w": 4,
         "x": 0,
-        "y": 12
+        "y": 11
       },
       "id": 79,
       "links": [],
@@ -1770,7 +1755,7 @@
         "h": 3,
         "w": 3,
         "x": 4,
-        "y": 12
+        "y": 11
       },
       "id": 96,
       "links": [],
@@ -1853,7 +1838,7 @@
         "h": 3,
         "w": 3,
         "x": 7,
-        "y": 12
+        "y": 11
       },
       "id": 88,
       "links": [],
@@ -1945,7 +1930,7 @@
         "h": 3,
         "w": 3,
         "x": 10,
-        "y": 12
+        "y": 11
       },
       "id": 97,
       "links": [],
@@ -2028,7 +2013,7 @@
         "h": 3,
         "w": 5,
         "x": 13,
-        "y": 12
+        "y": 11
       },
       "id": 89,
       "links": [],
@@ -2160,7 +2145,7 @@
         "h": 6,
         "w": 6,
         "x": 18,
-        "y": 12
+        "y": 11
       },
       "id": 83,
       "links": [],
@@ -2246,7 +2231,7 @@
         "h": 3,
         "w": 3,
         "x": 0,
-        "y": 15
+        "y": 14
       },
       "id": 78,
       "options": {
@@ -2325,7 +2310,7 @@
         "h": 3,
         "w": 3,
         "x": 3,
-        "y": 15
+        "y": 14
       },
       "id": 80,
       "options": {
@@ -2401,7 +2386,7 @@
         "h": 3,
         "w": 4,
         "x": 6,
-        "y": 15
+        "y": 14
       },
       "id": 84,
       "links": [],
@@ -2484,7 +2469,7 @@
         "h": 3,
         "w": 4,
         "x": 10,
-        "y": 15
+        "y": 14
       },
       "id": 85,
       "links": [],
@@ -2567,7 +2552,7 @@
         "h": 3,
         "w": 4,
         "x": 14,
-        "y": 15
+        "y": 14
       },
       "id": 86,
       "links": [],
@@ -2667,7 +2652,7 @@
         "h": 7,
         "w": 24,
         "x": 0,
-        "y": 18
+        "y": 17
       },
       "id": 93,
       "options": {
@@ -2752,7 +2737,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": null
               }
             ]
           }
@@ -2763,7 +2749,7 @@
         "h": 7,
         "w": 24,
         "x": 0,
-        "y": 25
+        "y": 24
       },
       "id": 98,
       "options": {
@@ -2831,13 +2817,13 @@
       {
         "current": {
           "selected": false,
-          "text": "All",
-          "value": "$__all"
+          "text": "Jo-El",
+          "value": "1"
         },
         "datasource": "TeslaMate",
         "definition": "SELECT name AS __text, id AS __value FROM cars ORDER BY display_priority ASC, name ASC;",
-        "hide": 2,
-        "includeAll": true,
+        "hide": 0,
+        "includeAll": false,
         "label": "Car",
         "multi": false,
         "name": "car_id",
@@ -2898,67 +2884,6 @@
         "tagsQuery": "",
         "type": "query",
         "useTags": false
-      },
-      {
-        "current": {
-          "selected": false,
-          "text": "Etc/UTC",
-          "value": "Etc/UTC"
-        },
-        "datasource": "TeslaMate",
-        "definition": "select current_setting('TIMEZONE'), name from pg_timezone_names where abbrev ~ '^[a-zA-Z]{3,4}$' and name not like 'posix%' order by 2;",
-        "hide": 2,
-        "includeAll": false,
-        "label": "Time zone",
-        "multi": false,
-        "name": "timezone",
-        "options": [],
-        "query": "select current_setting('TIMEZONE'), name from pg_timezone_names where abbrev ~ '^[a-zA-Z]{3,4}$' and name not like 'posix%' order by 2;",
-        "refresh": 1,
-        "regex": "",
-        "skipUrlSync": false,
-        "sort": 0,
-        "type": "query"
-      },
-      {
-        "current": {
-          "selected": false,
-          "text": "C",
-          "value": "C"
-        },
-        "datasource": "TeslaMate",
-        "definition": "select unit_of_temperature from settings limit 1;",
-        "hide": 2,
-        "includeAll": false,
-        "multi": false,
-        "name": "temp_unit",
-        "options": [],
-        "query": "select unit_of_temperature from settings limit 1;",
-        "refresh": 1,
-        "regex": "",
-        "skipUrlSync": false,
-        "sort": 0,
-        "type": "query"
-      },
-      {
-        "current": {
-          "selected": false,
-          "text": "rated",
-          "value": "rated"
-        },
-        "datasource": "TeslaMate",
-        "definition": "select preferred_range from settings limit 1;",
-        "hide": 2,
-        "includeAll": false,
-        "multi": false,
-        "name": "preferred_range",
-        "options": [],
-        "query": "select preferred_range from settings limit 1;",
-        "refresh": 1,
-        "regex": "",
-        "skipUrlSync": false,
-        "sort": 0,
-        "type": "query"
       },
       {
         "current": {
