@@ -27,7 +27,7 @@ Attention! If you already had a configuration file created and you complete the 
 The questions that the wizard will ask you to generate the configuration file are the following:
 
 - Enter the Grafana URL: Specifies the URL of the Grafana instance without `/` at the end (e.g. http://localhost:3000)
-- Enter the Grafana TOKEN: Specifies the security key of the API, it's generated in Grafana ([HOW-TO](#create-an-api-key)).
+- Enter the Grafana TOKEN: Specifies the security key of the API, it's generated in Grafana ([HOW-TO](./#create-an-api-key)).
 - Path of the dashboards directory: Enter the relative or absolute path of the dashboards directory, default is `./dashboards`.
 
 When you have completed the wizard, a file named `config.sh` will be created in the same directory as **dashboards.sh**.
@@ -61,7 +61,7 @@ More info in [Grafana documentation](https://grafana.com/docs/grafana/v8.5/admin
 4. Go to new folder
 5. Press the "Import" button
 6. Press the "Upload JSON file" button
-8. Select JSON file from your computer
+7. Select JSON file from your computer
 8. And finally, press the "Import" button
 
 ---
