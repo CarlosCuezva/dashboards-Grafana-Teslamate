@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.14.1] - 2023-02-07
+
+### Dashboards
+
+- Charging Costs Stats: Fixed division by 0
+
 ## [1.14.0] - 2023-02-07
 
 ### Dashboards
@@ -218,6 +224,7 @@
 
 ## [1.0.0] - 2022-12-19
 
+[1.14.1]: https://github.com/CarlosCuezva/dashboards-Grafana-Teslamate/compare/v1.14.0...v1.14.1
 [1.14.0]: https://github.com/CarlosCuezva/dashboards-Grafana-Teslamate/compare/v1.13.4...v1.14.0
 [1.13.4]: https://github.com/CarlosCuezva/dashboards-Grafana-Teslamate/compare/v1.13.3...v1.13.4
 [1.13.3]: https://github.com/CarlosCuezva/dashboards-Grafana-Teslamate/compare/v1.13.2...v1.13.3
