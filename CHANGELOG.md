@@ -4,13 +4,13 @@
 
 ### Dashboards
 
-- Battery Health: Optimized dashboards for when there is more than 1 car
-- Charging Costs Stats: Optimized dashboards for when there is more than 1 car
-- Charging Curves: Optimized dashboards for when there is more than 1 car
-- Charging Tops: Optimized dashboards for when there is more than 1 car
-- Current Charge View: Optimized dashboards for when there is more than 1 car
-- Drive Tops: Optimized dashboards for when there is more than 1 car
-- Overview v2: Optimized dashboards for when there is more than 1 car
+- Battery Health: Optimized dashboard for when there is more than 1 car
+- Charging Costs Stats: Optimized dashboard for when there is more than 1 car
+- Charging Curves: Optimized dashboard for when there is more than 1 car
+- Charging Tops: Optimized dashboard for when there is more than 1 car
+- Current Charge View: Optimized dashboard for when there is more than 1 car
+- Drive Tops: Optimized dashboard for when there is more than 1 car
+- Overview v2: Optimized dashboard for when there is more than 1 car
 
 ## [1.14.1] - 2023-02-07
 
