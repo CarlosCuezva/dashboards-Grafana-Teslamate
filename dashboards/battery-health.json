@@ -21,7 +21,7 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "iteration": 1675354421019,
+  "iteration": 1675797870119,
   "links": [
     {
       "asDropdown": false,
@@ -236,7 +236,7 @@
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "SELECT  \n  $degradation as \"Degradation\"\nFROM settings \nWHERE id = 1",
+          "rawSql": "SELECT  \n  $degradation as \"Degradation\"",
           "refId": "A",
           "select": [
             [
@@ -1123,13 +1123,13 @@
     "list": [
       {
         "current": {
-          "selected": false,
+          "selected": true,
           "text": "Jo-El",
           "value": "1"
         },
         "datasource": "TeslaMate",
         "definition": "SELECT name AS __text, id AS __value FROM cars ORDER BY display_priority ASC, name ASC;",
-        "hide": 2,
+        "hide": 0,
         "includeAll": false,
         "label": "Car",
         "multi": false,
@@ -1205,8 +1205,8 @@
       {
         "current": {
           "selected": false,
-          "text": "3.2224437796371377",
-          "value": "3.2224437796371377"
+          "text": "3.1831345649793206",
+          "value": "3.1831345649793206"
         },
         "datasource": "TeslaMate",
         "definition": "SELECT AVG(data.degradation) FROM\n(\n\tSELECT 100 - convert_km(((end_rated_range_km * 100.0)/(end_battery_level * $max_range / 100.0)), '$length_unit')::float as degradation\n\tFROM charging_processes \n\tWHERE \n\t\tcar_id = $car_id \n\t\tAND end_date IS NOT NULL \n\t\tAND charge_energy_added > 10 \n\tORDER BY end_date DESC  \n\tLIMIT 5\n) AS data\n",
