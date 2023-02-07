@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.14.0] - 2023-02-07
+
+### Dashboards
+
+- Drive Tops: New dashboard
+
 ## [1.13.4] - 2023-02-04
 
 ### Dashboards
@@ -212,6 +218,7 @@
 
 ## [1.0.0] - 2022-12-19
 
+[1.14.0]: https://github.com/CarlosCuezva/dashboards-Grafana-Teslamate/compare/v1.13.4...v1.14.0
 [1.13.4]: https://github.com/CarlosCuezva/dashboards-Grafana-Teslamate/compare/v1.13.3...v1.13.4
 [1.13.3]: https://github.com/CarlosCuezva/dashboards-Grafana-Teslamate/compare/v1.13.2...v1.13.3
 [1.13.2]: https://github.com/CarlosCuezva/dashboards-Grafana-Teslamate/compare/v1.13.1...v1.13.2
