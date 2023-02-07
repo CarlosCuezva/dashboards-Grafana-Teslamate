@@ -22,7 +22,7 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 1,
-  "iteration": 1675272026376,
+  "iteration": 1675792331122,
   "links": [
     {
       "icon": "dashboard",
@@ -1447,7 +1447,7 @@
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "SELECT \n\t($total_charging_cost / round(((EXTRACT(epoch from age(updated_at, inserted_at)) / 86400)) / 30)) total_per_month\nFROM cars\nWHERE\n\tid = $car_id",
+          "rawSql": "SELECT \n\t($total_charging_cost / ceil(((EXTRACT(epoch from age(updated_at, inserted_at)) / 86400)) / 30)) total_per_month\nFROM cars\nWHERE\n\tid = $car_id",
           "refId": "A",
           "select": [
             [
@@ -1530,7 +1530,7 @@
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "SELECT \n\t($total_charged / round(((EXTRACT(epoch from age(updated_at, inserted_at)) / 86400)) / 30)) total_per_month\nFROM cars\nWHERE\n\tid = $car_id",
+          "rawSql": "SELECT \n\t($total_charged / ceil(((EXTRACT(epoch from age(updated_at, inserted_at)) / 86400)) / 30)) total_per_month\nFROM cars\nWHERE\n\tid = $car_id",
           "refId": "A",
           "select": [
             [
@@ -2983,8 +2983,8 @@
       {
         "current": {
           "selected": false,
-          "text": "3777.82",
-          "value": "3777.82"
+          "text": "3840.54",
+          "value": "3840.54"
         },
         "datasource": "TeslaMate",
         "definition": "SELECT\n\tsum(charge_energy_added)\nFROM\n\tcharging_processes\nWHERE\n\tcar_id = $car_id AND charge_energy_added > 0.01;",
