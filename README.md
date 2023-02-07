@@ -1,13 +1,10 @@
 # TeslaMate - Custom dashboards for Grafana
 
 ![GitHub release (latest by date)](https://img.shields.io/github/v/release/CarlosCuezva/dashboards-Grafana-Teslamate)
-![GitHub](https://img.shields.io/github/license/CarlosCuezva/dashboards-Grafana-Teslamate)
-[![](https://img.shields.io/badge/Donate-PayPal-ff69b4.svg)](https://www.paypal.com/donate?hosted_button_id=QF2MBMQZP4V2J)
-
-![GitHub contributors](https://img.shields.io/github/contributors/CarlosCuezva/dashboards-Grafana-Teslamate)
 ![GitHub Repo stars](https://img.shields.io/github/stars/CarlosCuezva/dashboards-Grafana-Teslamate)
 ![GitHub Discussions](https://img.shields.io/github/discussions/CarlosCuezva/dashboards-Grafana-Teslamate)
-
+![GitHub](https://img.shields.io/github/license/CarlosCuezva/dashboards-Grafana-Teslamate)
+[![](https://img.shields.io/badge/Donate-PayPal-ff69b4.svg)](https://www.paypal.com/donate?hosted_button_id=QF2MBMQZP4V2J)
 
 Here you will find a series of original dashboards to expand those included by default in Teslamate to fully squeeze the data of your Tesla.
 
@@ -91,6 +88,10 @@ More info in [Grafana documentation](https://grafana.com/docs/grafana/v8.5/admin
 
 ![Charging Curves](./screenshots/charging_curves.png)
 
+### Drive Tops
+
+![Drive Tops](./screenshots/drive-tops.png)
+
 ### Overview v2
 
 <p style="text-align:center; font-style: italic;">Expanded version of the original Teslamate dashboard</p>
@@ -99,11 +100,9 @@ More info in [Grafana documentation](https://grafana.com/docs/grafana/v8.5/admin
 
 ## Donations
 
-Hello! 
+Hi!
 
-If you like my work and want to support me, you can invite me a coffee, I´ll appreciate a lot!
-
-Your support will help me to continue improving these contents.
+If you like my work and want to support me, you can invite me a coffee, I'll appreciate a lot! Your support will help me to continue improving these contents.
 
 Thanks!
 
