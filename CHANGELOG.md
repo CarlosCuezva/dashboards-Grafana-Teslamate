@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.14.2] - 2023-02-07
+
+### Dashboards
+
+- Battery Health: Optimized dashboards for when there is more than 1 car
+- Charging Costs Stats: Optimized dashboards for when there is more than 1 car
+- Charging Curves: Optimized dashboards for when there is more than 1 car
+- Charging Tops: Optimized dashboards for when there is more than 1 car
+- Current Charge View: Optimized dashboards for when there is more than 1 car
+- Drive Tops: Optimized dashboards for when there is more than 1 car
+- Overview v2: Optimized dashboards for when there is more than 1 car
+
 ## [1.14.1] - 2023-02-07
 
 ### Dashboards
@@ -224,6 +236,7 @@
 
 ## [1.0.0] - 2022-12-19
 
+[1.14.2]: https://github.com/CarlosCuezva/dashboards-Grafana-Teslamate/compare/v1.14.1...v1.14.2
 [1.14.1]: https://github.com/CarlosCuezva/dashboards-Grafana-Teslamate/compare/v1.14.0...v1.14.1
 [1.14.0]: https://github.com/CarlosCuezva/dashboards-Grafana-Teslamate/compare/v1.13.4...v1.14.0
 [1.13.4]: https://github.com/CarlosCuezva/dashboards-Grafana-Teslamate/compare/v1.13.3...v1.13.4
