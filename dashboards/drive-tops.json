@@ -22,7 +22,7 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 1,
-  "iteration": 1675799581761,
+  "iteration": 1677131749145,
   "links": [
     {
       "icon": "dashboard",
@@ -673,7 +673,7 @@
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "SELECT to_char(end_date,'YYYY') as \"Year\",\r\n       convert_km((sum(distance))::numeric, '$length_unit') as \"distance\"\r\nFROM drives\r\nWHERE \r\n  car_id = $car_id\r\nGROUP BY 1\r\nORDER BY 1 DESC;",
+          "rawSql": "SELECT to_char(end_date,'YYYY') as \"Year\",\r\n       convert_km((sum(distance))::numeric, '$length_unit') as \"Distance\"\r\nFROM drives\r\nWHERE \r\n  car_id = $car_id\r\nGROUP BY 1\r\nORDER BY 1 DESC;",
           "refId": "A",
           "select": [
             [
@@ -924,7 +924,7 @@
     "list": [
       {
         "current": {
-          "selected": true,
+          "selected": false,
           "text": "Jo-El",
           "value": "1"
         },
