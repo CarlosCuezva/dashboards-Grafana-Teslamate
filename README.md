@@ -92,6 +92,10 @@ More info in [Grafana documentation](https://grafana.com/docs/grafana/v8.5/admin
 
 ![Drive Tops](./screenshots/drive-tops.png)
 
+### Tyre Pressure
+
+![Tyre Pressure](./screenshots/tire-pressure.png)
+
 ### Overview v2
 
 <p style="text-align:center; font-style: italic;">Expanded version of the original Teslamate dashboard</p>
