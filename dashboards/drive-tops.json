@@ -22,7 +22,7 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 1,
-  "iteration": 1677131749145,
+  "iteration": 1677433275201,
   "links": [
     {
       "icon": "dashboard",
@@ -553,7 +553,7 @@
         ]
       },
       "gridPos": {
-        "h": 15,
+        "h": 18,
         "w": 8,
         "x": 0,
         "y": 3
@@ -577,7 +577,7 @@
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "WITH c AS (\n\tSELECT *, COALESCE(LAG(start_date) OVER(ORDER BY start_date DESC), now()) AS next_start_date \n\tFROM charging_processes\n\tWHERE car_id = $car_id\n),\nrng AS (\n\tSELECT\n\t\tdate,\n\t\tdistance\n\tFROM (\n\t\tSELECT d.start_date AS date, d.distance\n\t\tFROM drives d\n\t\tLEFT JOIN positions p ON p.drive_id = d.id\n\t\tWHERE d.car_id = $car_id\n\t\tGROUP BY 1, 2\n\t\tHAVING COUNT(p.id) > 0\n\t) AS data\n\tGROUP BY 1, 2\n),\nfnd AS (\n\tSELECT\n\t\tc.end_date,\n\t\tc.next_start_date,\n\t\tCOALESCE(SUM(r.distance), 0) AS distance_driven\n\tFROM c c\n\tLEFT JOIN rng r ON r.date BETWEEN c.start_date and c.next_start_date\n\tGROUP BY 1, 2\n)\nSELECT \n  (round(extract(epoch FROM end_date) - 10) * 1000) AS start_date_ts,\n  (round(extract(epoch FROM next_start_date) + 10) * 1000) AS end_date_ts,\n  end_date, next_start_date, \n  convert_km(distance_driven::decimal, '$length_unit') AS \"Distance driven\"\nFROM fnd\nORDER BY distance_driven DESC\nLIMIT 15",
+          "rawSql": "WITH c AS (\n\tSELECT *, COALESCE(LAG(start_date) OVER(ORDER BY start_date DESC), now()) AS next_start_date \n\tFROM charging_processes\n\tWHERE car_id = $car_id\n),\nrng AS (\n\tSELECT\n\t\tdate,\n\t\tdistance\n\tFROM (\n\t\tSELECT d.start_date AS date, d.distance\n\t\tFROM drives d\n\t\tLEFT JOIN positions p ON p.drive_id = d.id\n\t\tWHERE d.car_id = $car_id\n\t\tGROUP BY 1, 2\n\t\tHAVING COUNT(p.id) > 0\n\t) AS data\n\tGROUP BY 1, 2\n),\nfnd AS (\n\tSELECT\n\t\tc.end_date,\n\t\tc.next_start_date,\n\t\tCOALESCE(SUM(r.distance), 0) AS distance_driven\n\tFROM c c\n\tLEFT JOIN rng r ON r.date BETWEEN c.start_date and c.next_start_date\n\tGROUP BY 1, 2\n)\nSELECT \n  (round(extract(epoch FROM end_date) - 10) * 1000) AS start_date_ts,\n  (round(extract(epoch FROM next_start_date) + 10) * 1000) AS end_date_ts,\n  end_date, next_start_date, \n  convert_km(distance_driven::decimal, '$length_unit') AS \"Distance driven\"\nFROM fnd\nORDER BY distance_driven DESC\nLIMIT 17",
           "refId": "A",
           "select": [
             [
@@ -641,7 +641,7 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 15,
+        "h": 18,
         "w": 6,
         "x": 8,
         "y": 3
@@ -704,6 +704,218 @@
       "datasource": "TeslaMate",
       "fieldConfig": {
         "defaults": {
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "#c7d0d9",
+                "value": null
+              }
+            ]
+          },
+          "unit": "none"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "avg_speed_kmh"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "velocitykmh"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "avg_speed_mih"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "mi/h"
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 5,
+        "x": 14,
+        "y": 3
+      },
+      "id": 27,
+      "links": [],
+      "maxDataPoints": 100,
+      "options": {
+        "colorMode": "value",
+        "fieldOptions": {
+          "calcs": [
+            "lastNotNull"
+          ]
+        },
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "mean"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "value"
+      },
+      "pluginVersion": "8.5.15",
+      "targets": [
+        {
+          "datasource": "TeslaMate",
+          "format": "table",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "WITH data AS (\n\tSELECT \n\t\tdistance / ((round(extract(epoch FROM end_date)) - round(extract(epoch FROM start_date))) / 3600) AS avg_speed\n\tFROM drives\n\tWHERE \n\t\tdistance > 1\n\t\tAND car_id = $car_id\n)\nSELECT convert_km(AVG(avg_speed)::numeric, '$length_unit') AS avg_speed_[[length_unit]]h\nFROM data",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "latitude"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "table": "addresses",
+          "timeColumn": "inserted_at",
+          "timeColumnType": "timestamp",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "title": "AVG speed",
+      "type": "stat"
+    },
+    {
+      "datasource": "TeslaMate",
+      "fieldConfig": {
+        "defaults": {
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "#c7d0d9",
+                "value": null
+              }
+            ]
+          },
+          "unit": "none"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "avg_speed_kmh"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "velocitykmh"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "avg_speed_mih"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "mi/h"
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 5,
+        "x": 19,
+        "y": 3
+      },
+      "id": 28,
+      "links": [],
+      "maxDataPoints": 100,
+      "options": {
+        "colorMode": "value",
+        "fieldOptions": {
+          "calcs": [
+            "lastNotNull"
+          ]
+        },
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "mean"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "value"
+      },
+      "pluginVersion": "8.5.15",
+      "targets": [
+        {
+          "datasource": "TeslaMate",
+          "format": "table",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "WITH data AS (\n\tSELECT \n\t\tdistance / ((round(extract(epoch FROM end_date)) - round(extract(epoch FROM start_date))) / 3600) AS avg_speed\n\tFROM drives\n\tWHERE \n\t\tdistance > 1\n\t\tAND car_id = $car_id\n\tORDER BY start_date DESC\n\tLIMIT 10\n)\nSELECT convert_km(AVG(avg_speed)::numeric, '$length_unit') AS avg_speed_[[length_unit]]h\nFROM data",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "latitude"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "table": "addresses",
+          "timeColumn": "inserted_at",
+          "timeColumnType": "timestamp",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "title": "AVG speed - Last 10 drives",
+      "type": "stat"
+    },
+    {
+      "datasource": "TeslaMate",
+      "fieldConfig": {
+        "defaults": {
           "color": {
             "mode": "continuous-GrYlRd"
           },
@@ -741,7 +953,7 @@
         "h": 7,
         "w": 10,
         "x": 14,
-        "y": 3
+        "y": 6
       },
       "id": 14,
       "options": {
@@ -855,7 +1067,7 @@
         "h": 8,
         "w": 10,
         "x": 14,
-        "y": 10
+        "y": 13
       },
       "id": 26,
       "options": {
