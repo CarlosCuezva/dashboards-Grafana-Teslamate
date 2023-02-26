@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.15.1] - 2023-02-23
+
+### Dashboards
+
+- Charging Tops: Added average recharge time and charged energy in DC stations
+- Tire Pressures: Tire pressure on the last drive
+
+### Other changes
+
+- Updated screenshots
+- Text corrections
+
 ## [1.15.0] - 2023-02-23
 
 ### Dashboards
@@ -242,6 +254,7 @@
 
 ## [1.0.0] - 2022-12-19
 
+[1.15.1]: https://github.com/CarlosCuezva/dashboards-Grafana-Teslamate/compare/v1.15.0...v1.15.1
 [1.15.0]: https://github.com/CarlosCuezva/dashboards-Grafana-Teslamate/compare/v1.14.2...v1.15.0
 [1.14.2]: https://github.com/CarlosCuezva/dashboards-Grafana-Teslamate/compare/v1.14.1...v1.14.2
 [1.14.1]: https://github.com/CarlosCuezva/dashboards-Grafana-Teslamate/compare/v1.14.0...v1.14.1
