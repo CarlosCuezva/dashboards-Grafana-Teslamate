@@ -22,7 +22,7 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 1,
-  "iteration": 1677348180467,
+  "iteration": 1677514226985,
   "links": [
     {
       "icon": "dashboard",
@@ -31,6 +31,20 @@
       "tooltip": "",
       "type": "link",
       "url": "[[base_url:raw]]"
+    },
+    {
+      "asDropdown": true,
+      "icon": "external link",
+      "includeVars": false,
+      "keepTime": false,
+      "tags": [
+        "teslaCustom"
+      ],
+      "targetBlank": false,
+      "title": "Custom",
+      "tooltip": "",
+      "type": "dashboards",
+      "url": ""
     },
     {
       "asDropdown": true,
@@ -1313,7 +1327,8 @@
   "schemaVersion": 36,
   "style": "dark",
   "tags": [
-    "tesla"
+    "tesla",
+    "teslaCustom"
   ],
   "templating": {
     "list": [

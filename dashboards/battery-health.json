@@ -21,7 +21,7 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "iteration": 1675798737142,
+  "iteration": 1677514171290,
   "links": [
     {
       "asDropdown": false,
@@ -34,6 +34,20 @@
       "tooltip": "",
       "type": "link",
       "url": "[[base_url:raw]]"
+    },
+    {
+      "asDropdown": true,
+      "icon": "external link",
+      "includeVars": false,
+      "keepTime": false,
+      "tags": [
+        "teslaCustom"
+      ],
+      "targetBlank": false,
+      "title": "Custom",
+      "tooltip": "",
+      "type": "dashboards",
+      "url": ""
     },
     {
       "asDropdown": true,
@@ -984,7 +998,7 @@
               "mode": "off"
             }
           },
-          "decimals": 1,
+          "decimals": 0,
           "links": [],
           "mappings": [],
           "min": 200,
@@ -1104,7 +1118,8 @@
   "schemaVersion": 36,
   "style": "dark",
   "tags": [
-    "tesla"
+    "tesla",
+    "teslaCustom"
   ],
   "templating": {
     "list": [
@@ -1172,8 +1187,8 @@
       {
         "current": {
           "selected": false,
-          "text": "78.46666666666667",
-          "value": "78.46666666666667"
+          "text": "77.05882352941177",
+          "value": "77.05882352941177"
         },
         "datasource": "TeslaMate",
         "definition": "WITH lastCharges AS (\n\tSELECT (100.0 * charge_energy_added) / (end_battery_level - start_battery_level)\n\tFROM charging_processes\n\tWHERE \n\t\tcharge_energy_added >= 10\n\t\tAND car_id = $car_id\n\tORDER BY end_date DESC\n\tLIMIT 5\n)\nSELECT * FROM lastCharges \nORDER BY 1 DESC\nLIMIT 1",
@@ -1192,8 +1207,8 @@
       {
         "current": {
           "selected": false,
-          "text": "3.1831345649793206",
-          "value": "3.1831345649793206"
+          "text": "4.022406088420658",
+          "value": "4.022406088420658"
         },
         "datasource": "TeslaMate",
         "definition": "SELECT AVG(data.degradation) FROM\n(\n\tSELECT 100 - convert_km(((end_rated_range_km * 100.0)/(end_battery_level * $max_range / 100.0)), '$length_unit')::float as degradation\n\tFROM charging_processes \n\tWHERE \n\t\tcar_id = $car_id \n\t\tAND end_date IS NOT NULL \n\t\tAND charge_energy_added > 10 \n\tORDER BY end_date DESC  \n\tLIMIT 5\n) AS data\n",
