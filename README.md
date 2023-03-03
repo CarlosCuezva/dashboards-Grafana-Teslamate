@@ -53,6 +53,28 @@ More info in [Grafana documentation](https://grafana.com/docs/grafana/v8.5/admin
 
 ---
 
+## Create cron job to autoupdate the Custom Dashboards
+
+If you want, you can create a cron job and forget about updating the dashboards to the latest release.
+
+The first thing you have to do is edit the crontab file of your user:
+
+```bash
+crontab -e
+```
+
+The format of a cron is as follows:
+
+![Structure cron](screenshots/capture_2.png)
+
+Here is an example that will run every day at 2am and the dashboards.sh file is located in the absolute path "/home/user/dashboards.sh".
+
+```bash
+0 2 * * * sh /home/user/dashboards.sh autoupdate > /dev/null
+```
+
+---
+
 ## Import dashboards manually
 
 1. Sign in to Grafana
