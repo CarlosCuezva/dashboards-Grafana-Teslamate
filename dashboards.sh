@@ -3,7 +3,7 @@
 # Author: Carlos Cuezva
 # Created: January 2023
 # Last updated: 01/31/2023
-# Source: https://github.com/CarlosCuezva/dashboards-Grafana-Teslamate/blob/main/dashboards.sh
+# Source: https://github.com/CarlosCuezva/dashboards-Grafana-Teslamate/blob/menu/dashboards.sh
 #
 # URL specifies the URL of the Grafana instance.
 #
@@ -17,8 +17,17 @@
 
 set -o errexit
 
-
 main() {
+  local task=$1
+
+  case $task in
+      autoupdate) autoupdate;;
+      *) menu;;
+  esac
+
+}
+
+menu() {
 
   clear
   
@@ -30,7 +39,7 @@ main() {
   do
     case $opt in
       "Install/Update dashboards")
-          restore
+          restore "false"
 
           break
           ;;
@@ -40,7 +49,7 @@ main() {
           break
           ;;
       "Download lastest release")
-          download
+          download "false"
 
           break
           ;;
@@ -55,6 +64,7 @@ main() {
 
 
 restore() {
+  local auto=$1
   source ./config.sh
 
   echo "
@@ -90,11 +100,12 @@ DESTINATION_DIRECTORY: $DESTINATION_DIRECTORY
           echo "RESTORED $(basename "$dashboard_path")"
       done
     
-  
-  echo -e "\nInstallation/update process completed"
-  read -n 1 -s -r -p "Press any key to continue"
+  if [ "$auto" = "false" ]; then
+    echo -e "\nInstallation/update process completed"
+    read -n 1 -s -r -p "Press any key to continue"
 
-  main
+    menu
+  fi
 
 }
 
@@ -143,11 +154,11 @@ EOT
     read -n 1 -s -r -p "Press any key to continue"
   fi
 
-  main
+  menu
 }
 
 download() {
-
+  local auto=$1
   GH_USER="CarlosCuezva"
   GH_REPO="dashboards-Grafana-Teslamate"
   GH_BRANCH=$(curl -s https://api.github.com/repos/$GH_USER/$GH_REPO/releases/latest \
@@ -161,12 +172,19 @@ download() {
   rm ./"${GH_REPO}-${GH_BRANCH}.tar.gz" && \
   cp -Rf ./"${GH_REPO}-${GH_BRANCH:1}"/* ./  && \
   rm -rf ./"${GH_REPO}-${GH_BRANCH:1}"
-  
-  echo -e "\nDownloaded version \"$GH_BRANCH\" successfully"
-  read -n 1 -s -r -p "Press any key to continue"
 
-  main
+  if [ "$auto" = "false" ]; then
+    echo -e "\nDownloaded version \"$GH_BRANCH\" successfully"
+    read -n 1 -s -r -p "Press any key to continue"
+
+    menu
+  fi
 
 }
 
-main
+autoupdate() {
+  download "true"
+  restore "true"
+}
+
+main "$@"
