@@ -1,5 +1,18 @@
 # Changelog
 
+## [1.16.0] - 2023-03-03
+
+### Dashboards
+
+- Drive Tops: Added total average speed and of the last days driving
+- All dashboards: Added dropdown menu to access all custom dashboards
+
+### Other changes
+
+- Added option to dashboards.sh to automatically download and install latest release
+- Updated screenshots
+- Updated readme
+
 ## [1.15.1] - 2023-02-23
 
 ### Dashboards
@@ -254,6 +267,7 @@
 
 ## [1.0.0] - 2022-12-19
 
+[1.15.1]: https://github.com/CarlosCuezva/dashboards-Grafana-Teslamate/compare/v1.15.1...v1.16.0
 [1.15.1]: https://github.com/CarlosCuezva/dashboards-Grafana-Teslamate/compare/v1.15.0...v1.15.1
 [1.15.0]: https://github.com/CarlosCuezva/dashboards-Grafana-Teslamate/compare/v1.14.2...v1.15.0
 [1.14.2]: https://github.com/CarlosCuezva/dashboards-Grafana-Teslamate/compare/v1.14.1...v1.14.2
