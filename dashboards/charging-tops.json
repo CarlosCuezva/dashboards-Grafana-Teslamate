@@ -1115,7 +1115,7 @@
             "properties": [
               {
                 "id": "displayName",
-                "value": "Total cost"
+                "value": "Total"
               },
               {
                 "id": "decimals",
@@ -1131,7 +1131,7 @@
             "properties": [
               {
                 "id": "displayName",
-                "value": "Average cost"
+                "value": "Average"
               },
               {
                 "id": "decimals",
@@ -1233,7 +1233,7 @@
             "properties": [
               {
                 "id": "displayName",
-                "value": "Total added"
+                "value": "Total"
               },
               {
                 "id": "unit",
@@ -1712,7 +1712,7 @@
             "properties": [
               {
                 "id": "displayName",
-                "value": "Total cost"
+                "value": "Total"
               },
               {
                 "id": "decimals",
@@ -1728,7 +1728,7 @@
             "properties": [
               {
                 "id": "displayName",
-                "value": "Average cost"
+                "value": "Average"
               },
               {
                 "id": "decimals",
@@ -1830,7 +1830,7 @@
             "properties": [
               {
                 "id": "displayName",
-                "value": "Total added"
+                "value": "Total"
               },
               {
                 "id": "unit",
@@ -2265,7 +2265,7 @@
             "properties": [
               {
                 "id": "displayName",
-                "value": "Total cost"
+                "value": "Total"
               },
               {
                 "id": "decimals",
@@ -2281,7 +2281,7 @@
             "properties": [
               {
                 "id": "displayName",
-                "value": "Average cost"
+                "value": "Average"
               },
               {
                 "id": "decimals",
@@ -2383,7 +2383,7 @@
             "properties": [
               {
                 "id": "displayName",
-                "value": "Total added"
+                "value": "Total"
               },
               {
                 "id": "unit",
