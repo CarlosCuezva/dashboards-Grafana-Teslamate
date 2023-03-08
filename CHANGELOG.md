@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.17.0] - 2023-03-08
+
+### Dashboards
+
+- Charging Tops: Added total data and averages of energy, time and cost
+- States v2: Expanded version of the original Teslamate dashboard with "Parked in selected period (%)" panel
+- States v2: Optimized dashboard for when there is more than a car
+
+### Other changes
+
+- Updated dropdown menu name with shortcut to custom dashboards
+
 ## [1.16.0] - 2023-03-03
 
 ### Dashboards
@@ -267,7 +279,8 @@
 
 ## [1.0.0] - 2022-12-19
 
-[1.15.1]: https://github.com/CarlosCuezva/dashboards-Grafana-Teslamate/compare/v1.15.1...v1.16.0
+[1.17.0]: https://github.com/CarlosCuezva/dashboards-Grafana-Teslamate/compare/v1.16.0...v1.17.0
+[1.16.0]: https://github.com/CarlosCuezva/dashboards-Grafana-Teslamate/compare/v1.15.1...v1.16.0
 [1.15.1]: https://github.com/CarlosCuezva/dashboards-Grafana-Teslamate/compare/v1.15.0...v1.15.1
 [1.15.0]: https://github.com/CarlosCuezva/dashboards-Grafana-Teslamate/compare/v1.14.2...v1.15.0
 [1.14.2]: https://github.com/CarlosCuezva/dashboards-Grafana-Teslamate/compare/v1.14.1...v1.14.2
