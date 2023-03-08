@@ -1253,7 +1253,7 @@
             "properties": [
               {
                 "id": "displayName",
-                "value": "Average recharged"
+                "value": "Average"
               },
               {
                 "id": "unit",
@@ -1850,7 +1850,7 @@
             "properties": [
               {
                 "id": "displayName",
-                "value": "Average recharged"
+                "value": "Average"
               },
               {
                 "id": "unit",
@@ -2403,7 +2403,7 @@
             "properties": [
               {
                 "id": "displayName",
-                "value": "Average recharged"
+                "value": "Average"
               },
               {
                 "id": "unit",
