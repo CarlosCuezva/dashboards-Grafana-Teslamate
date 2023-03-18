@@ -22,7 +22,7 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 1,
-  "iteration": 1677514224271,
+  "iteration": 1679122869208,
   "links": [
     {
       "icon": "dashboard",
@@ -1446,7 +1446,7 @@
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "SELECT \n\t($total_charging_cost / ceil(((EXTRACT(epoch from age(updated_at, inserted_at)) / 86400)) / 30)) total_per_month\nFROM cars\nWHERE\n\tid = $car_id",
+          "rawSql": "SELECT \n\t($total_charging_cost / ceil(((EXTRACT(epoch from age(NOW(), inserted_at)) / 86400)) / 30)) total_per_month\nFROM cars\nWHERE\n\tid = $car_id",
           "refId": "A",
           "select": [
             [
@@ -1529,7 +1529,7 @@
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "SELECT \n\t($total_charged / ceil(((EXTRACT(epoch from age(updated_at, inserted_at)) / 86400)) / 30)) total_per_month\nFROM cars\nWHERE\n\tid = $car_id",
+          "rawSql": "SELECT \n\t($total_charged / ceil(((EXTRACT(epoch from age(NOW(), inserted_at)) / 86400)) / 30)) total_per_month\nFROM cars\nWHERE\n\tid = $car_id",
           "refId": "A",
           "select": [
             [
@@ -2751,7 +2751,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": null
               }
             ]
           }
@@ -2902,8 +2903,8 @@
       {
         "current": {
           "selected": false,
-          "text": "253.1",
-          "value": "253.1"
+          "text": "293.96",
+          "value": "293.96"
         },
         "datasource": "TeslaMate",
         "definition": "SELECT\n\tsum(cost)\nFROM\n\tcharging_processes\nWHERE\n\tcar_id = $car_id;",
@@ -2922,8 +2923,8 @@
       {
         "current": {
           "selected": false,
-          "text": "4054.61",
-          "value": "4054.61"
+          "text": "4369.78",
+          "value": "4369.78"
         },
         "datasource": "TeslaMate",
         "definition": "SELECT\n\tsum(charge_energy_added)\nFROM\n\tcharging_processes\nWHERE\n\tcar_id = $car_id AND charge_energy_added > 0.01;",
