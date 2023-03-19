@@ -22,7 +22,7 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 1,
-  "iteration": 1679208106665,
+  "iteration": 1679211832289,
   "links": [
     {
       "icon": "dashboard",
@@ -603,7 +603,7 @@
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "WITH c AS (\n\tSELECT *, COALESCE(LAG(start_date) OVER(ORDER BY start_date DESC), now()) AS next_start_date \n\tFROM charging_processes\n\tWHERE car_id = $car_id\n),\nfnd AS (\n\tSELECT\n\t\tc.end_date,\n\t\tc.next_start_date,\n\t\t(max(odometer) - min(odometer))::numeric AS distance_driven\n\tFROM c c\n\tLEFT JOIN positions p ON p.date BETWEEN c.start_date and c.next_start_date AND p.car_id = $car_id\n\tGROUP BY 1, 2\n)\nSELECT \n  (round(extract(epoch FROM end_date) - 10) * 1000) AS start_date_ts,\n  (round(extract(epoch FROM next_start_date) + 10) * 1000) AS end_date_ts,\n  end_date, next_start_date, \n  convert_km((distance_driven / ((round(extract(epoch FROM next_start_date)) - round(extract(epoch FROM end_date))) / 3600))::numeric, 'km') AS avg_speed_kmh,\n  convert_km(distance_driven::decimal, 'km') AS \"Distance driven\"\nFROM fnd\nWHERE (distance_driven / ((round(extract(epoch FROM next_start_date)) - round(extract(epoch FROM end_date))) / 3600)) > 0\nORDER BY distance_driven DESC\nLIMIT 17",
+          "rawSql": "WITH c AS (\n\tSELECT *, COALESCE(LAG(start_date) OVER(ORDER BY start_date DESC), now()) AS next_start_date \n\tFROM charging_processes\n\tWHERE car_id = $car_id\n),\nfnd AS (\n\tSELECT\n\t\tc.end_date,\n\t\tc.next_start_date,\n\t\t(max(odometer) - min(odometer))::numeric AS distance_driven\n\tFROM c c\n\tLEFT JOIN positions p ON p.date BETWEEN c.start_date and c.next_start_date AND p.car_id = $car_id\n\tGROUP BY 1, 2\n)\nSELECT \n  (round(extract(epoch FROM end_date) - 10) * 1000) AS start_date_ts,\n  (round(extract(epoch FROM next_start_date) + 10) * 1000) AS end_date_ts,\n  end_date, next_start_date, \n  convert_km((distance_driven / ((round(extract(epoch FROM next_start_date)) - round(extract(epoch FROM end_date))) / 3600))::numeric, '$length_unit') AS avg_speed_[[length_unit]]h,\n  convert_km(distance_driven::decimal, '$length_unit') AS \"Distance driven\"\nFROM fnd\nWHERE (distance_driven / ((round(extract(epoch FROM next_start_date)) - round(extract(epoch FROM end_date))) / 3600)) > 0\nORDER BY distance_driven DESC\nLIMIT 17",
           "refId": "A",
           "select": [
             [
@@ -1243,9 +1243,9 @@
         "name": "min_avg_speed",
         "options": [
           {
-            "selected": true,
-            "text": "0",
-            "value": "0"
+            "selected": false,
+            "text": "50",
+            "value": "50"
           }
         ],
         "query": "0",
