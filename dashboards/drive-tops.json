@@ -22,7 +22,7 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 1,
-  "iteration": 1679252691698,
+  "iteration": 1679317266755,
   "links": [
     {
       "icon": "dashboard",
@@ -561,6 +561,10 @@
               {
                 "id": "displayName",
                 "value": "AVG speed ($length_unit/h)"
+              },
+              {
+                "id": "custom.width",
+                "value": 140
               }
             ]
           },
@@ -573,6 +577,42 @@
               {
                 "id": "custom.width",
                 "value": 120
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "next_start_date"
+            },
+            "properties": [
+              {
+                "id": "custom.hidden",
+                "value": true
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "battery_needed"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Battery needed"
+              },
+              {
+                "id": "custom.width",
+                "value": 120
+              },
+              {
+                "id": "unit",
+                "value": "%"
+              },
+              {
+                "id": "decimals",
+                "value": 0
               }
             ]
           }
@@ -603,7 +643,7 @@
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "WITH c AS (\n\tSELECT *, COALESCE(LAG(start_date) OVER(ORDER BY start_date DESC), now()) AS next_start_date \n\tFROM charging_processes\n\tWHERE car_id = $car_id\n),\nrng AS (\n\tSELECT\n\t\tdate,\n\t\tdistance,\n\t\tduration_min\n\tFROM (\n\t\tSELECT d.start_date AS date, d.distance, d.duration_min\n\t\tFROM drives d\n\t\tLEFT JOIN positions p ON p.drive_id = d.id\n\t\tWHERE d.car_id = $car_id\n\t\tGROUP BY 1, 2, 3\n\t\tHAVING COUNT(p.id) > 0\n\t) AS data\n\tGROUP BY 1, 2, 3\n),\nfnd AS (\n\tSELECT\n\t\tc.end_date,\n\t\tc.next_start_date,\n\t\tCOALESCE(SUM(r.distance), 0) AS distance_driven,\n\t\tCOALESCE(SUM(r.duration_min), 0) AS duration_min\n\tFROM c c\n\tLEFT JOIN rng r ON r.date BETWEEN c.start_date and c.next_start_date\n\tGROUP BY 1, 2\n)\nSELECT \n\t(round(extract(epoch FROM end_date) - 10) * 1000) AS start_date_ts,\n\t(round(extract(epoch FROM next_start_date) + 10) * 1000) AS end_date_ts,\n\tend_date, next_start_date,\n\tCASE WHEN (duration_min / 60) > 1\n\t\tTHEN convert_km((distance_driven / (duration_min::numeric / 60))::numeric, '$length_unit')\n\t\tELSE 1\n\tEND AS avg_speed_[[length_unit]]h,\n\tconvert_km(distance_driven::decimal, '$length_unit') AS \"Distance driven\"\n\tFROM fnd\n\tWHERE (distance_driven / ((round(extract(epoch FROM next_start_date)) - round(extract(epoch FROM end_date))) / 3600)) > 0\n\tORDER BY distance_driven DESC",
+          "rawSql": "WITH c AS (\n\tSELECT *, COALESCE(LAG(start_date) OVER(ORDER BY start_date DESC), now()) AS next_start_date \n\tFROM charging_processes\n\tWHERE car_id = $car_id\n),\nrng AS (\n\tSELECT\n\t\tdate,\n\t\tdistance,\n\t\tduration_min,\n\t \tmax_battery_level,\n\t\tmin_battery_level\n\tFROM (\n\t\tSELECT d.start_date AS date, d.distance, d.duration_min, MAX(p.battery_level) AS max_battery_level, MIN(p.battery_level) AS min_battery_level\n\t\tFROM drives d\n\t\tLEFT JOIN positions p ON p.drive_id = d.id\n\t\tWHERE \n\t\t\td.car_id = $car_id\n\t\t\tAND $__timeFilter(d.start_date)\n\t\tGROUP BY 1, 2, 3\n\t\tHAVING COUNT(p.id) > 0\n\t) AS data\n\tGROUP BY 1, 2, 3, 4, 5\n),\nfnd AS (\n\tSELECT\n\t\tc.end_date,\n\t\tc.next_start_date,\n\t\tCOALESCE(SUM(r.distance), 0) AS distance_driven,\n\t\tCOALESCE(SUM(r.duration_min), 0) AS duration_min,\n\t\tr.max_battery_level,\n\t\tr.min_battery_level\n\tFROM c c\n\tLEFT JOIN rng r ON r.date BETWEEN c.start_date and c.next_start_date\n\tGROUP BY 1, 2, 5, 6\n)\nSELECT \n\t(round(extract(epoch FROM end_date) - 10) * 1000) AS start_date_ts,\n\t(round(extract(epoch FROM next_start_date) + 10) * 1000) AS end_date_ts,\n\tend_date, next_start_date,\n\tCASE WHEN (duration_min / 60) > 0\n\t\tTHEN convert_km((distance_driven / (duration_min::numeric / 60))::numeric, '$length_unit')\n\t\tELSE 1\n\tEND AS avg_speed_[[length_unit]]h,\n\t(max_battery_level - min_battery_level)AS battery_needed,\n\tconvert_km(distance_driven::decimal, '$length_unit') AS \"Distance driven\"\nFROM fnd\nWHERE (distance_driven / ((round(extract(epoch FROM next_start_date)) - round(extract(epoch FROM end_date))) / 3600)) > $min_avg_speed\nORDER BY distance_driven DESC\nLIMIT 17",
           "refId": "A",
           "select": [
             [
@@ -1235,8 +1275,8 @@
       {
         "current": {
           "selected": false,
-          "text": "50",
-          "value": "50"
+          "text": "0",
+          "value": "0"
         },
         "hide": 0,
         "label": "Minimum average speed",
@@ -1255,11 +1295,11 @@
     ]
   },
   "time": {
-    "from": "now-1y",
+    "from": "now-6M",
     "to": "now"
   },
   "timepicker": {
-    "hidden": true,
+    "hidden": false,
     "refresh_intervals": [
       "5s",
       "10s",
