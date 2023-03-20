@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.17.2] - 2023-03-20
+
+### Dashboards
+
+- Drive Tops: Fixed calculation of average speed between recharges
+- Drive Tops: Added time filter to average speed panel
+
 ## [1.17.1] - 2023-03-18
 
 ### Dashboards
@@ -286,6 +293,7 @@
 
 ## [1.0.0] - 2022-12-19
 
+[1.17.2]: https://github.com/CarlosCuezva/dashboards-Grafana-Teslamate/compare/v1.17.1...v1.17.2
 [1.17.1]: https://github.com/CarlosCuezva/dashboards-Grafana-Teslamate/compare/v1.17.0...v1.17.1
 [1.17.0]: https://github.com/CarlosCuezva/dashboards-Grafana-Teslamate/compare/v1.16.0...v1.17.0
 [1.16.0]: https://github.com/CarlosCuezva/dashboards-Grafana-Teslamate/compare/v1.15.1...v1.16.0
