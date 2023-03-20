@@ -845,7 +845,7 @@
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "WITH data AS (\n\tSELECT \n\t\tdistance / ((round(extract(epoch FROM end_date)) - round(extract(epoch FROM start_date))) / 3600) AS avg_speed\n\tFROM drives\n\tWHERE \n\t\tdistance > 1\n\t\tAND car_id = $car_id\n)\nSELECT convert_km(AVG(avg_speed)::numeric, '$length_unit') AS avg_speed_[[length_unit]]h\nFROM data",
+          "rawSql": "WITH data AS (\n\tSELECT \n\t\tdistance / ((round(extract(epoch FROM end_date)) - round(extract(epoch FROM start_date))) / 3600) AS avg_speed\n\tFROM drives\n\tWHERE \n\t\tdistance > 1\n\t\tAND car_id = $car_id\n\t\tAND $__timeFilter(start_date)\n)\nSELECT convert_km(AVG(avg_speed)::numeric, '$length_unit') AS avg_speed_[[length_unit]]h\nFROM data",
           "refId": "A",
           "select": [
             [
