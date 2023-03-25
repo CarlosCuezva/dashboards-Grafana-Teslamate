@@ -22,7 +22,7 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 1,
-  "iteration": 1679122869208,
+  "iteration": 1679729954701,
   "links": [
     {
       "icon": "dashboard",
@@ -1446,7 +1446,7 @@
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "SELECT \n\t($total_charging_cost / ceil(((EXTRACT(epoch from age(NOW(), inserted_at)) / 86400)) / 30)) total_per_month\nFROM cars\nWHERE\n\tid = $car_id",
+          "rawSql": "SELECT \n\t($total_charging_cost / ceil(((EXTRACT(epoch from age(updated_at, inserted_at)) / 86400)) / 30)) total_per_month\nFROM cars\nWHERE\n\tid = $car_id",
           "refId": "A",
           "select": [
             [
@@ -1529,7 +1529,7 @@
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "SELECT \n\t($total_charged / ceil(((EXTRACT(epoch from age(NOW(), inserted_at)) / 86400)) / 30)) total_per_month\nFROM cars\nWHERE\n\tid = $car_id",
+          "rawSql": "SELECT \n\t($total_charged / ceil(((EXTRACT(epoch from age(updated_at, inserted_at)) / 86400)) / 30)) total_per_month\nFROM cars\nWHERE\n\tid = $car_id",
           "refId": "A",
           "select": [
             [
@@ -2668,7 +2668,7 @@
         "x": 0,
         "y": 17
       },
-      "id": 93,
+      "id": 98,
       "options": {
         "barRadius": 0,
         "barWidth": 0.82,
@@ -2685,7 +2685,7 @@
           "mode": "single",
           "sort": "none"
         },
-        "xTickLabelRotation": 0,
+        "xTickLabelRotation": -45,
         "xTickLabelSpacing": 0
       },
       "targets": [
@@ -2695,7 +2695,7 @@
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "SELECT to_char(end_date,'YYYY-MM') as \"Date\",\r\n       sum(cost) as \"Amount\"\r\nFROM charging_processes\r\nWHERE \r\n  car_id = $car_id\r\nGROUP BY 1\r\nORDER BY 1;",
+          "rawSql": "SELECT to_char(end_date,'YYYY') as \"Year\",\r\n       sum(cost) as \"Amount\"\r\nFROM charging_processes\r\nWHERE \r\n  car_id = $car_id\r\nGROUP BY 1\r\nORDER BY 1;",
           "refId": "A",
           "select": [
             [
@@ -2719,8 +2719,22 @@
           ]
         }
       ],
-      "title": "Cost per months",
+      "title": "Cost per years",
       "type": "barchart"
+    },
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 24
+      },
+      "id": 100,
+      "panels": [],
+      "repeat": "car_years",
+      "title": "$car_years",
+      "type": "row"
     },
     {
       "datasource": "TeslaMate",
@@ -2757,15 +2771,44 @@
             ]
           }
         },
-        "overrides": []
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "month_n"
+            },
+            "properties": [
+              {
+                "id": "custom.hideFrom",
+                "value": {
+                  "legend": true,
+                  "tooltip": true,
+                  "viz": true
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "year_n"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "year"
+              }
+            ]
+          }
+        ]
       },
       "gridPos": {
         "h": 7,
         "w": 24,
         "x": 0,
-        "y": 24
+        "y": 25
       },
-      "id": 98,
+      "id": 105,
       "options": {
         "barRadius": 0,
         "barWidth": 0.82,
@@ -2782,8 +2825,9 @@
           "mode": "single",
           "sort": "none"
         },
+        "xField": "month",
         "xTickLabelRotation": 0,
-        "xTickLabelSpacing": 0
+        "xTickLabelSpacing": 100
       },
       "targets": [
         {
@@ -2792,7 +2836,7 @@
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "SELECT to_char(end_date,'YYYY') as \"Year\",\r\n       sum(cost) as \"Amount\"\r\nFROM charging_processes\r\nWHERE \r\n  car_id = $car_id\r\nGROUP BY 1\r\nORDER BY 1;",
+          "rawSql": "SELECT \r\n\tto_char(start_date,'MM') as \"month_n\",\r\n\tto_char(start_date,'YYYY') as \"year_n\",\r\n\tto_char(start_date,'Month') as \"month\",\r\n\tSUM(cost)::numeric as \"cost\"\r\nFROM charging_processes\r\nWHERE \r\n  car_id = $car_id\r\n  AND to_char(start_date,'YYYY')::integer = $car_years\r\nGROUP BY 1, 2, 3\r\nORDER BY 1;",
           "refId": "A",
           "select": [
             [
@@ -2816,7 +2860,7 @@
           ]
         }
       ],
-      "title": "Cost per years",
+      "title": "Cost per months",
       "type": "barchart"
     }
   ],
@@ -2923,8 +2967,8 @@
       {
         "current": {
           "selected": false,
-          "text": "4369.78",
-          "value": "4369.78"
+          "text": "4441.61",
+          "value": "4441.61"
         },
         "datasource": "TeslaMate",
         "definition": "SELECT\n\tsum(charge_energy_added)\nFROM\n\tcharging_processes\nWHERE\n\tcar_id = $car_id AND charge_energy_added > 0.01;",
@@ -2934,6 +2978,27 @@
         "name": "total_charged",
         "options": [],
         "query": "SELECT\n\tsum(charge_energy_added)\nFROM\n\tcharging_processes\nWHERE\n\tcar_id = $car_id AND charge_energy_added > 0.01;",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "type": "query"
+      },
+      {
+        "current": {
+          "selected": false,
+          "text": "All",
+          "value": "$__all"
+        },
+        "datasource": "TeslaMate",
+        "definition": "SELECT to_char(start_date,'YYYY') as year\nFROM drives\nWHERE \n  car_id = 1\nGROUP BY 1\nORDER BY 1 DESC;",
+        "hide": 2,
+        "includeAll": true,
+        "label": "Year",
+        "multi": false,
+        "name": "car_years",
+        "options": [],
+        "query": "SELECT to_char(start_date,'YYYY') as year\nFROM drives\nWHERE \n  car_id = 1\nGROUP BY 1\nORDER BY 1 DESC;",
         "refresh": 1,
         "regex": "",
         "skipUrlSync": false,
