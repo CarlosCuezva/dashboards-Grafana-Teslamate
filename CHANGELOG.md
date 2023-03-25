@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.18.0] - 2023-03-25
+
+### Dashboards
+
+- Drive Tops: Added maximum distance traveled with 100% battery
+- Drive Tops: Improved average speed filter
+- Drive Tops: Fixed aggregation issue on max distances traveled
+- Charging Costs Stats: Improved display of expenses by month when there are several years of data
+
 ## [1.17.2] - 2023-03-20
 
 ### Dashboards
@@ -293,6 +302,7 @@
 
 ## [1.0.0] - 2022-12-19
 
+[1.18.0]: https://github.com/CarlosCuezva/dashboards-Grafana-Teslamate/compare/v1.17.2...v1.18.0
 [1.17.2]: https://github.com/CarlosCuezva/dashboards-Grafana-Teslamate/compare/v1.17.1...v1.17.2
 [1.17.1]: https://github.com/CarlosCuezva/dashboards-Grafana-Teslamate/compare/v1.17.0...v1.17.1
 [1.17.0]: https://github.com/CarlosCuezva/dashboards-Grafana-Teslamate/compare/v1.16.0...v1.17.0
