@@ -22,7 +22,7 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 1,
-  "iteration": 1679668899588,
+  "iteration": 1679839238556,
   "links": [
     {
       "icon": "dashboard",
@@ -1090,7 +1090,7 @@
           "mode": "single",
           "sort": "none"
         },
-        "xTickLabelRotation": 0,
+        "xTickLabelRotation": -45,
         "xTickLabelSpacing": 0
       },
       "targets": [
@@ -1100,7 +1100,7 @@
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "SELECT to_char(end_date,'YY-MM') as \"Date\",\r\n       convert_km((SUM(distance))::numeric, '$length_unit') as \"Distance\"\r\nFROM drives\r\nWHERE \r\n  $__timeFilter(end_date)\r\n  AND car_id = $car_id\r\nGROUP BY 1\r\nORDER BY 1;",
+          "rawSql": "SELECT to_char(end_date,'YYYY-MM') as \"Date\",\r\n       convert_km((SUM(distance))::numeric, '$length_unit') as \"Distance\"\r\nFROM drives\r\nWHERE \r\n  end_date BETWEEN (date_trunc('month', now()) - interval '11 month') AND NOW()\r\n  AND car_id = $car_id\r\nGROUP BY 1\r\nORDER BY 1;",
           "refId": "A",
           "select": [
             [
