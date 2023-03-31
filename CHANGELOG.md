@@ -4,7 +4,7 @@
 
 ### Dashboards
 
-- Drive Tops: AThe last 12 months are now displayed correctly and not those defined by the selected period
+- Drive Tops: The last 12 months are now displayed correctly and not those defined by the selected period
 - Battery Health: Added period for the calculation of degradation
 - States v2: Added timeline
 
