@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.19.1] - 2023-03-31
+
+### Dashboards
+
+- Tire Pressure: Fixed display of values in bar/PSI
+- Drive Tops: Fixed display of values between km and mi
+
 ## [1.19.0] - 2023-03-31
 
 ### Dashboards
@@ -310,6 +317,7 @@
 
 ## [1.0.0] - 2022-12-19
 
+[1.19.1]: https://github.com/CarlosCuezva/dashboards-Grafana-Teslamate/compare/v1.19.0...v1.19.1
 [1.19.0]: https://github.com/CarlosCuezva/dashboards-Grafana-Teslamate/compare/v1.18.0...v1.19.0
 [1.18.0]: https://github.com/CarlosCuezva/dashboards-Grafana-Teslamate/compare/v1.17.2...v1.18.0
 [1.17.2]: https://github.com/CarlosCuezva/dashboards-Grafana-Teslamate/compare/v1.17.1...v1.17.2
