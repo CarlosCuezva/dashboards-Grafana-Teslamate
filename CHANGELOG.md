@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.19.0] - 2023-03-31
+
+### Dashboards
+
+- Drive Tops: AThe last 12 months are now displayed correctly and not those defined by the selected period
+- Battery Health: Added period for the calculation of degradation
+- States v2: Added timeline
+
 ## [1.18.0] - 2023-03-25
 
 ### Dashboards
@@ -302,6 +310,7 @@
 
 ## [1.0.0] - 2022-12-19
 
+[1.19.0]: https://github.com/CarlosCuezva/dashboards-Grafana-Teslamate/compare/v1.18.0...v1.19.0
 [1.18.0]: https://github.com/CarlosCuezva/dashboards-Grafana-Teslamate/compare/v1.17.2...v1.18.0
 [1.17.2]: https://github.com/CarlosCuezva/dashboards-Grafana-Teslamate/compare/v1.17.1...v1.17.2
 [1.17.1]: https://github.com/CarlosCuezva/dashboards-Grafana-Teslamate/compare/v1.17.0...v1.17.1
