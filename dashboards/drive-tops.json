@@ -22,7 +22,7 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 1,
-  "iteration": 1679839238556,
+  "iteration": 1680287992291,
   "links": [
     {
       "icon": "dashboard",
@@ -695,7 +695,7 @@
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "WITH ranges AS (\n\tSELECT end_date, COALESCE(LAG(start_date) OVER(ORDER BY start_date DESC), now()) AS next_start_date \n\tFROM charging_processes\n\tWHERE \n\t\tcar_id = $car_id\n\t\tAND $__timeFilter(start_date)\n), data AS (\n\tSELECT \n\t\tr.end_date AS date, \n\t\tMAX(p.odometer) - MIN(p.odometer) AS distance,\n\t\tMAX(p.battery_level) AS max_battery_level, \n\t\tMIN(p.battery_level) AS min_battery_level\n\tFROM positions p\n\tINNER JOIN ranges r ON p.date BETWEEN r.end_date AND r.next_start_date\n\tWHERE \n\t\tcar_id = $car_id\n\tGROUP BY 1\n)\nSELECT\n\t(round(extract(epoch FROM r.end_date) - 10) * 1000) AS start_date_ts,\n\t(round(extract(epoch FROM r.next_start_date) + 10) * 1000) AS end_date_ts,\n\tr.end_date AS date,\n\tr.next_start_date AS next_start_date,\n\tconvert_km((dat.distance / (SUM(d.duration_min)::numeric / 60))::numeric, 'km') AS avg_speed_kmh,\n\t(max_battery_level - min_battery_level) AS battery_needed,\n\tdat.distance AS distance,\n\tconvert_km(((dat.distance::decimal * 100) / (max_battery_level - min_battery_level)), 'km') AS max_distance\nFROM \n\tdrives d\nINNER JOIN ranges r ON d.start_date BETWEEN r.end_date AND r.next_start_date\nINNER JOIN data dat ON r.end_date = dat.date\nWHERE \n\td.car_id = $car_id\nGROUP BY 1, 2, 3, 4, 6, 7\nHAVING \n\tSUM(d.distance) > 0\n\tAND (max_battery_level - min_battery_level) > 0\nORDER BY distance DESC\nLIMIT 17\n",
+          "rawSql": "WITH ranges AS (\n\tSELECT end_date, COALESCE(LAG(start_date) OVER(ORDER BY start_date DESC), now()) AS next_start_date \n\tFROM charging_processes\n\tWHERE \n\t\tcar_id = $car_id\n\t\tAND $__timeFilter(start_date)\n), data AS (\n\tSELECT \n\t\tr.end_date AS date, \n\t\tMAX(p.odometer) - MIN(p.odometer) AS distance,\n\t\tMAX(p.battery_level) AS max_battery_level, \n\t\tMIN(p.battery_level) AS min_battery_level\n\tFROM positions p\n\tINNER JOIN ranges r ON p.date BETWEEN r.end_date AND r.next_start_date\n\tWHERE \n\t\tcar_id = 1\n\tGROUP BY 1\n), res AS (\n\tSELECT\n\t\t(round(extract(epoch FROM r.end_date) - 10) * 1000) AS start_date_ts,\n\t\t(round(extract(epoch FROM r.next_start_date) + 10) * 1000) AS end_date_ts,\n\t\tr.end_date AS date,\n\t\tr.next_start_date AS next_start_date,\n\t\t(dat.distance / (SUM(d.duration_min)::numeric / 60)) AS avg_speed,\n\t\t(max_battery_level - min_battery_level) AS battery_needed,\n\t\tdat.distance AS distance,\n\t\t((dat.distance::decimal * 100) / (max_battery_level - min_battery_level)) AS max_distance\n\tFROM \n\t\tdrives d\n\tINNER JOIN ranges r ON d.start_date BETWEEN r.end_date AND r.next_start_date\n\tINNER JOIN data dat ON r.end_date = dat.date\n\tWHERE \n\t\td.car_id = $car_id\n\tGROUP BY 1, 2, 3, 4, 6, 7\n\tHAVING \n\t\tSUM(d.distance) > 0\n\t\tAND (max_battery_level - min_battery_level) > 0\n\tORDER BY distance DESC\n\tLIMIT 17\n)\nSELECT\n\tstart_date_ts,\n\tend_date_ts,\n\tdate,\n\tnext_start_date,\n\tconvert_km(avg_speed::numeric, '$length_unit') AS avg_speed_[[length_unit]]h,\n\tbattery_needed,\n\tconvert_km(distance::numeric, '$length_unit') AS distance,\n\tconvert_km(max_distance::numeric, '$length_unit') AS max_distance\nFROM res",
           "refId": "A",
           "select": [
             [
