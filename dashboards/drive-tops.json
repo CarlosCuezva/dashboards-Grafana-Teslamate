@@ -22,7 +22,7 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 1,
-  "iteration": 1680287992291,
+  "iteration": 1680339886099,
   "links": [
     {
       "icon": "dashboard",
@@ -58,436 +58,6 @@
   ],
   "liveNow": false,
   "panels": [
-    {
-      "datasource": "TeslaMate",
-      "fieldConfig": {
-        "defaults": {
-          "mappings": [
-            {
-              "options": {
-                "match": "null",
-                "result": {
-                  "text": "N/A"
-                }
-              },
-              "type": "special"
-            }
-          ],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "#c7d0d9",
-                "value": null
-              }
-            ]
-          },
-          "unit": "none"
-        },
-        "overrides": [
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "distance_km"
-            },
-            "properties": [
-              {
-                "id": "unit",
-                "value": "lengthkm"
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "distance_mi"
-            },
-            "properties": [
-              {
-                "id": "unit",
-                "value": "mi"
-              }
-            ]
-          }
-        ]
-      },
-      "gridPos": {
-        "h": 3,
-        "w": 5,
-        "x": 0,
-        "y": 0
-      },
-      "id": 19,
-      "links": [],
-      "maxDataPoints": 100,
-      "options": {
-        "colorMode": "value",
-        "fieldOptions": {
-          "calcs": [
-            "mean"
-          ]
-        },
-        "graphMode": "none",
-        "justifyMode": "auto",
-        "orientation": "horizontal",
-        "reduceOptions": {
-          "calcs": [
-            "mean"
-          ],
-          "fields": "",
-          "values": false
-        },
-        "textMode": "value"
-      },
-      "pluginVersion": "8.5.15",
-      "targets": [
-        {
-          "format": "table",
-          "group": [],
-          "metricColumn": "none",
-          "rawQuery": true,
-          "rawSql": "SELECT convert_km((percentile_disc(0.5) WITHIN GROUP (ORDER BY distance))::numeric, '$length_unit') as \"distance_$length_unit\"\nFROM drives\nWHERE car_id = $car_id AND $__timeFilter(start_date);",
-          "refId": "A",
-          "select": [
-            [
-              {
-                "params": [
-                  "latitude"
-                ],
-                "type": "column"
-              }
-            ]
-          ],
-          "table": "addresses",
-          "timeColumn": "inserted_at",
-          "timeColumnType": "timestamp",
-          "where": [
-            {
-              "name": "$__timeFilter",
-              "params": [],
-              "type": "macro"
-            }
-          ]
-        }
-      ],
-      "title": "Median distance of a drive",
-      "type": "stat"
-    },
-    {
-      "datasource": "TeslaMate",
-      "fieldConfig": {
-        "defaults": {
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "#c7d0d9",
-                "value": null
-              }
-            ]
-          },
-          "unit": "none"
-        },
-        "overrides": [
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "distance_km"
-            },
-            "properties": [
-              {
-                "id": "unit",
-                "value": "lengthkm"
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "distance_mi"
-            },
-            "properties": [
-              {
-                "id": "unit",
-                "value": "mi"
-              }
-            ]
-          }
-        ]
-      },
-      "gridPos": {
-        "h": 3,
-        "w": 6,
-        "x": 5,
-        "y": 0
-      },
-      "id": 21,
-      "links": [],
-      "maxDataPoints": 100,
-      "options": {
-        "colorMode": "value",
-        "fieldOptions": {
-          "calcs": [
-            "mean"
-          ]
-        },
-        "graphMode": "none",
-        "justifyMode": "auto",
-        "orientation": "horizontal",
-        "reduceOptions": {
-          "calcs": [
-            "mean"
-          ],
-          "fields": "",
-          "values": false
-        },
-        "textMode": "value"
-      },
-      "pluginVersion": "8.5.15",
-      "targets": [
-        {
-          "format": "table",
-          "group": [],
-          "metricColumn": "none",
-          "rawQuery": true,
-          "rawSql": "WITH since as (\n\tSELECT date FROM positions\n\tWHERE car_id = $car_id\n\tORDER BY date ASC\n\tLIMIT 1\n),\nactual AS (\n\tSELECT\n\t\tdate_trunc('day', start_date)::date AS date,\n\t\tsum(distance) AS distance\n\tFROM drives\n\tWHERE car_id = $car_id\n\tGROUP BY 1\n),\nbase_line AS (\n\tSELECT date_trunc('day', dd)::date AS date\n  FROM generate_series((select date from since), NOW(), '1 day'::interval) dd\n),\ncombined as (\n  SELECT base_line.date, COALESCE(actual.distance, 0) as distance\n  FROM base_line\n  LEFT JOIN actual ON actual.date = base_line.date\n  WHERE $__timeFilter(base_line.date)\n)\nSELECT convert_km((percentile_disc(0.5) WITHIN GROUP (ORDER BY distance))::numeric, '$length_unit') AS \"distance_$length_unit\"\nFROM combined;",
-          "refId": "A",
-          "select": [
-            [
-              {
-                "params": [
-                  "efficiency"
-                ],
-                "type": "column"
-              }
-            ]
-          ],
-          "table": "cars",
-          "timeColumn": "inserted_at",
-          "timeColumnType": "timestamp",
-          "where": [
-            {
-              "name": "$__timeFilter",
-              "params": [],
-              "type": "macro"
-            }
-          ]
-        }
-      ],
-      "title": "Median distance driven per day",
-      "type": "stat"
-    },
-    {
-      "datasource": "TeslaMate",
-      "fieldConfig": {
-        "defaults": {
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "#c7d0d9",
-                "value": null
-              }
-            ]
-          },
-          "unit": "none"
-        },
-        "overrides": [
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "mileage_km"
-            },
-            "properties": [
-              {
-                "id": "unit",
-                "value": "km"
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "mileage_mi"
-            },
-            "properties": [
-              {
-                "id": "unit",
-                "value": "mi"
-              }
-            ]
-          }
-        ]
-      },
-      "gridPos": {
-        "h": 3,
-        "w": 6,
-        "x": 11,
-        "y": 0
-      },
-      "id": 23,
-      "links": [],
-      "maxDataPoints": 100,
-      "options": {
-        "colorMode": "value",
-        "fieldOptions": {
-          "calcs": [
-            "lastNotNull"
-          ]
-        },
-        "graphMode": "none",
-        "justifyMode": "auto",
-        "orientation": "horizontal",
-        "reduceOptions": {
-          "calcs": [
-            "mean"
-          ],
-          "fields": "",
-          "values": false
-        },
-        "textMode": "value"
-      },
-      "pluginVersion": "8.5.15",
-      "targets": [
-        {
-          "format": "table",
-          "group": [],
-          "metricColumn": "none",
-          "rawQuery": true,
-          "rawSql": "WITH first_position AS (\n\tSELECT date, odometer\n\tFROM positions\n\tWHERE car_id = $car_id AND $__timeFilter(date)\n\tORDER BY date ASC\n\tLIMIT 1\n),\nlast_position AS (\n\tSELECT date, odometer\n\tFROM positions\n\tWHERE car_id = $car_id AND $__timeFilter(date)\n\tORDER BY date DESC\n\tLIMIT 1\n)\nSELECT\n\tconvert_km((((SELECT odometer FROM last_position) - (SELECT odometer\tFROM first_position)) /\n\tEXTRACT(days FROM (SELECT date FROM last_position) - (SELECT date\tFROM first_position)) * \n\t(365/12))::numeric, '$length_unit') AS \"mileage_$length_unit\";",
-          "refId": "A",
-          "select": [
-            [
-              {
-                "params": [
-                  "latitude"
-                ],
-                "type": "column"
-              }
-            ]
-          ],
-          "table": "addresses",
-          "timeColumn": "inserted_at",
-          "timeColumnType": "timestamp",
-          "where": [
-            {
-              "name": "$__timeFilter",
-              "params": [],
-              "type": "macro"
-            }
-          ]
-        }
-      ],
-      "title": "Extrapolated monthly mileage",
-      "type": "stat"
-    },
-    {
-      "datasource": "TeslaMate",
-      "fieldConfig": {
-        "defaults": {
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "#c7d0d9",
-                "value": null
-              }
-            ]
-          },
-          "unit": "none"
-        },
-        "overrides": [
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "mileage_km"
-            },
-            "properties": [
-              {
-                "id": "unit",
-                "value": "km"
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "mileage_mi"
-            },
-            "properties": [
-              {
-                "id": "unit",
-                "value": "mi"
-              }
-            ]
-          }
-        ]
-      },
-      "gridPos": {
-        "h": 3,
-        "w": 7,
-        "x": 17,
-        "y": 0
-      },
-      "id": 25,
-      "links": [],
-      "maxDataPoints": 100,
-      "options": {
-        "colorMode": "value",
-        "fieldOptions": {
-          "calcs": [
-            "lastNotNull"
-          ]
-        },
-        "graphMode": "none",
-        "justifyMode": "auto",
-        "orientation": "horizontal",
-        "reduceOptions": {
-          "calcs": [
-            "mean"
-          ],
-          "fields": "",
-          "values": false
-        },
-        "textMode": "value"
-      },
-      "pluginVersion": "8.5.15",
-      "targets": [
-        {
-          "format": "table",
-          "group": [],
-          "metricColumn": "none",
-          "rawQuery": true,
-          "rawSql": "WITH first_position AS (\n\tSELECT date, odometer\n\tFROM positions\n\tWHERE car_id = $car_id AND $__timeFilter(date)\n\tORDER BY date ASC\n\tLIMIT 1\n),\nlast_position AS (\n\tSELECT date, odometer\n\tFROM positions\n\tWHERE car_id = $car_id AND $__timeFilter(date)\n\tORDER BY date DESC\n\tLIMIT 1\n)\nSELECT\n\tconvert_km(((lp.odometer - fp.odometer) /\n\tEXTRACT(days FROM lp.date - fp.date) * \n\t365)::numeric, '$length_unit') AS \"mileage_$length_unit\" from first_position as fp, last_position as lp;",
-          "refId": "A",
-          "select": [
-            [
-              {
-                "params": [
-                  "latitude"
-                ],
-                "type": "column"
-              }
-            ]
-          ],
-          "table": "addresses",
-          "timeColumn": "inserted_at",
-          "timeColumnType": "timestamp",
-          "where": [
-            {
-              "name": "$__timeFilter",
-              "params": [],
-              "type": "macro"
-            }
-          ]
-        }
-      ],
-      "title": "Extrapolated annual mileage",
-      "type": "stat"
-    },
     {
       "datasource": "TeslaMate",
       "fieldConfig": {
@@ -671,10 +241,10 @@
         ]
       },
       "gridPos": {
-        "h": 18,
-        "w": 9,
+        "h": 19,
+        "w": 10,
         "x": 0,
-        "y": 3
+        "y": 0
       },
       "id": 4,
       "options": {
@@ -695,7 +265,7 @@
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "WITH ranges AS (\n\tSELECT end_date, COALESCE(LAG(start_date) OVER(ORDER BY start_date DESC), now()) AS next_start_date \n\tFROM charging_processes\n\tWHERE \n\t\tcar_id = $car_id\n\t\tAND $__timeFilter(start_date)\n), data AS (\n\tSELECT \n\t\tr.end_date AS date, \n\t\tMAX(p.odometer) - MIN(p.odometer) AS distance,\n\t\tMAX(p.battery_level) AS max_battery_level, \n\t\tMIN(p.battery_level) AS min_battery_level\n\tFROM positions p\n\tINNER JOIN ranges r ON p.date BETWEEN r.end_date AND r.next_start_date\n\tWHERE \n\t\tcar_id = 1\n\tGROUP BY 1\n), res AS (\n\tSELECT\n\t\t(round(extract(epoch FROM r.end_date) - 10) * 1000) AS start_date_ts,\n\t\t(round(extract(epoch FROM r.next_start_date) + 10) * 1000) AS end_date_ts,\n\t\tr.end_date AS date,\n\t\tr.next_start_date AS next_start_date,\n\t\t(dat.distance / (SUM(d.duration_min)::numeric / 60)) AS avg_speed,\n\t\t(max_battery_level - min_battery_level) AS battery_needed,\n\t\tdat.distance AS distance,\n\t\t((dat.distance::decimal * 100) / (max_battery_level - min_battery_level)) AS max_distance\n\tFROM \n\t\tdrives d\n\tINNER JOIN ranges r ON d.start_date BETWEEN r.end_date AND r.next_start_date\n\tINNER JOIN data dat ON r.end_date = dat.date\n\tWHERE \n\t\td.car_id = $car_id\n\tGROUP BY 1, 2, 3, 4, 6, 7\n\tHAVING \n\t\tSUM(d.distance) > 0\n\t\tAND (max_battery_level - min_battery_level) > 0\n\tORDER BY distance DESC\n\tLIMIT 17\n)\nSELECT\n\tstart_date_ts,\n\tend_date_ts,\n\tdate,\n\tnext_start_date,\n\tconvert_km(avg_speed::numeric, '$length_unit') AS avg_speed_[[length_unit]]h,\n\tbattery_needed,\n\tconvert_km(distance::numeric, '$length_unit') AS distance,\n\tconvert_km(max_distance::numeric, '$length_unit') AS max_distance\nFROM res",
+          "rawSql": "WITH ranges AS (\n\tSELECT end_date, COALESCE(LAG(start_date) OVER(ORDER BY start_date DESC), now()) AS next_start_date \n\tFROM charging_processes\n\tWHERE \n\t\tcar_id = $car_id\n\t\tAND $__timeFilter(start_date)\n), data AS (\n\tSELECT \n\t\tr.end_date AS date, \n\t\tMAX(p.odometer) - MIN(p.odometer) AS distance,\n\t\tMAX(p.battery_level) AS max_battery_level, \n\t\tMIN(p.battery_level) AS min_battery_level\n\tFROM positions p\n\tINNER JOIN ranges r ON p.date BETWEEN r.end_date AND r.next_start_date\n\tWHERE \n\t\tcar_id = 1\n\tGROUP BY 1\n), res AS (\n\tSELECT\n\t\t(round(extract(epoch FROM r.end_date) - 10) * 1000) AS start_date_ts,\n\t\t(round(extract(epoch FROM r.next_start_date) + 10) * 1000) AS end_date_ts,\n\t\tr.end_date AS date,\n\t\tr.next_start_date AS next_start_date,\n\t\t(dat.distance / (SUM(d.duration_min)::numeric / 60)) AS avg_speed,\n\t\t(max_battery_level - min_battery_level) AS battery_needed,\n\t\tdat.distance AS distance,\n\t\t((dat.distance::decimal * 100) / (max_battery_level - min_battery_level)) AS max_distance\n\tFROM \n\t\tdrives d\n\tINNER JOIN ranges r ON d.start_date BETWEEN r.end_date AND r.next_start_date\n\tINNER JOIN data dat ON r.end_date = dat.date\n\tWHERE \n\t\td.car_id = $car_id\n\tGROUP BY 1, 2, 3, 4, 6, 7\n\tHAVING \n\t\tSUM(d.distance) > 0\n\t\tAND (max_battery_level - min_battery_level) > 0\n\tORDER BY distance DESC\n\tLIMIT 18\n)\nSELECT\n\tstart_date_ts,\n\tend_date_ts,\n\tdate,\n\tnext_start_date,\n\tconvert_km(avg_speed::numeric, '$length_unit') AS avg_speed_[[length_unit]]h,\n\tbattery_needed,\n\tconvert_km(distance::numeric, '$length_unit') AS distance,\n\tconvert_km(max_distance::numeric, '$length_unit') AS max_distance\nFROM res",
           "refId": "A",
           "select": [
             [
@@ -719,6 +289,808 @@
       ],
       "title": "Max distance traveled between recharges",
       "type": "table"
+    },
+    {
+      "datasource": "TeslaMate",
+      "gridPos": {
+        "h": 1,
+        "w": 4,
+        "x": 10,
+        "y": 0
+      },
+      "id": 31,
+      "options": {
+        "content": "",
+        "mode": "markdown"
+      },
+      "pluginVersion": "8.5.15",
+      "targets": [
+        {
+          "datasource": "TeslaMate",
+          "format": "time_series",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": false,
+          "rawSql": "SELECT\n  inserted_at AS \"time\",\n  efficiency\nFROM cars\nWHERE\n  $__timeFilter(inserted_at)\nORDER BY 1",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "efficiency"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "table": "cars",
+          "timeColumn": "inserted_at",
+          "timeColumnType": "timestamp",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "title": "Info",
+      "transparent": true,
+      "type": "text"
+    },
+    {
+      "datasource": "TeslaMate",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "continuous-GrYlRd"
+          },
+          "custom": {
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "axisSoftMin": 0,
+            "fillOpacity": 80,
+            "gradientMode": "scheme",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineWidth": 1,
+            "scaleDistribution": {
+              "type": "linear"
+            }
+          },
+          "decimals": 0,
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+              }
+              }
+            ]
+          }
+            ]
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 10,
+        "x": 14,
+        "y": 0
+      },
+      "id": 14,
+      "options": {
+        "barRadius": 0,
+        "barWidth": 0.82,
+        "groupWidth": 0.7,
+        "legend": {
+          "calcs": [],
+          "displayMode": "hidden",
+          "placement": "bottom"
+        },
+        "orientation": "auto",
+        "showValue": "auto",
+        "stacking": "none",
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        },
+        "xTickLabelRotation": -45,
+        "xTickLabelSpacing": 0
+      },
+      "targets": [
+        {
+          "datasource": "TeslaMate",
+          "format": "table",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "SELECT to_char(end_date,'YYYY-MM') as \"Date\",\r\n       convert_km((SUM(distance))::numeric, '$length_unit') as \"Distance\"\r\nFROM drives\r\nWHERE \r\n  end_date BETWEEN (date_trunc('month', now()) - interval '11 month') AND NOW()\r\n  AND car_id = $car_id\r\nGROUP BY 1\r\nORDER BY 1;",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "efficiency"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "table": "cars",
+          "timeColumn": "inserted_at",
+          "timeColumnType": "timestamp",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "title": "Last 12 months",
+      "type": "barchart"
+    },
+    {
+      "datasource": "TeslaMate",
+      "fieldConfig": {
+        "defaults": {
+          "mappings": [
+            {
+              "options": {
+                "match": "null",
+                "result": {
+                  "text": "N/A"
+                }
+              },
+              "type": "special"
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "#c7d0d9",
+                "value": null
+              }
+            ]
+          },
+          "unit": "none"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "distance_km"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "lengthkm"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "distance_mi"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "mi"
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 4,
+        "x": 10,
+        "y": 1
+      },
+      "id": 19,
+      "links": [],
+      "maxDataPoints": 100,
+      "options": {
+        "colorMode": "value",
+        "fieldOptions": {
+          "calcs": [
+            "mean"
+          ]
+        },
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "mean"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "value"
+      },
+      "pluginVersion": "8.5.15",
+      "targets": [
+        {
+          "format": "table",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "SELECT convert_km((percentile_disc(0.5) WITHIN GROUP (ORDER BY distance))::numeric, '$length_unit') as \"distance_$length_unit\"\nFROM drives\nWHERE car_id = $car_id AND $__timeFilter(start_date);",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "latitude"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "table": "addresses",
+          "timeColumn": "inserted_at",
+          "timeColumnType": "timestamp",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "title": "Median distance of a drive",
+      "type": "stat"
+    },
+    {
+      "datasource": "TeslaMate",
+      "fieldConfig": {
+        "defaults": {
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "#c7d0d9",
+                "value": null
+              }
+            ]
+          },
+          "unit": "none"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "distance_km"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "lengthkm"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "distance_mi"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "mi"
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 4,
+        "x": 10,
+        "y": 4
+      },
+      "id": 21,
+      "links": [],
+      "maxDataPoints": 100,
+      "options": {
+        "colorMode": "value",
+        "fieldOptions": {
+          "calcs": [
+            "mean"
+          ]
+        },
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "mean"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "value"
+      },
+      "pluginVersion": "8.5.15",
+      "targets": [
+        {
+          "format": "table",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "WITH since as (\n\tSELECT date FROM positions\n\tWHERE car_id = $car_id\n\tORDER BY date ASC\n\tLIMIT 1\n),\nactual AS (\n\tSELECT\n\t\tdate_trunc('day', start_date)::date AS date,\n\t\tsum(distance) AS distance\n\tFROM drives\n\tWHERE car_id = $car_id\n\tGROUP BY 1\n),\nbase_line AS (\n\tSELECT date_trunc('day', dd)::date AS date\n  FROM generate_series((select date from since), NOW(), '1 day'::interval) dd\n),\ncombined as (\n  SELECT base_line.date, COALESCE(actual.distance, 0) as distance\n  FROM base_line\n  LEFT JOIN actual ON actual.date = base_line.date\n  WHERE $__timeFilter(base_line.date)\n)\nSELECT convert_km((percentile_disc(0.5) WITHIN GROUP (ORDER BY distance))::numeric, '$length_unit') AS \"distance_$length_unit\"\nFROM combined;",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "efficiency"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "table": "cars",
+          "timeColumn": "inserted_at",
+          "timeColumnType": "timestamp",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "title": "Median distance driven per day",
+      "type": "stat"
+    },
+    {
+      "datasource": "TeslaMate",
+      "fieldConfig": {
+        "defaults": {
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "#c7d0d9",
+                "value": null
+              }
+            ]
+          },
+          "unit": "none"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "mileage_km"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "km"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "mileage_mi"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "mi"
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 4,
+        "x": 10,
+        "y": 7
+      },
+      "id": 23,
+      "links": [],
+      "maxDataPoints": 100,
+      "options": {
+        "colorMode": "value",
+        "fieldOptions": {
+          "calcs": [
+            "lastNotNull"
+          ]
+        },
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "mean"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "value"
+      },
+      "pluginVersion": "8.5.15",
+      "targets": [
+        {
+          "format": "table",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "WITH first_position AS (\n\tSELECT date, odometer\n\tFROM positions\n\tWHERE car_id = $car_id AND $__timeFilter(date)\n\tORDER BY date ASC\n\tLIMIT 1\n),\nlast_position AS (\n\tSELECT date, odometer\n\tFROM positions\n\tWHERE car_id = $car_id AND $__timeFilter(date)\n\tORDER BY date DESC\n\tLIMIT 1\n)\nSELECT\n\tconvert_km((((SELECT odometer FROM last_position) - (SELECT odometer\tFROM first_position)) /\n\tEXTRACT(days FROM (SELECT date FROM last_position) - (SELECT date\tFROM first_position)) * \n\t(365/12))::numeric, '$length_unit') AS \"mileage_$length_unit\";",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "latitude"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "table": "addresses",
+          "timeColumn": "inserted_at",
+          "timeColumnType": "timestamp",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "title": "Extrapolated monthly mileage",
+      "type": "stat"
+    },
+    {
+      "datasource": "TeslaMate",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "continuous-GrYlRd"
+          },
+          "custom": {
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "axisSoftMin": 0,
+            "fillOpacity": 80,
+            "gradientMode": "scheme",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineWidth": 1,
+            "scaleDistribution": {
+              "type": "linear"
+            }
+          },
+          "decimals": 0,
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "month_number"
+            },
+            "properties": [
+              {
+                "id": "custom.hideFrom",
+                "value": {
+                  "legend": true,
+                  "tooltip": true,
+                  "viz": true
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 10,
+        "x": 14,
+        "y": 7
+      },
+      "id": 26,
+      "options": {
+        "barRadius": 0,
+        "barWidth": 0.82,
+        "groupWidth": 0.7,
+        "legend": {
+          "calcs": [],
+          "displayMode": "hidden",
+          "placement": "bottom"
+        },
+        "orientation": "auto",
+        "showValue": "always",
+        "stacking": "none",
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        },
+        "xField": "Month",
+        "xTickLabelRotation": -45,
+        "xTickLabelSpacing": 0
+      },
+      "targets": [
+        {
+          "datasource": "TeslaMate",
+          "format": "table",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "WITH data AS (\n\tSELECT to_char(end_date,'MM') as \"month_n\",\n\t\tto_char(end_date,'YY') as \"year_n\",\n       to_char(end_date,'Month') as \"month\",\n       SUM(distance)::numeric as \"distance\"\n\tFROM drives\n\tWHERE \n\t  car_id = $car_id\n\t  AND distance > 0\n\tGROUP BY 1, 2, 3\n\tORDER BY 1\n)\nSELECT \n\td.month_n as \"month_number\",\n\td.month as \"Month\",\n\tconvert_km(AVG(d.distance)::numeric, '$length_unit') as \"Distance\"\nFROM data d\nGROUP BY 1, 2\nORDER BY 1 ASC",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "efficiency"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "table": "cars",
+          "timeColumn": "inserted_at",
+          "timeColumnType": "timestamp",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "title": "Average distance per month",
+      "transformations": [],
+      "type": "barchart"
+    },
+    {
+      "datasource": "TeslaMate",
+      "fieldConfig": {
+        "defaults": {
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "#c7d0d9",
+                "value": null
+              }
+            ]
+          },
+          "unit": "none"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "mileage_km"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "km"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "mileage_mi"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "mi"
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 4,
+        "x": 10,
+        "y": 10
+      },
+      "id": 25,
+      "links": [],
+      "maxDataPoints": 100,
+      "options": {
+        "colorMode": "value",
+        "fieldOptions": {
+          "calcs": [
+            "lastNotNull"
+          ]
+        },
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "mean"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "value"
+      },
+      "pluginVersion": "8.5.15",
+      "targets": [
+        {
+          "format": "table",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "WITH first_position AS (\n\tSELECT date, odometer\n\tFROM positions\n\tWHERE car_id = $car_id AND $__timeFilter(date)\n\tORDER BY date ASC\n\tLIMIT 1\n),\nlast_position AS (\n\tSELECT date, odometer\n\tFROM positions\n\tWHERE car_id = $car_id AND $__timeFilter(date)\n\tORDER BY date DESC\n\tLIMIT 1\n)\nSELECT\n\tconvert_km(((lp.odometer - fp.odometer) /\n\tEXTRACT(days FROM lp.date - fp.date) * \n\t365)::numeric, '$length_unit') AS \"mileage_$length_unit\" from first_position as fp, last_position as lp;",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "latitude"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "table": "addresses",
+          "timeColumn": "inserted_at",
+          "timeColumnType": "timestamp",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "title": "Extrapolated annual mileage",
+      "type": "stat"
+    },
+    {
+      "datasource": "TeslaMate",
+      "fieldConfig": {
+        "defaults": {
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "#c7d0d9",
+                "value": null
+              }
+            ]
+          },
+          "unit": "none"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "avg_speed_kmh"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "velocitykmh"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "avg_speed_mih"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "mi/h"
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 4,
+        "x": 10,
+        "y": 13
+      },
+      "id": 28,
+      "links": [],
+      "maxDataPoints": 100,
+      "options": {
+        "colorMode": "value",
+        "fieldOptions": {
+          "calcs": [
+            "lastNotNull"
+          ]
+        },
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "mean"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "value"
+      },
+      "pluginVersion": "8.5.15",
+      "targets": [
+        {
+          "datasource": "TeslaMate",
+          "format": "table",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "WITH data AS (\n\tSELECT \n\t\tdistance / ((round(extract(epoch FROM end_date)) - round(extract(epoch FROM start_date))) / 3600) AS avg_speed\n\tFROM drives\n\tWHERE \n\t\tdistance > 1\n\t\tAND car_id = $car_id\n\tORDER BY start_date DESC\n\tLIMIT 10\n)\nSELECT convert_km(AVG(avg_speed)::numeric, '$length_unit') AS avg_speed_[[length_unit]]h\nFROM data",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "latitude"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "table": "addresses",
+          "timeColumn": "inserted_at",
+          "timeColumnType": "timestamp",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "title": "AVG speed - Last 10 drives",
+      "type": "stat"
     },
     {
       "datasource": "TeslaMate",
@@ -759,12 +1131,12 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 18,
-        "w": 5,
-        "x": 9,
-        "y": 3
+        "h": 5,
+        "w": 10,
+        "x": 14,
+        "y": 14
       },
-      "id": 16,
+      "id": 29,
       "options": {
         "barRadius": 0,
         "barWidth": 0.8,
@@ -774,14 +1146,14 @@
           "displayMode": "hidden",
           "placement": "bottom"
         },
-        "orientation": "horizontal",
+        "orientation": "vertical",
         "showValue": "auto",
         "stacking": "none",
         "tooltip": {
           "mode": "single",
           "sort": "none"
         },
-        "xTickLabelRotation": 0,
+        "xTickLabelRotation": -45,
         "xTickLabelSpacing": 0
       },
       "targets": [
@@ -791,7 +1163,7 @@
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "SELECT to_char(end_date,'YYYY') as \"Year\",\r\n       convert_km((sum(distance))::numeric, '$length_unit') as \"Distance\"\r\nFROM drives\r\nWHERE \r\n  car_id = $car_id\r\nGROUP BY 1\r\nORDER BY 1 DESC;",
+          "rawSql": "SELECT to_char(end_date,'YYYY') as \"Year\",\r\n       convert_km((sum(distance))::numeric, '$length_unit') as \"Distance\"\r\nFROM drives\r\nWHERE \r\n  car_id = $car_id\r\nGROUP BY 1\r\nORDER BY 1 ASC;",
           "refId": "A",
           "select": [
             [
@@ -863,9 +1235,9 @@
       },
       "gridPos": {
         "h": 3,
-        "w": 5,
-        "x": 14,
-        "y": 3
+        "w": 4,
+        "x": 10,
+        "y": 16
       },
       "id": 27,
       "links": [],
@@ -923,325 +1295,6 @@
       ],
       "title": "AVG speed",
       "type": "stat"
-    },
-    {
-      "datasource": "TeslaMate",
-      "fieldConfig": {
-        "defaults": {
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "#c7d0d9",
-                "value": null
-              }
-            ]
-          },
-          "unit": "none"
-        },
-        "overrides": [
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "avg_speed_kmh"
-            },
-            "properties": [
-              {
-                "id": "unit",
-                "value": "velocitykmh"
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "avg_speed_mih"
-            },
-            "properties": [
-              {
-                "id": "unit",
-                "value": "mi/h"
-              }
-            ]
-          }
-        ]
-      },
-      "gridPos": {
-        "h": 3,
-        "w": 5,
-        "x": 19,
-        "y": 3
-      },
-      "id": 28,
-      "links": [],
-      "maxDataPoints": 100,
-      "options": {
-        "colorMode": "value",
-        "fieldOptions": {
-          "calcs": [
-            "lastNotNull"
-          ]
-        },
-        "graphMode": "none",
-        "justifyMode": "auto",
-        "orientation": "horizontal",
-        "reduceOptions": {
-          "calcs": [
-            "mean"
-          ],
-          "fields": "",
-          "values": false
-        },
-        "textMode": "value"
-      },
-      "pluginVersion": "8.5.15",
-      "targets": [
-        {
-          "datasource": "TeslaMate",
-          "format": "table",
-          "group": [],
-          "metricColumn": "none",
-          "rawQuery": true,
-          "rawSql": "WITH data AS (\n\tSELECT \n\t\tdistance / ((round(extract(epoch FROM end_date)) - round(extract(epoch FROM start_date))) / 3600) AS avg_speed\n\tFROM drives\n\tWHERE \n\t\tdistance > 1\n\t\tAND car_id = $car_id\n\tORDER BY start_date DESC\n\tLIMIT 10\n)\nSELECT convert_km(AVG(avg_speed)::numeric, '$length_unit') AS avg_speed_[[length_unit]]h\nFROM data",
-          "refId": "A",
-          "select": [
-            [
-              {
-                "params": [
-                  "latitude"
-                ],
-                "type": "column"
-              }
-            ]
-          ],
-          "table": "addresses",
-          "timeColumn": "inserted_at",
-          "timeColumnType": "timestamp",
-          "where": [
-            {
-              "name": "$__timeFilter",
-              "params": [],
-              "type": "macro"
-            }
-          ]
-        }
-      ],
-      "title": "AVG speed - Last 10 drives",
-      "type": "stat"
-    },
-    {
-      "datasource": "TeslaMate",
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "continuous-GrYlRd"
-          },
-          "custom": {
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "axisSoftMin": 0,
-            "fillOpacity": 80,
-            "gradientMode": "scheme",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "lineWidth": 1,
-            "scaleDistribution": {
-              "type": "linear"
-            }
-          },
-          "decimals": 0,
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              }
-            ]
-          }
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 7,
-        "w": 10,
-        "x": 14,
-        "y": 6
-      },
-      "id": 14,
-      "options": {
-        "barRadius": 0,
-        "barWidth": 0.82,
-        "groupWidth": 0.7,
-        "legend": {
-          "calcs": [],
-          "displayMode": "hidden",
-          "placement": "bottom"
-        },
-        "orientation": "auto",
-        "showValue": "auto",
-        "stacking": "none",
-        "tooltip": {
-          "mode": "single",
-          "sort": "none"
-        },
-        "xTickLabelRotation": -45,
-        "xTickLabelSpacing": 0
-      },
-      "targets": [
-        {
-          "datasource": "TeslaMate",
-          "format": "table",
-          "group": [],
-          "metricColumn": "none",
-          "rawQuery": true,
-          "rawSql": "SELECT to_char(end_date,'YYYY-MM') as \"Date\",\r\n       convert_km((SUM(distance))::numeric, '$length_unit') as \"Distance\"\r\nFROM drives\r\nWHERE \r\n  end_date BETWEEN (date_trunc('month', now()) - interval '11 month') AND NOW()\r\n  AND car_id = $car_id\r\nGROUP BY 1\r\nORDER BY 1;",
-          "refId": "A",
-          "select": [
-            [
-              {
-                "params": [
-                  "efficiency"
-                ],
-                "type": "column"
-              }
-            ]
-          ],
-          "table": "cars",
-          "timeColumn": "inserted_at",
-          "timeColumnType": "timestamp",
-          "where": [
-            {
-              "name": "$__timeFilter",
-              "params": [],
-              "type": "macro"
-            }
-          ]
-        }
-      ],
-      "title": "Last 12 months",
-      "type": "barchart"
-    },
-    {
-      "datasource": "TeslaMate",
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "continuous-GrYlRd"
-          },
-          "custom": {
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "axisSoftMin": 0,
-            "fillOpacity": 80,
-            "gradientMode": "scheme",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "lineWidth": 1,
-            "scaleDistribution": {
-              "type": "linear"
-            }
-          },
-          "decimals": 0,
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              }
-            ]
-          }
-        },
-        "overrides": [
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "month_number"
-            },
-            "properties": [
-              {
-                "id": "custom.hideFrom",
-                "value": {
-                  "legend": true,
-                  "tooltip": true,
-                  "viz": true
-                }
-              }
-            ]
-          }
-        ]
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 10,
-        "x": 14,
-        "y": 13
-      },
-      "id": 26,
-      "options": {
-        "barRadius": 0,
-        "barWidth": 0.82,
-        "groupWidth": 0.7,
-        "legend": {
-          "calcs": [],
-          "displayMode": "hidden",
-          "placement": "bottom"
-        },
-        "orientation": "auto",
-        "showValue": "always",
-        "stacking": "none",
-        "tooltip": {
-          "mode": "single",
-          "sort": "none"
-        },
-        "xField": "Month",
-        "xTickLabelRotation": -45,
-        "xTickLabelSpacing": 0
-      },
-      "targets": [
-        {
-          "datasource": "TeslaMate",
-          "format": "table",
-          "group": [],
-          "metricColumn": "none",
-          "rawQuery": true,
-          "rawSql": "WITH data AS (\n\tSELECT to_char(end_date,'MM') as \"month_n\",\n\t\tto_char(end_date,'YY') as \"year_n\",\n       to_char(end_date,'Month') as \"month\",\n       SUM(distance)::numeric as \"distance\"\n\tFROM drives\n\tWHERE \n\t  car_id = $car_id\n\t  AND distance > 0\n\tGROUP BY 1, 2, 3\n\tORDER BY 1\n)\nSELECT \n\td.month_n as \"month_number\",\n\td.month as \"Month\",\n\tconvert_km(AVG(d.distance)::numeric, '$length_unit') as \"Distance\"\nFROM data d\nGROUP BY 1, 2\nORDER BY 1 ASC",
-          "refId": "A",
-          "select": [
-            [
-              {
-                "params": [
-                  "efficiency"
-                ],
-                "type": "column"
-              }
-            ]
-          ],
-          "table": "cars",
-          "timeColumn": "inserted_at",
-          "timeColumnType": "timestamp",
-          "where": [
-            {
-              "name": "$__timeFilter",
-              "params": [],
-              "type": "macro"
-            }
-          ]
-        }
-      ],
-      "title": "Average distance per month",
-      "transformations": [],
-      "type": "barchart"
     }
   ],
   "refresh": false,
