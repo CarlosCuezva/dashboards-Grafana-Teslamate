@@ -21,7 +21,7 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "iteration": 1680108159054,
+  "iteration": 1680335428917,
   "links": [
     {
       "asDropdown": false,
@@ -122,7 +122,7 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 18,
+        "h": 19,
         "w": 13,
         "x": 0,
         "y": 0
@@ -272,6 +272,91 @@
           "color": {
             "mode": "thresholds"
           },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "#EAB839",
+                "value": 1200
+              },
+              {
+                "color": "red",
+                "value": 1500
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 3,
+        "x": 16,
+        "y": 0
+      },
+      "id": 21,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "8.5.15",
+      "targets": [
+        {
+          "datasource": "TeslaMate",
+          "format": "table",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "WITH charge AS (\n  SELECT\n  \tsum(charge_energy_added) AS total_energy\n  FROM\n  \tcharging_processes\n  WHERE\n  \tcar_id = $car_id\n)\n\nSELECT  \n  total_energy / ($battery_capacity * (1 + ($degradation / 100))) AS ciclos\nFROM charge",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "efficiency"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "table": "cars",
+          "timeColumn": "inserted_at",
+          "timeColumnType": "timestamp",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "title": "Complete battery cycles",
+      "type": "stat"
+    },
+    {
+      "datasource": "TeslaMate",
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
           "decimals": 1,
           "mappings": [],
           "max": 100,
@@ -299,8 +384,8 @@
       },
       "gridPos": {
         "h": 3,
-        "w": 8,
-        "x": 16,
+        "w": 5,
+        "x": 19,
         "y": 0
       },
       "id": 11,
@@ -598,9 +683,6 @@
       "datasource": "TeslaMate",
       "fieldConfig": {
         "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
           "decimals": 1,
           "mappings": [
             {
@@ -622,13 +704,13 @@
               }
             ]
           },
-          "unit": "kwatth"
+          "unit": "none"
         },
         "overrides": [
           {
             "matcher": {
               "id": "byName",
-              "options": "range_km"
+              "options": "max_range_km"
             },
             "properties": [
               {
@@ -640,7 +722,7 @@
           {
             "matcher": {
               "id": "byName",
-              "options": "range_mi"
+              "options": "max_range_mi"
             },
             "properties": [
               {
@@ -657,7 +739,7 @@
         "x": 21,
         "y": 3
       },
-      "id": 7,
+      "id": 6,
       "links": [],
       "maxDataPoints": 100,
       "options": {
@@ -672,7 +754,7 @@
         "orientation": "horizontal",
         "reduceOptions": {
           "calcs": [
-            "lastNotNull"
+            "mean"
           ],
           "fields": "",
           "values": false
@@ -683,11 +765,11 @@
       "targets": [
         {
           "datasource": "TeslaMate",
-          "format": "table",
+          "format": "time_series",
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "SELECT  \n  $battery_capacity AS battery_capacity",
+          "rawSql": "SELECT $__time(date), (range * 100.0 / battery_level) as \"max_range_$length_unit\"\nFROM (\n\t(SELECT date, convert_km(rated_battery_range_km, '$length_unit') AS range, usable_battery_level as battery_level\n\tFROM positions\n\tWHERE car_id = $car_id AND rated_battery_range_km IS NOT NULL\n  ORDER BY date DESC\n\tLIMIT 1)\n\tUNION ALL\n\t(SELECT date, convert_km([[preferred_range]]_battery_range_km, '$length_unit') AS range, usable_battery_level as battery_level\n\tFROM charges c\n\tJOIN charging_processes p ON p.id = c.charging_process_id\n\tWHERE p.car_id = $car_id\n\tORDER BY date DESC\n\tLIMIT 1)\n) AS data\nORDER BY date DESC\nLIMIT 1;",
           "refId": "A",
           "select": [
             [
@@ -709,7 +791,7 @@
           ]
         }
       ],
-      "title": "Current battery capacity",
+      "title": "Current MAX range",
       "type": "stat"
     },
     {
@@ -852,6 +934,9 @@
       "datasource": "TeslaMate",
       "fieldConfig": {
         "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
           "decimals": 1,
           "mappings": [
             {
@@ -873,13 +958,13 @@
               }
             ]
           },
-          "unit": "none"
+          "unit": "kwatth"
         },
         "overrides": [
           {
             "matcher": {
               "id": "byName",
-              "options": "max_range_km"
+              "options": "range_km"
             },
             "properties": [
               {
@@ -891,7 +976,7 @@
           {
             "matcher": {
               "id": "byName",
-              "options": "max_range_mi"
+              "options": "range_mi"
             },
             "properties": [
               {
@@ -908,7 +993,7 @@
         "x": 21,
         "y": 6
       },
-      "id": 6,
+      "id": 7,
       "links": [],
       "maxDataPoints": 100,
       "options": {
@@ -923,7 +1008,7 @@
         "orientation": "horizontal",
         "reduceOptions": {
           "calcs": [
-            "mean"
+            "lastNotNull"
           ],
           "fields": "",
           "values": false
@@ -934,11 +1019,11 @@
       "targets": [
         {
           "datasource": "TeslaMate",
-          "format": "time_series",
+          "format": "table",
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "SELECT $__time(date), (range * 100.0 / battery_level) as \"max_range_$length_unit\"\nFROM (\n\t(SELECT date, convert_km(rated_battery_range_km, '$length_unit') AS range, usable_battery_level as battery_level\n\tFROM positions\n\tWHERE car_id = $car_id AND rated_battery_range_km IS NOT NULL\n  ORDER BY date DESC\n\tLIMIT 1)\n\tUNION ALL\n\t(SELECT date, convert_km([[preferred_range]]_battery_range_km, '$length_unit') AS range, usable_battery_level as battery_level\n\tFROM charges c\n\tJOIN charging_processes p ON p.id = c.charging_process_id\n\tWHERE p.car_id = $car_id\n\tORDER BY date DESC\n\tLIMIT 1)\n) AS data\nORDER BY date DESC\nLIMIT 1;",
+          "rawSql": "SELECT  \n  $battery_capacity AS battery_capacity",
           "refId": "A",
           "select": [
             [
@@ -960,7 +1045,7 @@
           ]
         }
       ],
-      "title": "Current MAX range",
+      "title": "Current battery capacity",
       "type": "stat"
     },
     {
@@ -1029,7 +1114,7 @@
         ]
       },
       "gridPos": {
-        "h": 9,
+        "h": 10,
         "w": 11,
         "x": 13,
         "y": 9
@@ -1207,8 +1292,8 @@
       {
         "current": {
           "selected": false,
-          "text": "4.377844432039732",
-          "value": "4.377844432039732"
+          "text": "4.451551852692495",
+          "value": "4.451551852692495"
         },
         "datasource": "TeslaMate",
         "definition": "SELECT AVG(data.degradation) FROM\n(\n\tSELECT 100 - convert_km(((end_rated_range_km * 100.0)/(end_battery_level * $max_range / 100.0)), '$length_unit')::float as degradation\n\tFROM charging_processes \n\tWHERE \n\t\tcar_id = $car_id \n\t\tAND end_date IS NOT NULL \n\t\tAND charge_energy_added > 10 \n\tORDER BY end_date DESC  \n\tLIMIT 5\n) AS data\n",
