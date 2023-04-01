@@ -22,7 +22,7 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 1,
-  "iteration": 1677514225201,
+  "iteration": 1680339068339,
   "links": [
     {
       "icon": "dashboard",
@@ -298,7 +298,7 @@
     {
       "datasource": "TeslaMate",
       "gridPos": {
-        "h": 12,
+        "h": 13,
         "w": 12,
         "x": 0,
         "y": 6
@@ -497,7 +497,7 @@
     {
       "datasource": "TeslaMate",
       "gridPos": {
-        "h": 12,
+        "h": 13,
         "w": 12,
         "x": 12,
         "y": 6
@@ -689,7 +689,7 @@
           ]
         }
       ],
-      "title": "DC charging curve",
+      "title": "Other DC charging curve",
       "type": "natel-plotly-panel",
       "version": 1
     }
