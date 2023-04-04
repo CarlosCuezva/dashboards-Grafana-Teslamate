@@ -22,7 +22,7 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "iteration": 1680619666376,
+  "iteration": 1680620666044,
   "links": [
     {
       "icon": "dashboard",
@@ -813,7 +813,10 @@
   ],
   "schemaVersion": 36,
   "style": "dark",
-  "tags": [],
+  "tags": [
+    "tesla",
+    "teslaCustom"
+  ],
   "templating": {
     "list": [
       {
