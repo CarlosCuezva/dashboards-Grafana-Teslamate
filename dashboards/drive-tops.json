@@ -22,7 +22,7 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 1,
-  "iteration": 1680339886099,
+  "iteration": 1680589490953,
   "links": [
     {
       "icon": "dashboard",
@@ -372,11 +372,7 @@
                 "value": null
               }
             ]
-              }
-              }
-            ]
           }
-            ]
         },
         "overrides": []
       },
