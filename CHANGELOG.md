@@ -1,5 +1,16 @@
 # Changelog
 
+## [1.20.0] - 2023-04-05
+
+### Dashboards
+
+- Battery Health: Added the calculation of complete battery recharge cycles
+- Charging Curves: Changed panel title and adjusted heights
+- Drive Tops: Redesigned the dashboard
+- Current Charge View: Updated the color of the battery heater
+- Locations: New dashboard derived from the original Teslamate dashboard with filtered data for each car
+- Drives: New dashboard derived from the original Teslamate dashboard with support for MPGe if you set your Teslamate to miles and added new data
+
 ## [1.19.1] - 2023-03-31
 
 ### Dashboards
@@ -317,6 +328,7 @@
 
 ## [1.0.0] - 2022-12-19
 
+[1.20.0]: https://github.com/CarlosCuezva/dashboards-Grafana-Teslamate/compare/v1.19.1...v1.20.0
 [1.19.1]: https://github.com/CarlosCuezva/dashboards-Grafana-Teslamate/compare/v1.19.0...v1.19.1
 [1.19.0]: https://github.com/CarlosCuezva/dashboards-Grafana-Teslamate/compare/v1.18.0...v1.19.0
 [1.18.0]: https://github.com/CarlosCuezva/dashboards-Grafana-Teslamate/compare/v1.17.2...v1.18.0
