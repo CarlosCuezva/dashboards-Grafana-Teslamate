@@ -130,6 +130,18 @@ Here is an example that will run every day at 2am and the dashboards.sh file is 
 
 ![States v2](./screenshots/states_v2.png)
 
+### Drives v2
+
+<p style="text-align:center; font-style: italic;">Expanded version of the original Teslamate dashboard</p>
+
+![Drives v2](./screenshots/drives.png)
+
+### Locations v2
+
+<p style="text-align:center; font-style: italic;">Expanded version of the original Teslamate dashboard</p>
+
+![Locations v2](./screenshots/locations.png)
+
 ## Donations
 
 Hi!
