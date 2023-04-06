@@ -142,15 +142,27 @@ Here is an example that will run every day at 2am and the dashboards.sh file is 
 
 ![Locations v2](./screenshots/locations.png)
 
-## Donations
+## Contributing
 
-Hi!
+Feel free to help with Pull Requests when you were able to fix things or add new interesting information. I'll really appreciate any enhancement or suggestion.
+
+## Coffee and referrals
 
 If you like my work and want to support me, you can invite me a coffee, I'll appreciate a lot! Your support will help me to continue improving these contents.
 
-Thanks!
+<p style="text-align: center;">
+    <a href="https://paypal.me/CarlosCuezva" target="_blank">
+        https://paypal.me/CarlosCuezva
+    </a>
+</p>
 
-[![](https://img.shields.io/badge/Donate-PayPal-ff69b4.svg)](https://www.paypal.com/donate?hosted_button_id=QF2MBMQZP4V2J)
+Another way to support me is to use my referral code to purchase a Tesla product, we'll both get credits to redeem for exclusive rewards like free SuperCharger recharges, merchandise and accessories.
+
+<p style="text-align: center;">
+    <a href="https://ts.la/carlos45671" target="_blank">
+        https://ts.la/carlos45671
+    </a>
+</p>
 
 ## Credits
 
