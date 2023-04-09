@@ -14,7 +14,7 @@ These **Custom Dashboards** have been tested with versions of Teslamate v1.27.1 
 
 ## Import dashboards automatically with `dashboards.sh`
 
-With this script (*dashboards.sh*), you can download de latest release and install automatically all dashboards. But, first of all, you need to generate a API KEY in your Grafana ([HOW-TO](#create-an-api-key)). You do not need to stop the Grafana service if you have it installed under docker and it will allow you to do it both locally and remotely.
+With this script (*dashboards.sh*), you can download de latest release and install automatically all dashboards. But, first of all, you need to generate a API KEY in your Grafana ([HOW-TO](#how-to-create-a-grafana-api-key)). You do not need to stop the Grafana service if you have it installed under docker and it will allow you to do it both locally and remotely.
 
 If this is your first time using the new dashboards.sh, you have to generate a configuration file; don't worry, dashboards.sh will guide you step by step.
 
@@ -27,7 +27,7 @@ Attention! If you already had a configuration file created and you complete the 
 The questions that the wizard will ask you to generate the configuration file are the following:
 
 - Enter the Grafana URL: Specifies the URL of the Grafana instance without `/` at the end (e.g. http://localhost:3000)
-- Enter the Grafana TOKEN: Specifies the security key of the API, it's generated in Grafana ([HOW-TO](./#create-an-api-key)).
+- Enter the Grafana TOKEN: Specifies the security key of the API, it's generated in Grafana ([HOW-TO](#how-to-create-a-grafana-api-key)).
 - Path of the dashboards directory: Enter the relative or absolute path of the dashboards directory, default is `./dashboards`.
 
 When you have completed the wizard, a file named `config.sh` will be created in the same directory as **dashboards.sh**.
