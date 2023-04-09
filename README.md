@@ -142,6 +142,12 @@ Here is an example that will run every day at 2am and the dashboards.sh file is 
 
 ![Locations v2](./screenshots/locations.png)
 
+### Charges v2
+
+<p style="text-align:center; font-style: italic;">Expanded version of the original Teslamate dashboard</p>
+
+![Charges v2](./screenshots/charges.png)
+
 ## Contributing
 
 Feel free to help with Pull Requests when you were able to fix things or add new interesting information. I'll really appreciate any enhancement or suggestion.
@@ -167,7 +173,6 @@ Another way to support me is to use my referral code to purchase a Tesla product
 ## Credits
 
 - Author: Carlos Cuezva
-- List of [contributors](https://github.com/CarlosCuezva/dashboards-Grafana-Teslamate/graphs/contributors)
 
 ## License
 

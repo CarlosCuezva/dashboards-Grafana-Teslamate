@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.21.0] - 2023-04-09
+
+### Dashboards
+
+- Charges v2: New dashboard derived from the original Teslamate dashboard with filter by load location, cost and charge type (AC/DC)
+- Battery Health: Redesigned the dashboard and added new informative panels about the battery
+
 ## [1.20.0] - 2023-04-05
 
 ### Dashboards
@@ -328,6 +335,7 @@
 
 ## [1.0.0] - 2022-12-19
 
+[1.20.0]: https://github.com/CarlosCuezva/dashboards-Grafana-Teslamate/compare/v1.20.0...v1.21.0
 [1.20.0]: https://github.com/CarlosCuezva/dashboards-Grafana-Teslamate/compare/v1.19.1...v1.20.0
 [1.19.1]: https://github.com/CarlosCuezva/dashboards-Grafana-Teslamate/compare/v1.19.0...v1.19.1
 [1.19.0]: https://github.com/CarlosCuezva/dashboards-Grafana-Teslamate/compare/v1.18.0...v1.19.0
