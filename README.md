@@ -173,6 +173,7 @@ Another way to support me is to use my referral code to purchase a Tesla product
 ## Credits
 
 - Author: Carlos Cuezva
+- List of [contributors](https://github.com/CarlosCuezva/dashboards-Grafana-Teslamate/graphs/contributors)
 
 ## License
 
