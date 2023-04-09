@@ -21,7 +21,7 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "iteration": 1681022301315,
+  "iteration": 1681045731639,
   "links": [
     {
       "asDropdown": false,
@@ -322,7 +322,7 @@
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "WITH charge AS (\n  SELECT\n  \tsum(charge_energy_added) AS total_energy\n  FROM\n  \tcharging_processes\n  WHERE\n  \tcar_id = $car_id\n)\n\nSELECT  \n  total_energy / ($battery_capacity * (1 + ($degradation / 100))) AS ciclos\nFROM charge",
+          "rawSql": "WITH charge AS (\n  SELECT\n  \tsum(charge_energy_added) AS total_energy\n  FROM\n  \tcharging_processes\n  WHERE\n  \tcar_id = $car_id\n)\n\nSELECT  \n  total_energy / ($battery_capacity * (1 + ($degradation / 100)))\nFROM charge",
           "refId": "A",
           "select": [
             [
@@ -404,7 +404,7 @@
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "SELECT\n\tcount(*)\nFROM\n\tcharging_processes\nWHERE\n\t$__timeFilter(end_date)\n\tAND charge_energy_added > 0.01\n\tAND car_id = $car_id;",
+          "rawSql": "SELECT\n\tcount(*)\nFROM\n\tcharging_processes\nWHERE\n\tcharge_energy_added > 0.01\n\tAND car_id = $car_id;",
           "refId": "A",
           "select": [
             [
@@ -717,7 +717,7 @@
           "hide": false,
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "(\n  SELECT date, usable_battery_level * $battery_capacity / 100 as kWh\n  FROM positions\n  WHERE car_id = $car_id\n  ORDER BY date DESC\n  LIMIT 1\n)\nUNION\nSELECT date, usable_battery_level * $battery_capacity / 100 as kWh\nFROM charges c\nJOIN charging_processes p ON p.id = c.charging_process_id\nWHERE $__timeFilter(date) AND p.car_id = $car_id\nORDER BY date DESC\nLIMIT 1",
+          "rawSql": "(\n  SELECT date, usable_battery_level * $battery_capacity / 100 as kWh\n  FROM positions\n  WHERE car_id = $car_id\n  ORDER BY date DESC\n  LIMIT 1\n)\nUNION\nSELECT date, usable_battery_level * $battery_capacity / 100 as kWh\nFROM charges c\nJOIN charging_processes p ON p.id = c.charging_process_id\nWHERE p.car_id = $car_id\nORDER BY date DESC\nLIMIT 1",
           "refId": "A",
           "select": [
             [
@@ -881,7 +881,7 @@
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "WITH data AS (\n  SELECT\n\t\tcp.id,\n\t\tcp.charge_energy_added,\n\t\tCASE WHEN NULLIF(mode() within group (order by charger_phases),0) is null THEN 'DC'\n\t\t\t\t ELSE 'AC'\n\t\tEND AS current,\n\t\tcp.charge_energy_used\n\tFROM charging_processes cp\n  RIGHT JOIN charges ON cp.id = charges.charging_process_id\n  WHERE\n\t  cp.car_id = $car_id\n\t  AND cp.charge_energy_added > 0.01\n\t  AND $__timeFilter(start_date)\n  GROUP BY 1,2\n)\nSELECT\n\tnow() AS time,\n\tsum(greatest(charge_energy_added, charge_energy_used)) AS value,\n\tcurrent AS metric\nFROM data\nGROUP BY 3\nORDER BY metric DESC;",
+          "rawSql": "WITH data AS (\n  SELECT\n\t\tcp.id,\n\t\tcp.charge_energy_added,\n\t\tCASE WHEN NULLIF(mode() within group (order by charger_phases),0) is null THEN 'DC'\n\t\t\t\t ELSE 'AC'\n\t\tEND AS current,\n\t\tcp.charge_energy_used\n\tFROM charging_processes cp\n  RIGHT JOIN charges ON cp.id = charges.charging_process_id\n  WHERE\n\t  cp.car_id = $car_id\n\t  AND cp.charge_energy_added > 0.01\n  GROUP BY 1,2\n)\nSELECT\n\tnow() AS time,\n\tsum(greatest(charge_energy_added, charge_energy_used)) AS value,\n\tcurrent AS metric\nFROM data\nGROUP BY 3\nORDER BY metric DESC;",
           "refId": "A",
           "select": [
             [
@@ -999,7 +999,7 @@
           "policy": "default",
           "query": "SELECT last(\"soc\") FROM \"ovms\" WHERE $timeFilter",
           "rawQuery": true,
-          "rawSql": "(SELECT usable_battery_level, date\n  FROM positions\n  WHERE car_id = $car_id\n  ORDER BY date DESC\n  LIMIT 1\n)\nUNION\n  SELECT usable_battery_level, date\n  FROM charges c\n  JOIN charging_processes p ON p.id = c.charging_process_id\n  WHERE $__timeFilter(date) AND p.car_id = $car_id\n  ORDER BY date DESC\n  LIMIT 1\n",
+          "rawSql": "(SELECT usable_battery_level, date\n  FROM positions\n  WHERE car_id = $car_id\n  ORDER BY date DESC\n  LIMIT 1\n)\nUNION\n  SELECT usable_battery_level, date\n  FROM charges c\n  JOIN charging_processes p ON p.id = c.charging_process_id\n  WHERE p.car_id = $car_id\n  ORDER BY date DESC\n  LIMIT 1\n",
           "refId": "SOC",
           "resultFormat": "time_series",
           "select": [
@@ -1139,7 +1139,7 @@
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "SELECT\n\tSUM(charge_energy_added)\nFROM\n\tcharging_processes\nWHERE\n\t$__timeFilter(end_date)\n\tAND car_id = $car_id \n\tAND charge_energy_added > 0.01\n",
+          "rawSql": "SELECT\n\tSUM(charge_energy_added)\nFROM\n\tcharging_processes\nWHERE\n\tcar_id = $car_id \n\tAND charge_energy_added > 0.01\n",
           "refId": "A",
           "select": [
             [
@@ -1222,7 +1222,7 @@
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "SELECT\n\tSUM(charge_energy_used)\nFROM\n\tcharging_processes\nWHERE\n\t$__timeFilter(end_date)\n\tAND car_id = $car_id \n\tAND charge_energy_added > 0.01\n",
+          "rawSql": "SELECT\n\tSUM(charge_energy_used)\nFROM\n\tcharging_processes\nWHERE\n\tcar_id = $car_id \n\tAND charge_energy_added > 0.01\n",
           "refId": "A",
           "select": [
             [
@@ -1313,7 +1313,7 @@
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "SELECT\n\t( SUM(charge_energy_added) * 100 / SUM(charge_energy_used) )\nFROM\n\tcharging_processes\nWHERE\n\t$__timeFilter(end_date)\n\tAND car_id = $car_id \n\tAND charge_energy_added > 0.01\n",
+          "rawSql": "SELECT\n\t( SUM(charge_energy_added) * 100 / SUM(charge_energy_used) )\nFROM\n\tcharging_processes\nWHERE\n\tcar_id = $car_id \n\tAND charge_energy_added > 0.01\n",
           "refId": "A",
           "select": [
             [
@@ -1585,7 +1585,7 @@
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "SELECT $__time(date), range as \"range_$length_unit\"\nFROM (\n\t(SELECT date, convert_km(rated_battery_range_km, '$length_unit') AS range\n\tFROM positions\n\tWHERE car_id = $car_id AND rated_battery_range_km IS NOT NULL\n  ORDER BY date DESC\n\tLIMIT 1)\n\tUNION ALL\n\t(SELECT date, convert_km([[preferred_range]]_battery_range_km, '$length_unit') AS range\n\tFROM charges c\n\tJOIN charging_processes p ON p.id = c.charging_process_id\n\tWHERE p.car_id = $car_id\n\tORDER BY date DESC\n\tLIMIT 1)\n) AS data\nORDER BY date DESC\nLIMIT 1;",
+          "rawSql": "SELECT $__time(date), range as \"range_$length_unit\"\nFROM (\n\t(\n\t  SELECT date, convert_km(rated_battery_range_km, '$length_unit') AS range\n\t  FROM positions\n\t  WHERE car_id = $car_id AND rated_battery_range_km IS NOT NULL\n    ORDER BY date DESC\n\t  LIMIT 1\n\t)\n\tUNION ALL\n\t(\n  \tSELECT date, convert_km([[preferred_range]]_battery_range_km, '$length_unit') AS range\n  \tFROM charges c\n  \tJOIN charging_processes p ON p.id = c.charging_process_id\n  \tWHERE p.car_id = $car_id\n  \tORDER BY date DESC\n  \tLIMIT 1\n\t)\n) AS data\nORDER BY date DESC\nLIMIT 1;",
           "refId": "A",
           "select": [
             [
@@ -1858,8 +1858,8 @@
       {
         "current": {
           "selected": true,
-          "text": "2w",
-          "value": "2w"
+          "text": "1M",
+          "value": "1M"
         },
         "hide": 0,
         "includeAll": false,
@@ -1873,12 +1873,12 @@
             "value": "1w"
           },
           {
-            "selected": true,
+            "selected": false,
             "text": "2w",
             "value": "2w"
           },
           {
-            "selected": false,
+            "selected": true,
             "text": "1M",
             "value": "1M"
           }
