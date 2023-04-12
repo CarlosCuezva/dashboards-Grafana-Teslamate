@@ -22,7 +22,7 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 1,
-  "iteration": 1680282130237,
+  "iteration": 1681273492185,
   "links": [
     {
       "icon": "dashboard",
@@ -108,7 +108,7 @@
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "SELECT\n  convert_tire_pressure(tpms_pressure_fl, '$pressure_unit') AS \"Front left\",\n  convert_tire_pressure(tpms_pressure_fr, '$pressure_unit') AS \"Front right\",\n  convert_tire_pressure(tpms_pressure_rl, '$pressure_unit') AS \"Rear left\",\n  convert_tire_pressure(tpms_pressure_rr, '$pressure_unit') AS \"Rear right\"\nFROM positions\nWHERE\n  car_id = $car_id\nORDER BY date DESC \nLIMIT 1",
+          "rawSql": "SELECT\n  convert_tire_pressure(tpms_pressure_fl, 'bar') AS \"Front left\",\n  convert_tire_pressure(tpms_pressure_fr, 'bar') AS \"Front right\",\n  convert_tire_pressure(tpms_pressure_rl, 'bar') AS \"Rear left\",\n  convert_tire_pressure(tpms_pressure_rr, 'bar') AS \"Rear right\"\nFROM positions\nWHERE\n  car_id = $car_id\n  AND tpms_pressure_fl IS NOT NULL\n  AND tpms_pressure_fr IS NOT NULL\n  AND tpms_pressure_rl IS NOT NULL\n  AND tpms_pressure_rr IS NOT NULL\nORDER BY date DESC \nLIMIT 1",
           "refId": "A",
           "select": [
             [
@@ -251,7 +251,7 @@
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "WITH ps AS (\n\tSELECT \n\t\tdrive_id, \n\t\tdate,\n\t\tROW_NUMBER() OVER (PARTITION BY drive_id ORDER BY date ASC) as seqnum,\n\t\tconvert_tire_pressure(tpms_pressure_fl, '$pressure_unit') AS front_left,\n\t\tconvert_tire_pressure(tpms_pressure_fr, '$pressure_unit') AS front_right,\n\t\tconvert_tire_pressure(tpms_pressure_rl, '$pressure_unit') AS rear_left,\n\t\tconvert_tire_pressure(tpms_pressure_rr, '$pressure_unit') AS rear_right\n\tFROM positions\n\tWHERE\n\t\t$__timeFilter(date)\n\t\tAND tpms_pressure_fl IS NOT NULL\n\t\tAND drive_id IS NOT NULL\n\t\tAND car_id = $car_id\n)\nSELECT \n\tdrive_id,\n\tdate,\n\tfront_left AS \"Front left\", \n\tfront_right AS \"Front right\", \n\trear_left AS \"Rear left\", \n\trear_right AS \"Rear right\"\nFROM ps\nWHERE seqnum = 5\nORDER BY ps.drive_id DESC",
+          "rawSql": "WITH ps AS (\n\tSELECT \n\t\tdrive_id, \n\t\tdate,\n\t\tROW_NUMBER() OVER (PARTITION BY drive_id ORDER BY date ASC) as seqnum,\n\t\tconvert_tire_pressure(tpms_pressure_fl, '$pressure_unit') AS front_left,\n\t\tconvert_tire_pressure(tpms_pressure_fr, '$pressure_unit') AS front_right,\n\t\tconvert_tire_pressure(tpms_pressure_rl, '$pressure_unit') AS rear_left,\n\t\tconvert_tire_pressure(tpms_pressure_rr, '$pressure_unit') AS rear_right\n\tFROM positions\n\tWHERE\n\t\t$__timeFilter(date)\n\t\tAND tpms_pressure_fl IS NOT NULL\n\t\tAND tpms_pressure_fr IS NOT NULL\n    AND tpms_pressure_rl IS NOT NULL\n    AND tpms_pressure_rr IS NOT NULL\n\t\tAND drive_id IS NOT NULL\n\t\tAND car_id = $car_id\n)\nSELECT \n\tdrive_id,\n\tdate,\n\tfront_left AS \"Front left\", \n\tfront_right AS \"Front right\", \n\trear_left AS \"Rear left\", \n\trear_right AS \"Rear right\"\nFROM ps\nWHERE seqnum = 5\nORDER BY ps.drive_id DESC",
           "refId": "A",
           "select": [
             [
@@ -328,7 +328,7 @@
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "WITH ps AS (\n\tSELECT \n\t\tROW_NUMBER() OVER (PARTITION BY drive_id ORDER BY date ASC) as seqnum,\n\t\tconvert_tire_pressure(tpms_pressure_fl, '$pressure_unit') AS front_left,\n\t\tconvert_tire_pressure(tpms_pressure_fr, '$pressure_unit') AS front_right,\n\t\tconvert_tire_pressure(tpms_pressure_rl, '$pressure_unit') AS rear_left,\n\t\tconvert_tire_pressure(tpms_pressure_rr, '$pressure_unit') AS rear_right\n\tFROM positions p\n\tWHERE\n\t\ttpms_pressure_fl IS NOT NULL\n\t\tAND drive_id = (\n\t\t\tSELECT id\n\t\t\tFROM drives\n\t\t\tWHERE \n\t\t\t\tcar_id = $car_id\n\t\t\t\tAND end_date IS NOT NULL\n\t\t\tORDER BY start_date DESC\n\t\t\tLIMIT 1\n\t\t)\n)\nSELECT \n\tfront_left AS \"Front left\", \n\tfront_right AS \"Front right\", \n\trear_left AS \"Rear left\", \n\trear_right AS \"Rear right\"\nFROM ps\nWHERE seqnum = 5",
+          "rawSql": "WITH ps AS (\n\tSELECT \n\t\tROW_NUMBER() OVER (PARTITION BY drive_id ORDER BY date ASC) as seqnum,\n\t\tconvert_tire_pressure(tpms_pressure_fl, '$pressure_unit') AS front_left,\n\t\tconvert_tire_pressure(tpms_pressure_fr, '$pressure_unit') AS front_right,\n\t\tconvert_tire_pressure(tpms_pressure_rl, '$pressure_unit') AS rear_left,\n\t\tconvert_tire_pressure(tpms_pressure_rr, '$pressure_unit') AS rear_right\n\tFROM positions p\n\tWHERE\n\t\ttpms_pressure_fl IS NOT NULL\n\t\tAND tpms_pressure_fr IS NOT NULL\n    AND tpms_pressure_rl IS NOT NULL\n    AND tpms_pressure_rr IS NOT NULL\n\t\tAND drive_id = (\n\t\t\tSELECT id\n\t\t\tFROM drives\n\t\t\tWHERE \n\t\t\t\tcar_id = $car_id\n\t\t\t\tAND end_date IS NOT NULL\n\t\t\tORDER BY start_date DESC\n\t\t\tLIMIT 1\n\t\t)\n)\nSELECT \n\tfront_left AS \"Front left\", \n\tfront_right AS \"Front right\", \n\trear_left AS \"Rear left\", \n\trear_right AS \"Rear right\"\nFROM ps\nWHERE seqnum = 5",
           "refId": "A",
           "select": [
             [
@@ -416,8 +416,8 @@
       {
         "current": {
           "selected": false,
-          "text": "psi",
-          "value": "psi"
+          "text": "bar",
+          "value": "bar"
         },
         "datasource": "TeslaMate",
         "definition": "SELECT unit_of_pressure FROM settings LIMIT 1",
