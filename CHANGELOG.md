@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.21.1] - 2023-04-14
+
+### Dashboards
+
+- Battery Health: Optimized queries
+- Charges: Added color scale to recharge efficiency
+- Tire Pressure: Revised queries so that they can't return a null value
+
 ## [1.21.0] - 2023-04-09
 
 ### Dashboards
@@ -335,7 +343,8 @@
 
 ## [1.0.0] - 2022-12-19
 
-[1.20.0]: https://github.com/CarlosCuezva/dashboards-Grafana-Teslamate/compare/v1.20.0...v1.21.0
+[1.21.1]: https://github.com/CarlosCuezva/dashboards-Grafana-Teslamate/compare/v1.21.0...v1.21.1
+[1.21.0]: https://github.com/CarlosCuezva/dashboards-Grafana-Teslamate/compare/v1.20.0...v1.21.0
 [1.20.0]: https://github.com/CarlosCuezva/dashboards-Grafana-Teslamate/compare/v1.19.1...v1.20.0
 [1.19.1]: https://github.com/CarlosCuezva/dashboards-Grafana-Teslamate/compare/v1.19.0...v1.19.1
 [1.19.0]: https://github.com/CarlosCuezva/dashboards-Grafana-Teslamate/compare/v1.18.0...v1.19.0
