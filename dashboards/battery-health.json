@@ -21,7 +21,7 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "iteration": 1681045731639,
+  "iteration": 1681748851784,
   "links": [
     {
       "asDropdown": false,
@@ -132,6 +132,7 @@
       "options": {
         "legend": {
           "calcs": [
+            "first",
             "last"
           ],
           "displayMode": "list",
@@ -147,12 +148,12 @@
         {
           "alias": "",
           "datasource": "TeslaMate",
-          "format": "time_series",
+          "format": "table",
           "group": [],
           "hide": false,
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "SELECT\n\t$__timeGroup(date, $degradation_period) AS time,\n\tconvert_km((sum([[preferred_range]]_battery_range_km) / nullif(sum(coalesce(usable_battery_level,battery_level)),0) * 100)::numeric, '$length_unit') \n\t* ($battery_capacity + ($battery_capacity * $degradation / 100.0)) / $max_range AS \"kWh\"\nFROM\n\t(\n    SELECT \n      battery_level, usable_battery_level, date, rated_battery_range_km, ideal_battery_range_km, outside_temp\n    FROM positions\n    WHERE\n      car_id = $car_id \n      AND $__timeFilter(date) \n      AND ideal_battery_range_km is not null\n    UNION ALL\n    SELECT \n      battery_level, coalesce(usable_battery_level,battery_level) as usable_battery_level, date, \n      rated_battery_range_km, ideal_battery_range_km, outside_temp\n    FROM charges c\n    JOIN\n      charging_processes p ON p.id = c.charging_process_id \n    where\n      $__timeFilter(date) \n      AND p.car_id = $car_id\n    ) AS data\nGROUP BY 1\nHAVING \n  convert_km((sum([[preferred_range]]_battery_range_km) / nullif(sum(coalesce(usable_battery_level,battery_level)),0) * 100)::numeric, '$length_unit') IS NOT NULL\nORDER BY 1, 2  DESC",
+          "rawSql": "SELECT\n  CASE \n    WHEN '$degradation_period' = '1 week' THEN $__timeGroup(date, '1w')\n    WHEN '$degradation_period' = '2 weeks' THEN $__timeGroup(date, '2w')\n    ELSE $__timeGroup(date, '1M')\n  END AS time,\n\tconvert_km((sum([[preferred_range]]_battery_range_km) / nullif(sum(coalesce(usable_battery_level,battery_level)),0) * 100)::numeric, '$length_unit') \n\t* ($battery_capacity + ($battery_capacity * $degradation / 100.0)) / $max_range AS \"kWh\"\nFROM\n\t(\n    SELECT \n      battery_level, usable_battery_level, date, rated_battery_range_km, ideal_battery_range_km, outside_temp\n    FROM positions\n    WHERE\n      car_id = $car_id \n      AND $__timeFilter(date) \n      AND ideal_battery_range_km is not null\n    UNION ALL\n    SELECT \n      battery_level, coalesce(usable_battery_level,battery_level) as usable_battery_level, date, \n      rated_battery_range_km, ideal_battery_range_km, outside_temp\n    FROM charges c\n    JOIN\n      charging_processes p ON p.id = c.charging_process_id \n    where\n      p.car_id = $car_id\n    ) AS data\nGROUP BY 1\nHAVING \n  convert_km((sum([[preferred_range]]_battery_range_km) / nullif(sum(coalesce(usable_battery_level,battery_level)),0) * 100)::numeric, '$length_unit') IS NOT NULL\nORDER BY 1, 2  DESC",
           "refId": "Projected Range",
           "select": [
             [
@@ -322,7 +323,7 @@
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "WITH charge AS (\n  SELECT\n  \tsum(charge_energy_added) AS total_energy\n  FROM\n  \tcharging_processes\n  WHERE\n  \tcar_id = $car_id\n)\n\nSELECT  \n  total_energy / ($battery_capacity * (1 + ($degradation / 100)))\nFROM charge",
+          "rawSql": "WITH charge AS (\n  SELECT\n  \tsum(charge_energy_added) AS total_energy\n  FROM\n  \tcharging_processes\n  WHERE\n  \tcar_id = $car_id\n)\nSELECT  \n  total_energy / ($battery_capacity * (1 + ($degradation / 100)))\nFROM charge",
           "refId": "A",
           "select": [
             [
@@ -1726,6 +1727,7 @@
       "type": "stat"
     }
   ],
+  "refresh": false,
   "schemaVersion": 36,
   "style": "dark",
   "tags": [
@@ -1818,17 +1820,17 @@
       {
         "current": {
           "selected": false,
-          "text": "4.492287038711368",
-          "value": "4.492287038711368"
+          "text": "3.7436143161811053",
+          "value": "3.7436143161811053"
         },
         "datasource": "TeslaMate",
-        "definition": "SELECT AVG(data.degradation) FROM\n(\n\tSELECT 100 - convert_km(((end_rated_range_km * 100.0)/(end_battery_level * $max_range / 100.0)), '$length_unit')::float as degradation\n\tFROM charging_processes \n\tWHERE \n\t\tcar_id = $car_id \n\t\tAND end_date IS NOT NULL \n\t\tAND charge_energy_added > 10 \n\tORDER BY end_date DESC  \n\tLIMIT 5\n) AS data\n",
+        "definition": "SELECT AVG(data.degradation) FROM\n(\n\tSELECT 100 - convert_km(((end_rated_range_km * 100.0)/(end_battery_level * $max_range / 100.0)), '$length_unit')::float as degradation\n\tFROM charging_processes \n\tWHERE \n\t\tcar_id = $car_id \n\t\tAND end_date IS NOT NULL \n\t\tAND charge_energy_added > 10 \n\tORDER BY end_date DESC\n\tLIMIT 50\n) AS data\n",
         "hide": 2,
         "includeAll": false,
         "multi": false,
         "name": "degradation",
         "options": [],
-        "query": "SELECT AVG(data.degradation) FROM\n(\n\tSELECT 100 - convert_km(((end_rated_range_km * 100.0)/(end_battery_level * $max_range / 100.0)), '$length_unit')::float as degradation\n\tFROM charging_processes \n\tWHERE \n\t\tcar_id = $car_id \n\t\tAND end_date IS NOT NULL \n\t\tAND charge_energy_added > 10 \n\tORDER BY end_date DESC  \n\tLIMIT 5\n) AS data\n",
+        "query": "SELECT AVG(data.degradation) FROM\n(\n\tSELECT 100 - convert_km(((end_rated_range_km * 100.0)/(end_battery_level * $max_range / 100.0)), '$length_unit')::float as degradation\n\tFROM charging_processes \n\tWHERE \n\t\tcar_id = $car_id \n\t\tAND end_date IS NOT NULL \n\t\tAND charge_energy_added > 10 \n\tORDER BY end_date DESC\n\tLIMIT 50\n) AS data\n",
         "refresh": 1,
         "regex": "",
         "skipUrlSync": false,
@@ -1858,8 +1860,8 @@
       {
         "current": {
           "selected": true,
-          "text": "1M",
-          "value": "1M"
+          "text": "2 weeks",
+          "value": "2 weeks"
         },
         "hide": 0,
         "includeAll": false,
@@ -1869,21 +1871,21 @@
         "options": [
           {
             "selected": false,
-            "text": "1w",
-            "value": "1w"
-          },
-          {
-            "selected": false,
-            "text": "2w",
-            "value": "2w"
+            "text": "1 week",
+            "value": "1 week"
           },
           {
             "selected": true,
-            "text": "1M",
-            "value": "1M"
+            "text": "2 weeks",
+            "value": "2 weeks"
+          },
+          {
+            "selected": false,
+            "text": "1 month",
+            "value": "1 month"
           }
         ],
-        "query": "1w,2w,1M",
+        "query": "1 week,2 weeks,1 month",
         "queryValue": "",
         "skipUrlSync": false,
         "type": "custom"
@@ -1894,7 +1896,9 @@
     "from": "now-1y",
     "to": "now"
   },
-  "timepicker": {},
+  "timepicker": {
+    "hidden": true
+  },
   "timezone": "browser",
   "title": "Battery Health",
   "uid": "eYPXK_24k",
