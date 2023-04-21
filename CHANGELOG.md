@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.22.0] - 2023-04-21
+
+- Battery Health: Improved degradation calculation
+- Battery Health: Removed timepicker
+- Battery Health: Display of the degradation curve from the first data not between time periods
+- Battery Health: Text changes
+- Tire Pressure: Fixed bug when converting pressure to PSI
+- Charging Costs Stats: Fixed calculation of total months
+
 ## [1.21.1] - 2023-04-14
 
 ### Dashboards
@@ -343,6 +352,7 @@
 
 ## [1.0.0] - 2022-12-19
 
+[1.22.0]: https://github.com/CarlosCuezva/dashboards-Grafana-Teslamate/compare/v1.21.1...v1.22.0
 [1.21.1]: https://github.com/CarlosCuezva/dashboards-Grafana-Teslamate/compare/v1.21.0...v1.21.1
 [1.21.0]: https://github.com/CarlosCuezva/dashboards-Grafana-Teslamate/compare/v1.20.0...v1.21.0
 [1.20.0]: https://github.com/CarlosCuezva/dashboards-Grafana-Teslamate/compare/v1.19.1...v1.20.0
