@@ -30,26 +30,30 @@ main() {
 menu() {
 
   clear
+
+  local get_current_version=$(get_current_version)
+  local get_last_release=$(get_last_release)
   
+  echo "
+INSTALLED VERSION: ${get_current_version}
+LAST RELEASE:      ${get_last_release}
+  "
+
   COLUMNS=12
   PS3='Please, enter your choice: '
-  options=("Generate config file" "Download lastest release" "Install/Update dashboards")
+  options=("Generate config file" "Download and install/update the latest version")
   echo -e "What do you want to do?\n"
   select opt in "${options[@]}" Quit
   do
     case $opt in
-      "Install/Update dashboards")
-          restore "false"
-
-          break
-          ;;
       "Generate config file")
           config_file
 
           break
           ;;
-      "Download lastest release")
-          download "false"
+      "Download and install/update the latest version")
+          download "true"
+          restore "false"
 
           break
           ;;
@@ -99,7 +103,7 @@ DESTINATION_DIRECTORY: $DESTINATION_DIRECTORY
 
           echo "RESTORED $(basename "$dashboard_path")"
       done
-    
+
   if [ "$auto" = "false" ]; then
     echo -e "\nInstallation/update process completed"
     read -n 1 -s -r -p "Press any key to continue"
@@ -108,7 +112,6 @@ DESTINATION_DIRECTORY: $DESTINATION_DIRECTORY
   fi
 
 }
-
 
 create_folder() {
   curl \
@@ -159,11 +162,9 @@ EOT
 
 download() {
   local auto=$1
-  GH_USER="CarlosCuezva"
-  GH_REPO="dashboards-Grafana-Teslamate"
-  GH_BRANCH=$(curl -s https://api.github.com/repos/$GH_USER/$GH_REPO/releases/latest \
-  | grep "tag_name" \
-  | awk '{print substr($2, 2, length($2)-3)}');
+  local GH_USER="CarlosCuezva"
+  local GH_REPO="dashboards-Grafana-Teslamate"
+  local GH_BRANCH=$(get_last_release)
 
   echo -e "\n"
 
@@ -173,13 +174,36 @@ download() {
   cp -Rf ./"${GH_REPO}-${GH_BRANCH:1}"/* ./  && \
   rm -rf ./"${GH_REPO}-${GH_BRANCH:1}"
 
+  local version_file=./version
+  [ -f "$version_file" ] && rm $version_file
+
+    cat <<EOT >> $version_file
+$GH_BRANCH
+EOT
+
   if [ "$auto" = "false" ]; then
     echo -e "\nDownloaded version \"$GH_BRANCH\" successfully"
     read -n 1 -s -r -p "Press any key to continue"
-
-    menu
   fi
 
+}
+
+get_current_version(){
+  local file=./version
+  if [ -f "$file" ]; then
+    local c=`cat $file`
+    echo "$c"
+  else
+    echo "unknown"
+  fi 
+}
+
+get_last_release() {
+  local GH_USER="CarlosCuezva"
+  local GH_REPO="dashboards-Grafana-Teslamate"
+  echo $(curl -s https://api.github.com/repos/$GH_USER/$GH_REPO/releases/latest \
+  | grep "tag_name" \
+  | awk '{print substr($2, 2, length($2)-3)}');
 }
 
 autoupdate() {

@@ -8,7 +8,7 @@
 
 Here you will find a series of original dashboards to expand those included by default in Teslamate to fully squeeze the data of your Tesla.
 
-These **Custom Dashboards** have been tested with versions of Teslamate v1.27.1 and Grafana v8.5.6 or higher
+These **Custom Dashboards** have been tested with versions of Teslamate v1.27.1+ and Grafana v8.5.6 or higher
 
 ---
 
@@ -32,13 +32,11 @@ The questions that the wizard will ask you to generate the configuration file ar
 
 When you have completed the wizard, a file named `config.sh` will be created in the same directory as **dashboards.sh**.
 
-### Option 2: Download the latest release
+### Option 2: Download and install/update the latest version
 
-This option downloads the latest stable version published on [GitHub](https://github.com/CarlosCuezva/dashboards-Grafana-Teslamate). At the end of the process, it tells you the version that has been downloaded.
+This option downloads the latest stable version published on [GitHub](https://github.com/CarlosCuezva/dashboards-Grafana-Teslamate). At the end of the process.
 
-### Option 4: Install/Update dashboards
-
-Install or update all the dashboards that are located in the directory indicated in your Grafana
+Next, all the dashboards that are in the indicated directory in your Grafana will be installed or updated.
 
 ### HOW-TO: Create a Grafana API key
 
