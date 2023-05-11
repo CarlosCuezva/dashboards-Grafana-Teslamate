@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.23.1] - 2023-05-11
+
+- Current Charge View: Enabled auto-refresh
+
 ## [1.23.0] - 2023-04-29
 
 - dashboards.sh: Unified download and installation of all dashboards
@@ -357,6 +361,7 @@
 
 ## [1.0.0] - 2022-12-19
 
+[1.23.1]: https://github.com/CarlosCuezva/dashboards-Grafana-Teslamate/compare/v1.23.0...v1.23.1
 [1.23.0]: https://github.com/CarlosCuezva/dashboards-Grafana-Teslamate/compare/v1.22.0...v1.23.0
 [1.22.0]: https://github.com/CarlosCuezva/dashboards-Grafana-Teslamate/compare/v1.21.1...v1.22.0
 [1.21.1]: https://github.com/CarlosCuezva/dashboards-Grafana-Teslamate/compare/v1.21.0...v1.21.1
