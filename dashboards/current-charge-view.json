@@ -22,7 +22,7 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 1,
-  "iteration": 1680340937512,
+  "iteration": 1683779641310,
   "links": [
     {
       "icon": "dashboard",
@@ -1484,7 +1484,7 @@
       "type": "stat"
     }
   ],
-  "refresh": false,
+  "refresh": "5s",
   "schemaVersion": 36,
   "style": "dark",
   "tags": [
@@ -1496,7 +1496,7 @@
       {
         "current": {
           "selected": false,
-          "text": "Jo-El",
+          "text": "Interceptor ",
           "value": "1"
         },
         "datasource": "TeslaMate",
@@ -1610,8 +1610,8 @@
       {
         "current": {
           "selected": false,
-          "text": "391",
-          "value": "391"
+          "text": "410",
+          "value": "410"
         },
         "datasource": "TeslaMate",
         "definition": "SELECT id\n  FROM charging_processes\n  WHERE car_id = $car_id\n  ORDER BY start_date DESC LIMIT 1",
@@ -1630,8 +1630,8 @@
       {
         "current": {
           "selected": false,
-          "text": "76.6896551724138",
-          "value": "76.6896551724138"
+          "text": "76.15151515151516",
+          "value": "76.15151515151516"
         },
         "datasource": "TeslaMate",
         "definition": "WITH lastCharges AS (\n\tSELECT (100.0 * charge_energy_added) / (end_battery_level - start_battery_level)\n\tFROM charging_processes\n\tWHERE \n\t\tcharge_energy_added >= 10\n\t\tAND car_id = $car_id\n\tORDER BY end_date DESC\n\tLIMIT 5\n)\nSELECT * FROM lastCharges \nORDER BY 1 DESC\nLIMIT 1",
