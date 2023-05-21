@@ -12,6 +12,16 @@ These **Custom Dashboards** have been tested with versions of Teslamate v1.27.1+
 
 ---
 
+## Video guide in YouTube
+
+Now you can see in Youtube the complete guide to install and update my Custom Dashboards for Teslamate.
+
+👉 https://youtu.be/cwnxMrnym0I
+
+The video has subtitles enabled.
+
+---
+
 ## Import dashboards automatically with `dashboards.sh`
 
 With this script (*dashboards.sh*), you can download de latest release and install automatically all dashboards. But, first of all, you need to generate a API KEY in your Grafana ([HOW-TO](#how-to-create-a-grafana-api-key)). You do not need to stop the Grafana service if you have it installed under docker and it will allow you to do it both locally and remotely.
