@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.23.2] - 2023-06-09
+
+- Charges v2: Revise query for charges dashboard to support null cost field (#20 - @M1kep)
+
 ## [1.23.1] - 2023-05-11
 
 - Current Charge View: Enabled auto-refresh
@@ -361,6 +365,7 @@
 
 ## [1.0.0] - 2022-12-19
 
+[1.23.2]: https://github.com/CarlosCuezva/dashboards-Grafana-Teslamate/compare/v1.23.1...v1.23.2
 [1.23.1]: https://github.com/CarlosCuezva/dashboards-Grafana-Teslamate/compare/v1.23.0...v1.23.1
 [1.23.0]: https://github.com/CarlosCuezva/dashboards-Grafana-Teslamate/compare/v1.22.0...v1.23.0
 [1.22.0]: https://github.com/CarlosCuezva/dashboards-Grafana-Teslamate/compare/v1.21.1...v1.22.0
