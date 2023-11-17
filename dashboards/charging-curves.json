@@ -66,6 +66,8 @@
             "mode": "continuous-GrYlRd"
           },
           "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
             "axisLabel": "",
             "axisPlacement": "auto",
             "axisSoftMin": 0,
@@ -79,6 +81,9 @@
             "lineWidth": 1,
             "scaleDistribution": {
               "type": "linear"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
             }
           },
           "mappings": [],
@@ -86,8 +91,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               }
             ]
           }
@@ -118,11 +122,13 @@
       "options": {
         "barRadius": 0,
         "barWidth": 0.97,
+        "fullHighlight": false,
         "groupWidth": 0.7,
         "legend": {
           "calcs": [],
-          "displayMode": "hidden",
-          "placement": "bottom"
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": false
         },
         "orientation": "auto",
         "showValue": "auto",
@@ -177,6 +183,8 @@
             "mode": "continuous-YlBl"
           },
           "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
             "axisLabel": "Number of recharges",
             "axisPlacement": "auto",
             "axisSoftMin": 0,
@@ -190,6 +198,9 @@
             "lineWidth": 1,
             "scaleDistribution": {
               "type": "linear"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
             }
           },
           "mappings": [],
@@ -197,8 +208,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -244,11 +254,13 @@
       "options": {
         "barRadius": 0,
         "barWidth": 0.97,
+        "fullHighlight": false,
         "groupWidth": 0.7,
         "legend": {
           "calcs": [],
-          "displayMode": "hidden",
-          "placement": "bottom"
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": false
         },
         "orientation": "auto",
         "showValue": "auto",
@@ -433,12 +445,13 @@
         {
           "alias": "",
           "datasource": "TeslaMate",
+          "editorMode": "code",
           "format": "table",
           "group": [],
           "hide": false,
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "SELECT\n\tc.battery_level as \"SOC [%]\",\n\tround(avg(c.charger_power), 0) as \"Power [kW]\",\n\tc.charging_process_id as \"charging_process_id\",\n\tCOALESCE(g.name, a.name) || ' ' || to_char(c.date, 'YYYY-MM-dd') as \"Charge\"\nFROM charges c\nJOIN charging_processes p ON p.id = c.charging_process_id \nJOIN addresses a ON a.id = p.address_id\nLEFT JOIN geofences g ON g.id = p.geofence_id\nWHERE\n\t$__timeFilter(date)\n\tAND charger_power > 0\n\tAND c.fast_charger_present\n\tAND (a.display_name ILIKE '%supercharger%' OR a.name ILIKE '%supercharger%')\n\tAND c.charging_process_id IN (\n\t\tSELECT c.charging_process_id\n\t\tFROM charging_processes cp\n\t\tLEFT JOIN charges c ON cp.id = c.charging_process_id\n\t\tWHERE \n\t\t\t$__timeFilter(c.date)\n\t\t\tAND cp.car_id = $car_id\n\t\t\tAND c.fast_charger_present\n\t\tGROUP BY 1\n\t\tHAVING MAX(c.charger_power) BETWEEN $min_power AND $max_power\n\t)\nGROUP BY c.battery_level, c.charging_process_id, a.name, g.name, to_char(c.date, 'YYYY-MM-dd')",
+          "rawSql": "SELECT\n\tc.battery_level as \"SOC [%]\",\n\tround(avg(c.charger_power), 0) as \"Power [kW]\",\n\tc.charging_process_id as \"charging_process_id\",\n\tCOALESCE(g.name, a.name) || ' ' || to_char(c.date, 'YYYY-MM-dd') as \"Charge\"\nFROM charges c\nJOIN charging_processes p ON p.id = c.charging_process_id \nJOIN addresses a ON a.id = p.address_id\nLEFT JOIN geofences g ON g.id = p.geofence_id\nWHERE\n\t$__timeFilter(date)\n\tAND charger_power > 0\n\tAND c.fast_charger_present\n\tAND (a.display_name ILIKE '%supercharger%' OR a.name ILIKE '%supercharger%' OR g.name ILIKE '%supercharger%')\n\tAND c.charging_process_id IN (\n\t\tSELECT c.charging_process_id\n\t\tFROM charging_processes cp\n\t\tLEFT JOIN charges c ON cp.id = c.charging_process_id\n\t\tWHERE \n\t\t\t$__timeFilter(c.date)\n\t\t\tAND cp.car_id = $car_id\n\t\t\tAND c.fast_charger_present\n\t\tGROUP BY 1\n\t\tHAVING MAX(c.charger_power) BETWEEN $min_power AND $max_power\n\t)\nGROUP BY c.battery_level, c.charging_process_id, a.name, g.name, to_char(c.date, 'YYYY-MM-dd')",
           "refId": "A",
           "select": [
             [
@@ -450,6 +463,23 @@
               }
             ]
           ],
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          },
           "timeColumn": "time",
           "where": [
             {
@@ -461,12 +491,13 @@
         },
         {
           "datasource": "TeslaMate",
+          "editorMode": "code",
           "format": "table",
           "group": [],
           "hide": false,
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "SELECT\n\tc.battery_level as \"B - SOC [%]\",\n\tPERCENTILE_CONT(0.5) WITHIN GROUP(ORDER BY charger_power) as \"B - Avg Power [kW]\"\nFROM charges c\nJOIN charging_processes p ON p.id = c.charging_process_id \nJOIN addresses a ON a.id = p.address_id\nWHERE\n\t$__timeFilter(date)\n\tAND charger_power > 0\n\tAND c.fast_charger_present\n\tAND (a.display_name ILIKE '%supercharger%' OR a.name ILIKE '%supercharger%')\n\tAND c.charging_process_id IN (\n\t\tSELECT c.charging_process_id\n\t\tFROM charging_processes cp\n\t\tLEFT JOIN charges c ON cp.id = c.charging_process_id\n\t\tWHERE \n\t\t\t$__timeFilter(c.date)\n\t\t\tAND cp.car_id = $car_id\n\t\t\tAND c.fast_charger_present\n\t\tGROUP BY 1\n\t\tHAVING MAX(c.charger_power) BETWEEN $min_power AND $max_power\n\t)\nGROUP BY battery_level",
+          "rawSql": "SELECT\n\tc.battery_level as \"B - SOC [%]\",\n\tPERCENTILE_CONT(0.5) WITHIN GROUP(ORDER BY charger_power) as \"B - Avg Power [kW]\"\nFROM charges c\nJOIN charging_processes p ON p.id = c.charging_process_id \nJOIN addresses a ON a.id = p.address_id\nLEFT JOIN geofences g ON g.id = p.geofence_id\nWHERE\n\t$__timeFilter(date)\n\tAND charger_power > 0\n\tAND c.fast_charger_present\n\tAND (a.display_name ILIKE '%supercharger%' OR a.name ILIKE '%supercharger%' OR g.name ILIKE '%supercharger%')\n\tAND c.charging_process_id IN (\n\t\tSELECT c.charging_process_id\n\t\tFROM charging_processes cp\n\t\tLEFT JOIN charges c ON cp.id = c.charging_process_id\n\t\tWHERE \n\t\t\t$__timeFilter(c.date)\n\t\t\tAND cp.car_id = $car_id\n\t\t\tAND c.fast_charger_present\n\t\tGROUP BY 1\n\t\tHAVING MAX(c.charger_power) BETWEEN $min_power AND $max_power\n\t)\nGROUP BY battery_level",
           "refId": "B",
           "select": [
             [
@@ -478,6 +509,23 @@
               }
             ]
           ],
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          },
           "table": "cars",
           "timeColumn": "inserted_at",
           "timeColumnType": "timestamp",
@@ -694,8 +742,8 @@
       "version": 1
     }
   ],
-  "refresh": false,
-  "schemaVersion": 36,
+  "refresh": "",
+  "schemaVersion": 38,
   "style": "dark",
   "tags": [
     "tesla",
@@ -706,7 +754,7 @@
       {
         "current": {
           "selected": false,
-          "text": "Jo-El",
+          "text": "Interceptor",
           "value": "1"
         },
         "datasource": "TeslaMate",
@@ -826,6 +874,6 @@
   "timezone": "",
   "title": "Charging Curves",
   "uid": "bdPvluK4z",
-  "version": 1,
+  "version": 2,
   "weekStart": ""
 }
