@@ -22,7 +22,7 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 1,
-  "iteration": 1680339068339,
+  "id": 419,
   "links": [
     {
       "icon": "dashboard",
@@ -91,7 +91,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": null
               }
             ]
           }
@@ -208,7 +209,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": null
               },
               {
                 "color": "red",
@@ -309,6 +311,78 @@
     },
     {
       "datasource": "TeslaMate",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "pointSize": {
+              "fixed": 6
+            },
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "show": "points"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byFrameRefID",
+              "options": "Median"
+            },
+            "properties": [
+              {
+                "id": "custom.lineWidth",
+                "value": 2
+              },
+              {
+                "id": "custom.show",
+                "value": "lines"
+              },
+              {
+                "id": "custom.lineStyle"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Power [kW]"
+            },
+            "properties": [
+              {
+                "id": "custom.axisSoftMax",
+                "value": 270
+              }
+            ]
+          }
+        ]
+      },
       "gridPos": {
         "h": 13,
         "w": 12,
@@ -317,128 +391,38 @@
       },
       "id": 29,
       "links": [],
-      "pconfig": {
-        "fixScale": "",
-        "layout": {
-          "dragmode": "zoom",
-          "font": {
-            "family": "\"Open Sans\", Helvetica, Arial, sans-serif"
-          },
-          "hovermode": "closest",
-          "legend": {
-            "orientation": "h"
-          },
-          "showlegend": false,
-          "xaxis": {
-            "range": [
-              0,
-              101
-            ],
-            "rangemode": "between",
-            "showgrid": true,
-            "title": "SOC [%]",
-            "type": "linear",
-            "zeroline": false
-          },
-          "yaxis": {
-            "range": [
-              0,
-              260
-            ],
-            "rangemode": "between",
-            "showgrid": true,
-            "title": "kW",
-            "type": "linear",
-            "zeroline": false
-          },
-          "zaxis": {
-            "rangemode": "normal",
-            "showgrid": true,
-            "type": "linear",
-            "zeroline": false
-          }
+      "options": {
+        "dims": {
+          "x": "SOC [%]"
         },
-        "loadFromCDN": false,
-        "settings": {
-          "displayModeBar": false,
-          "type": "scatter"
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": false
         },
-        "showAnnotations": true,
-        "traces": [
+        "series": [
           {
-            "mapping": {
-              "color": "charging_process_id",
-              "text": "Charge",
-              "x": "SOC [%]",
-              "y": "Power [kW]"
+            "pointColor": {
+              "field": "Power [kW]",
+              "fixed": "light-green"
             },
-            "name": "Charge Curve",
-            "settings": {
-              "color_option": "ramp",
-              "line": {
-                "color": "#005f81",
-                "dash": "solid",
-                "shape": "linear",
-                "width": 6
-              },
-              "marker": {
-                "color": "#33B5E5",
-                "colorscale": "Reds",
-                "line": {
-                  "color": "#DDD",
-                  "width": 0
-                },
-                "showscale": false,
-                "size": 3,
-                "sizemin": 3,
-                "sizemode": "diameter",
-                "sizeref": 0.2,
-                "symbol": "circle"
-              }
-            },
-            "show": {
-              "line": true,
-              "lines": false,
-              "markers": true
-            }
+            "x": "SOC [%]",
+            "y": "Power [kW]"
           },
           {
-            "mapping": {
-              "color": "charging_process_id",
-              "x": "B - SOC [%]",
-              "y": "B - Avg Power [kW]"
+            "pointColor": {
+              "fixed": "dark-red"
             },
-            "name": "Median Power",
-            "settings": {
-              "color_option": "solid",
-              "line": {
-                "color": "#FF7383",
-                "dash": "solid",
-                "shape": "linear",
-                "width": 2
-              },
-              "marker": {
-                "color": "#33B5E5",
-                "colorscale": "Reds",
-                "line": {
-                  "color": "#DDD",
-                  "width": 0
-                },
-                "showscale": false,
-                "size": 2,
-                "sizemin": 3,
-                "sizemode": "diameter",
-                "sizeref": 0.2,
-                "symbol": "circle"
-              }
-            },
-            "show": {
-              "line": true,
-              "lines": true,
-              "markers": false
-            }
+            "x": "B - SOC [%]",
+            "y": "B - Avg Power [kW]"
           }
-        ]
+        ],
+        "seriesMapping": "manual",
+        "tooltip": {
+          "mode": "multi",
+          "sort": "none"
+        }
       },
       "pluginVersion": "7.5.11",
       "targets": [
@@ -497,8 +481,8 @@
           "hide": false,
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "SELECT\n\tc.battery_level as \"B - SOC [%]\",\n\tPERCENTILE_CONT(0.5) WITHIN GROUP(ORDER BY charger_power) as \"B - Avg Power [kW]\"\nFROM charges c\nJOIN charging_processes p ON p.id = c.charging_process_id \nJOIN addresses a ON a.id = p.address_id\nLEFT JOIN geofences g ON g.id = p.geofence_id\nWHERE\n\t$__timeFilter(date)\n\tAND charger_power > 0\n\tAND c.fast_charger_present\n\tAND (a.display_name ILIKE '%supercharger%' OR a.name ILIKE '%supercharger%' OR g.name ILIKE '%supercharger%')\n\tAND c.charging_process_id IN (\n\t\tSELECT c.charging_process_id\n\t\tFROM charging_processes cp\n\t\tLEFT JOIN charges c ON cp.id = c.charging_process_id\n\t\tWHERE \n\t\t\t$__timeFilter(c.date)\n\t\t\tAND cp.car_id = $car_id\n\t\t\tAND c.fast_charger_present\n\t\tGROUP BY 1\n\t\tHAVING MAX(c.charger_power) BETWEEN $min_power AND $max_power\n\t)\nGROUP BY battery_level",
-          "refId": "B",
+          "rawSql": "SELECT\n\tc.battery_level as \"B - SOC [%]\",\n\tAVG(charger_power) as \"B - Avg Power [kW]\"\nFROM charges c\nJOIN charging_processes p ON p.id = c.charging_process_id \nJOIN addresses a ON a.id = p.address_id\nLEFT JOIN geofences g ON g.id = p.geofence_id\nWHERE\n\t$__timeFilter(date)\n\tAND charger_power > 0\n\tAND c.fast_charger_present\n\tAND (a.display_name ILIKE '%supercharger%' OR a.name ILIKE '%supercharger%' OR g.name ILIKE '%supercharger%')\n\tAND c.charging_process_id IN (\n\t\tSELECT c.charging_process_id\n\t\tFROM charging_processes cp\n\t\tLEFT JOIN charges c ON cp.id = c.charging_process_id\n\t\tWHERE \n\t\t\t$__timeFilter(c.date)\n\t\t\tAND cp.car_id = $car_id\n\t\t\tAND c.fast_charger_present\n\t\tGROUP BY 1\n\t\tHAVING MAX(c.charger_power) BETWEEN $min_power AND $max_power\n\t)\nGROUP BY battery_level",
+          "refId": "Median",
           "select": [
             [
               {
@@ -539,11 +523,82 @@
         }
       ],
       "title": "Tesla SuperCharger charging curve",
-      "type": "natel-plotly-panel",
-      "version": 1
+      "type": "xychart"
     },
     {
       "datasource": "TeslaMate",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "pointSize": {
+              "fixed": 6
+            },
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "show": "points"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byFrameRefID",
+              "options": "Median"
+            },
+            "properties": [
+              {
+                "id": "custom.lineWidth",
+                "value": 2
+              },
+              {
+                "id": "custom.show",
+                "value": "lines"
+              },
+              {
+                "id": "custom.lineStyle"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Power [kW]"
+            },
+            "properties": [
+              {
+                "id": "custom.axisSoftMax",
+                "value": 270
+              }
+            ]
+          }
+        ]
+      },
       "gridPos": {
         "h": 13,
         "w": 12,
@@ -552,140 +607,47 @@
       },
       "id": 30,
       "links": [],
-      "pconfig": {
-        "fixScale": "",
-        "layout": {
-          "dragmode": "zoom",
-          "font": {
-            "family": "\"Open Sans\", Helvetica, Arial, sans-serif"
-          },
-          "hovermode": "closest",
-          "legend": {
-            "orientation": "h"
-          },
-          "showlegend": false,
-          "xaxis": {
-            "range": [
-              0,
-              101
-            ],
-            "rangemode": "between",
-            "showgrid": true,
-            "title": "SOC [%]",
-            "type": "linear",
-            "zeroline": false
-          },
-          "yaxis": {
-            "range": [
-              0,
-              260
-            ],
-            "rangemode": "between",
-            "showgrid": true,
-            "title": "kW",
-            "type": "linear",
-            "zeroline": false
-          },
-          "zaxis": {
-            "rangemode": "normal",
-            "showgrid": true,
-            "type": "linear",
-            "zeroline": false
-          }
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": false
         },
-        "loadFromCDN": false,
-        "settings": {
-          "displayModeBar": false,
-          "type": "scatter"
-        },
-        "showAnnotations": true,
-        "traces": [
+        "series": [
           {
-            "mapping": {
-              "color": "charging_process_id",
-              "text": "Charge",
-              "x": "SOC [%]",
-              "y": "Power [kW]"
+            "pointColor": {
+              "field": "Power [kW]"
             },
-            "name": "Charge Curve",
-            "settings": {
-              "color_option": "ramp",
-              "line": {
-                "color": "#005f81",
-                "dash": "solid",
-                "shape": "linear",
-                "width": 6
-              },
-              "marker": {
-                "color": "#33B5E5",
-                "colorscale": "Reds",
-                "line": {
-                  "color": "#DDD",
-                  "width": 0
-                },
-                "showscale": false,
-                "size": 3,
-                "sizemin": 3,
-                "sizemode": "diameter",
-                "sizeref": 0.2,
-                "symbol": "circle"
-              }
-            },
-            "show": {
-              "line": true,
-              "lines": false,
-              "markers": true
-            }
+            "x": "SOC [%]",
+            "y": "Power [kW]"
           },
           {
-            "mapping": {
-              "color": "charging_process_id",
-              "x": "B - SOC [%]",
-              "y": "B - Avg Power [kW]"
+            "pointColor": {
+              "fixed": "dark-red"
             },
-            "name": "Median Power",
-            "settings": {
-              "color_option": "solid",
-              "line": {
-                "color": "#FF7383",
-                "dash": "solid",
-                "shape": "linear",
-                "width": 2
-              },
-              "marker": {
-                "color": "#33B5E5",
-                "colorscale": "Reds",
-                "line": {
-                  "color": "#DDD",
-                  "width": 0
-                },
-                "showscale": false,
-                "size": 2,
-                "sizemin": 3,
-                "sizemode": "diameter",
-                "sizeref": 0.2,
-                "symbol": "circle"
-              }
-            },
-            "show": {
-              "line": true,
-              "lines": true,
-              "markers": false
-            }
+            "x": "B - SOC [%]",
+            "y": "B - Avg Power [kW]"
           }
-        ]
+        ],
+        "seriesMapping": "manual",
+        "tooltip": {
+          "mode": "multi",
+          "sort": "none"
+        }
       },
       "pluginVersion": "7.5.11",
       "targets": [
         {
           "alias": "",
           "datasource": "TeslaMate",
+          "editorMode": "code",
           "format": "table",
           "group": [],
           "hide": false,
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "SELECT\n\tc.battery_level as \"SOC [%]\", round(avg(c.charger_power), 0) as \"Power [kW]\",\n\tc.charging_process_id as \"charging_process_id\",\n\tCOALESCE(g.name, a.name) || ' ' || to_char(c.date, 'YYYY-MM-dd') as \"Charge\"\nFROM\n  charges c\nJOIN charging_processes p ON p.id = c.charging_process_id \nJOIN addresses a ON a.id = p.address_id\nLEFT JOIN geofences g ON g.id = p.geofence_id\nWHERE\n\t$__timeFilter(date)\n\tAND p.car_id = $car_id\n\tAND c.fast_charger_present\n\tAND c.charger_power > 0.01\n\tAND CASE \n\t\tWHEN (p.geofence_id IS NOT NULL) THEN (a.name NOT ILIKE '%supercharger%' AND g.name NOT ILIKE '%supercharger%')\n\t\tELSE a.name NOT ILIKE '%supercharger%'\n\tEND\n\tAND c.charging_process_id IN (\n\t\tSELECT c.charging_process_id\n\t\tFROM charging_processes cp\n\t\tLEFT JOIN charges c ON cp.id = c.charging_process_id\n\t\tWHERE \n\t\t\t$__timeFilter(c.date)\n\t\t\tAND cp.car_id = $car_id\n\t\t\tAND c.fast_charger_present\n\t\tGROUP BY 1\n\t\tHAVING MAX(c.charger_power) BETWEEN $min_power AND $max_power\n\t)\nGROUP BY c.battery_level, c.charging_process_id, a.name, g.name, to_char(c.date, 'YYYY-MM-dd')",
+          "rawSql": "SELECT\n\tc.battery_level as \"SOC [%]\", \n\tround(avg(c.charger_power), 0) as \"Power [kW]\",\n\tc.charging_process_id as \"charging_process_id\",\n\tCOALESCE(g.name, a.name) || ' ' || to_char(c.date, 'YYYY-MM-dd') as \"Charge\"\nFROM charges c\nJOIN charging_processes p ON p.id = c.charging_process_id \nJOIN addresses a ON a.id = p.address_id\nLEFT JOIN geofences g ON g.id = p.geofence_id\nWHERE\n\t$__timeFilter(date)\n\tAND p.car_id = $car_id\n\tAND c.fast_charger_present\n\tAND c.charger_power > 0.01\n\tAND CASE \n\t\tWHEN (p.geofence_id IS NOT NULL) THEN (a.name NOT ILIKE '%supercharger%' AND g.name NOT ILIKE '%supercharger%')\n\t\tELSE a.name NOT ILIKE '%supercharger%'\n\tEND\n\tAND c.charging_process_id IN (\n\t\tSELECT c.charging_process_id\n\t\tFROM charging_processes cp\n\t\tLEFT JOIN charges c ON cp.id = c.charging_process_id\n\t\tWHERE \n\t\t\t$__timeFilter(c.date)\n\t\t\tAND cp.car_id = $car_id\n\t\t\tAND c.fast_charger_present\n\t\tGROUP BY 1\n\t\tHAVING MAX(c.charger_power) BETWEEN $min_power AND $max_power\n\t)\nGROUP BY c.battery_level, c.charging_process_id, a.name, g.name, to_char(c.date, 'YYYY-MM-dd')",
           "refId": "A",
           "select": [
             [
@@ -697,6 +659,23 @@
               }
             ]
           ],
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          },
           "timeColumn": "time",
           "where": [
             {
@@ -708,13 +687,14 @@
         },
         {
           "datasource": "TeslaMate",
+          "editorMode": "code",
           "format": "table",
           "group": [],
           "hide": false,
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "SELECT\n\tc.battery_level as \"B - SOC [%]\", PERCENTILE_CONT(0.5) WITHIN GROUP(ORDER BY charger_power) as \"B - Avg Power [kW]\"\nFROM\n\tcharges c\nJOIN charging_processes p ON p.id = c.charging_process_id \nJOIN addresses a ON a.id = p.address_id\nLEFT JOIN geofences g ON g.id = p.geofence_id\nWHERE\n\t$__timeFilter(date)\n\tAND p.car_id = $car_id\n\tAND charger_power > 22\n\tAND c.fast_charger_present\n\tAND CASE \n\t\tWHEN (p.geofence_id IS NOT NULL) THEN (a.name NOT ILIKE '%supercharger%' AND g.name NOT ILIKE '%supercharger%')\n\t\tELSE a.name NOT ILIKE '%supercharger%'\n\tEND\n\tAND c.charging_process_id IN (\n\t\tSELECT c.charging_process_id\n\t\tFROM charging_processes cp\n\t\tLEFT JOIN charges c ON cp.id = c.charging_process_id\n\t\tWHERE \n\t\t\t$__timeFilter(c.date)\n\t\t\tAND cp.car_id = $car_id\n\t\t\tAND c.fast_charger_present\n\t\tGROUP BY 1\n\t\tHAVING MAX(c.charger_power) BETWEEN $min_power AND $max_power\n\t)\nGROUP BY battery_level",
-          "refId": "B",
+          "rawSql": "SELECT\n\tc.battery_level as \"B - SOC [%]\",\n\tAVG(charger_power) as \"B - Avg Power [kW]\"\nFROM\n\tcharges c\nJOIN charging_processes p ON p.id = c.charging_process_id \nJOIN addresses a ON a.id = p.address_id\nLEFT JOIN geofences g ON g.id = p.geofence_id\nWHERE\n\t$__timeFilter(date)\n\tAND p.car_id = $car_id\n\tAND charger_power > 22\n\tAND c.fast_charger_present\n\tAND CASE \n\t\tWHEN (p.geofence_id IS NOT NULL) THEN (a.name NOT ILIKE '%supercharger%' AND g.name NOT ILIKE '%supercharger%')\n\t\tELSE a.name NOT ILIKE '%supercharger%'\n\tEND\n\tAND c.charging_process_id IN (\n\t\tSELECT c.charging_process_id\n\t\tFROM charging_processes cp\n\t\tLEFT JOIN charges c ON cp.id = c.charging_process_id\n\t\tWHERE \n\t\t\t$__timeFilter(c.date)\n\t\t\tAND cp.car_id = $car_id\n\t\t\tAND c.fast_charger_present\n\t\tGROUP BY 1\n\t\tHAVING MAX(c.charger_power) BETWEEN $min_power AND $max_power\n\t)\nGROUP BY battery_level",
+          "refId": "Median",
           "select": [
             [
               {
@@ -725,6 +705,23 @@
               }
             ]
           ],
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          },
           "table": "cars",
           "timeColumn": "inserted_at",
           "timeColumnType": "timestamp",
@@ -738,8 +735,7 @@
         }
       ],
       "title": "Other DC charging curve",
-      "type": "natel-plotly-panel",
-      "version": 1
+      "type": "xychart"
     }
   ],
   "refresh": "",
@@ -874,6 +870,6 @@
   "timezone": "",
   "title": "Charging Curves",
   "uid": "bdPvluK4z",
-  "version": 2,
+  "version": 1,
   "weekStart": ""
 }
