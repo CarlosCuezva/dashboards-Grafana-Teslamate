@@ -1078,22 +1078,41 @@
     },
     {
       "datasource": "TeslaMate",
+      "description": "",
       "fieldConfig": {
         "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "decimals": 1,
           "mappings": [],
           "thresholds": {
             "mode": "absolute",
             "steps": [
               {
-                "color": "#9ea39d",
+                "color": "red",
                 "value": null
+              },
+              {
+                "color": "yellow",
+                "value": 2.25
+              },
+              {
+                "color": "green",
+                "value": 2.5
+              },
+              {
+                "color": "yellow",
+                "value": 3
+              },
+              {
+                "color": "red",
+                "value": 3.25
               }
             ]
-          }
+          },
+          "color": {
+            "mode": "thresholds"
+          },
+          "decimals": 1,
+          "max": 3.5,
+          "min": 2
         },
         "overrides": []
       },
@@ -1104,21 +1123,29 @@
         "y": 7
       },
       "id": 28,
+      "links": [
+        {
+          "targetBlank": true,
+          "title": "Tire Presssure",
+          "url": "d/q4YF9XA4k/tire-pressure?orgId=1"
+        }
+      ],
       "options": {
-        "colorMode": "value",
-        "graphMode": "area",
-        "justifyMode": "center",
-        "orientation": "auto",
         "reduceOptions": {
+          "values": false,
           "calcs": [
             "lastNotNull"
           ],
-          "fields": "",
-          "values": false
+          "fields": ""
         },
-        "textMode": "auto"
+        "orientation": "auto",
+        "showThresholdLabels": false,
+        "showThresholdMarkers": true,
+        "sizing": "auto",
+        "minVizWidth": 75,
+        "minVizHeight": 75
       },
-      "pluginVersion": "8.5.15",
+      "pluginVersion": "10.4.2",
       "targets": [
         {
           "datasource": "TeslaMate",
@@ -1150,8 +1177,8 @@
           ]
         }
       ],
-      "title": "Tire pressure ($pressure_unit)",
-      "type": "stat"
+      "title": "Tire Pressure ($pressure_unit)",
+      "type": "gauge"
     },
     {
       "datasource": "TeslaMate",
