@@ -41,7 +41,7 @@ LAST RELEASE:      ${get_last_release}
 
   COLUMNS=12
   PS3='Please, enter your choice: '
-  options=("Generate config file" "Download and install/update the latest version", "Install/update downloaded dashboards")
+  options=("Generate config file" "Download and install/update the latest version" "Install/update downloaded dashboards")
   echo -e "What do you want to do?\n"
   select opt in "${options[@]}" Quit
   do
