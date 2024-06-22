@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.23.4] - 2024-06-22
+
+- Overview v2: Used gauge graph for tire pressure (#36 - @peterwillcn)
+- Tire Pressure: Used gauge graph for tire pressure (#36 - @peterwillcn)
+- dashboards.sh: Added option to install directly the downloaded dashboards
+
 ## [1.23.3] - 2023-11-26
 
 - Charging Curves: Adapted the panel to the new version of Grafana
@@ -370,6 +376,7 @@
 
 ## [1.0.0] - 2022-12-19
 
+[1.23.4]: https://github.com/CarlosCuezva/dashboards-Grafana-Teslamate/compare/v1.23.3...v1.23.4
 [1.23.3]: https://github.com/CarlosCuezva/dashboards-Grafana-Teslamate/compare/v1.23.2...v1.23.3
 [1.23.2]: https://github.com/CarlosCuezva/dashboards-Grafana-Teslamate/compare/v1.23.1...v1.23.2
 [1.23.1]: https://github.com/CarlosCuezva/dashboards-Grafana-Teslamate/compare/v1.23.0...v1.23.1
