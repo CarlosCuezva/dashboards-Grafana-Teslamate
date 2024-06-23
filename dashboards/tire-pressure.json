@@ -22,7 +22,7 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 1,
-  "iteration": 1681490031795,
+  "id": null,
   "links": [
     {
       "icon": "dashboard",
@@ -62,9 +62,13 @@
       "datasource": "TeslaMate",
       "fieldConfig": {
         "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "decimals": 1,
           "mappings": [],
           "thresholds": {
-            "mode": "absolute",
+            "mode": "percentage",
             "steps": [
               {
                 "color": "red",
@@ -72,28 +76,22 @@
               },
               {
                 "color": "yellow",
-                "value": 2.25
+                "value": 16.66
               },
               {
                 "color": "green",
-                "value": 2.5
+                "value": 33.33
               },
               {
                 "color": "yellow",
-                "value": 3
+                "value": 66.66
               },
               {
                 "color": "red",
-                "value": 3.25
+                "value": 83.33
               }
             ]
-          },
-          "color": {
-            "mode": "thresholds"
-          },
-          "decimals": 1,
-          "max": 3.5,
-          "min": 2
+          }
         },
         "overrides": []
       },
@@ -105,24 +103,25 @@
       },
       "id": 9,
       "options": {
+        "minVizHeight": 75,
+        "minVizWidth": 75,
+        "orientation": "auto",
         "reduceOptions": {
-          "values": false,
           "calcs": [
             "lastNotNull"
           ],
-          "fields": ""
+          "fields": "",
+          "values": false
         },
-        "orientation": "auto",
         "showThresholdLabels": false,
         "showThresholdMarkers": true,
-        "sizing": "auto",
-        "minVizWidth": 75,
-        "minVizHeight": 75
+        "sizing": "auto"
       },
-      "pluginVersion": "10.4.2",
+      "pluginVersion": "11.0.0",
       "targets": [
         {
           "datasource": "TeslaMate",
+          "editorMode": "code",
           "format": "table",
           "group": [],
           "metricColumn": "none",
@@ -139,6 +138,23 @@
               }
             ]
           ],
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          },
           "table": "cars",
           "timeColumn": "inserted_at",
           "timeColumnType": "timestamp",
@@ -149,9 +165,59 @@
               "type": "macro"
             }
           ]
+        },
+        {
+          "datasource": "TeslaMate",
+          "editorMode": "code",
+          "format": "table",
+          "hide": false,
+          "rawQuery": true,
+          "rawSql": "SELECT CASE \n  WHEN unit_of_pressure = 'bar' THEN 3.5\n  ELSE 50.75\n  END AS max_value,\n  CASE WHEN unit_of_pressure = 'bar' THEN 2\n  ELSE 29\n  END AS min_value\nFROM settings LIMIT 1",
+          "refId": "B",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
         }
       ],
       "title": "Currrent tire pressure ($pressure_unit)",
+      "transformations": [
+        {
+          "id": "configFromData",
+          "options": {
+            "applyTo": {
+              "id": "byFrameRefID",
+              "options": "A"
+            },
+            "configRefId": "B",
+            "mappings": [
+              {
+                "fieldName": "max_value",
+                "handlerKey": "max",
+                "reducerId": "lastNotNull"
+              },
+              {
+                "fieldName": "min_value",
+                "handlerKey": "min",
+                "reducerId": "lastNotNull"
+              }
+            ]
+          }
+        }
+      ],
       "type": "gauge"
     },
     {
@@ -164,7 +230,9 @@
           },
           "custom": {
             "align": "auto",
-            "displayMode": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
             "inspect": false
           },
           "mappings": [],
@@ -253,7 +321,9 @@
       },
       "id": 4,
       "options": {
+        "cellHeight": "sm",
         "footer": {
+          "countRows": false,
           "fields": "",
           "reducer": [
             "mean"
@@ -262,7 +332,7 @@
         },
         "showHeader": true
       },
-      "pluginVersion": "8.5.15",
+      "pluginVersion": "11.0.0",
       "targets": [
         {
           "datasource": "TeslaMate",
@@ -301,9 +371,13 @@
       "datasource": "TeslaMate",
       "fieldConfig": {
         "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "decimals": 1,
           "mappings": [],
           "thresholds": {
-            "mode": "absolute",
+            "mode": "percentage",
             "steps": [
               {
                 "color": "red",
@@ -311,28 +385,22 @@
               },
               {
                 "color": "yellow",
-                "value": 2.25
+                "value": 16.66
               },
               {
                 "color": "green",
-                "value": 2.5
+                "value": 33.33
               },
               {
                 "color": "yellow",
-                "value": 3
+                "value": 66.66
               },
               {
                 "color": "red",
-                "value": 3.25
+                "value": 83.33
               }
             ]
-          },
-          "color": {
-            "mode": "thresholds"
-          },
-          "decimals": 1,
-          "max": 3.5,
-          "min": 2
+          }
         },
         "overrides": []
       },
@@ -342,26 +410,27 @@
         "x": 0,
         "y": 7
       },
-      "id": 10,
+      "id": 11,
       "options": {
+        "minVizHeight": 75,
+        "minVizWidth": 75,
+        "orientation": "auto",
         "reduceOptions": {
-          "values": false,
           "calcs": [
             "lastNotNull"
           ],
-          "fields": ""
+          "fields": "",
+          "values": false
         },
-        "orientation": "auto",
         "showThresholdLabels": false,
         "showThresholdMarkers": true,
-        "sizing": "auto",
-        "minVizWidth": 75,
-        "minVizHeight": 75
+        "sizing": "auto"
       },
-      "pluginVersion": "10.4.2",
+      "pluginVersion": "11.0.0",
       "targets": [
         {
           "datasource": "TeslaMate",
+          "editorMode": "code",
           "format": "table",
           "group": [],
           "metricColumn": "none",
@@ -378,6 +447,23 @@
               }
             ]
           ],
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          },
           "table": "cars",
           "timeColumn": "inserted_at",
           "timeColumnType": "timestamp",
@@ -388,15 +474,64 @@
               "type": "macro"
             }
           ]
+        },
+        {
+          "datasource": "TeslaMate",
+          "editorMode": "code",
+          "format": "table",
+          "hide": false,
+          "rawQuery": true,
+          "rawSql": "SELECT CASE \n  WHEN unit_of_pressure = 'bar' THEN 3.5\n  ELSE 50.75\n  END AS max_value,\n  CASE WHEN unit_of_pressure = 'bar' THEN 2\n  ELSE 29\n  END AS min_value\nFROM settings LIMIT 1",
+          "refId": "B",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
         }
       ],
       "title": "Tire pressure on the last drive ($pressure_unit)",
+      "transformations": [
+        {
+          "id": "configFromData",
+          "options": {
+            "applyTo": {
+              "id": "byFrameRefID",
+              "options": "A"
+            },
+            "configRefId": "B",
+            "mappings": [
+              {
+                "fieldName": "max_value",
+                "handlerKey": "max",
+                "reducerId": "lastNotNull"
+              },
+              {
+                "fieldName": "min_value",
+                "handlerKey": "min",
+                "reducerId": "lastNotNull"
+              }
+            ]
+          }
+        }
+      ],
       "type": "gauge"
     }
   ],
   "refresh": false,
-  "schemaVersion": 36,
-  "style": "dark",
+  "schemaVersion": 39,
   "tags": [
     "tesla",
     "teslaCustom"
@@ -404,11 +539,7 @@
   "templating": {
     "list": [
       {
-        "current": {
-          "selected": false,
-          "text": "Jo-El",
-          "value": "1"
-        },
+        "current": {},
         "datasource": "TeslaMate",
         "definition": "SELECT name AS __text, id AS __value FROM cars ORDER BY display_priority ASC, name ASC;",
         "hide": 0,
@@ -428,11 +559,7 @@
         "useTags": false
       },
       {
-        "current": {
-          "selected": false,
-          "text": "http://192.168.2.249:4000",
-          "value": "http://192.168.2.249:4000"
-        },
+        "current": {},
         "datasource": "TeslaMate",
         "definition": "select base_url from settings limit 1;",
         "hide": 2,
@@ -452,11 +579,7 @@
         "useTags": false
       },
       {
-        "current": {
-          "selected": false,
-          "text": "bar",
-          "value": "bar"
-        },
+        "current": {},
         "datasource": "TeslaMate",
         "definition": "SELECT unit_of_pressure FROM settings LIMIT 1",
         "hide": 2,
@@ -477,6 +600,7 @@
     "from": "now-90d",
     "to": "now"
   },
+  "timeRangeUpdatedDuringEditOrView": false,
   "timepicker": {
     "hidden": false,
     "refresh_intervals": [

@@ -23,7 +23,7 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 1,
-  "iteration": 1677514233467,
+  "id": null,
   "links": [
     {
       "icon": "dashboard",
@@ -107,6 +107,8 @@
       },
       "id": 4,
       "options": {
+        "minVizHeight": 75,
+        "minVizWidth": 75,
         "orientation": "auto",
         "reduceOptions": {
           "calcs": [
@@ -116,9 +118,10 @@
           "values": false
         },
         "showThresholdLabels": false,
-        "showThresholdMarkers": true
+        "showThresholdMarkers": true,
+        "sizing": "auto"
       },
-      "pluginVersion": "8.5.15",
+      "pluginVersion": "11.0.0",
       "targets": [
         {
           "format": "table",
@@ -140,7 +143,8 @@
           "table": "positions",
           "timeColumn": "date",
           "timeColumnType": "timestamp",
-          "where": []
+          "where": [],
+          "datasource": "TeslaMate"
         }
       ],
       "title": "Battery Level",
@@ -177,8 +181,9 @@
         "y": 0
       },
       "id": 10,
-      "links": [],
       "options": {
+        "minVizHeight": 75,
+        "minVizWidth": 75,
         "orientation": "auto",
         "reduceOptions": {
           "calcs": [
@@ -188,9 +193,10 @@
           "values": false
         },
         "showThresholdLabels": false,
-        "showThresholdMarkers": true
+        "showThresholdMarkers": true,
+        "sizing": "auto"
       },
-      "pluginVersion": "8.5.15",
+      "pluginVersion": "11.0.0",
       "targets": [
         {
           "format": "time_series",
@@ -218,7 +224,8 @@
               "params": [],
               "type": "macro"
             }
-          ]
+          ],
+          "datasource": "TeslaMate"
         }
       ],
       "title": "Charging Voltage",
@@ -256,6 +263,8 @@
       },
       "id": 11,
       "options": {
+        "minVizHeight": 75,
+        "minVizWidth": 75,
         "orientation": "auto",
         "reduceOptions": {
           "calcs": [
@@ -265,9 +274,10 @@
           "values": false
         },
         "showThresholdLabels": false,
-        "showThresholdMarkers": true
+        "showThresholdMarkers": true,
+        "sizing": "auto"
       },
-      "pluginVersion": "8.5.15",
+      "pluginVersion": "11.0.0",
       "targets": [
         {
           "format": "table",
@@ -295,7 +305,8 @@
               "params": [],
               "type": "macro"
             }
-          ]
+          ],
+          "datasource": "TeslaMate"
         }
       ],
       "title": "Charging kW",
@@ -349,6 +360,7 @@
           "mouseWheelZoom": false,
           "showAttribution": false,
           "showDebug": false,
+          "showMeasure": false,
           "showScale": false,
           "showZoom": true
         },
@@ -398,7 +410,11 @@
             "type": "markers"
           }
         ],
+        "tooltip": {
+          "mode": "details"
+        },
         "view": {
+          "allLayers": true,
           "id": "fit",
           "lat": 0,
           "lon": 0,
@@ -406,7 +422,7 @@
           "zoom": 17
         }
       },
-      "pluginVersion": "8.5.15",
+      "pluginVersion": "11.0.0",
       "targets": [
         {
           "datasource": "TeslaMate",
@@ -449,6 +465,9 @@
             "mode": "palette-classic"
           },
           "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
             "axisLabel": "",
             "axisPlacement": "auto",
             "barAlignment": 0,
@@ -460,6 +479,7 @@
               "tooltip": false,
               "viz": false
             },
+            "insertNulls": false,
             "lineInterpolation": "linear",
             "lineWidth": 1,
             "pointSize": 5,
@@ -517,9 +537,11 @@
             "min"
           ],
           "displayMode": "list",
-          "placement": "bottom"
+          "placement": "bottom",
+          "showLegend": true
         },
         "tooltip": {
+          "maxHeight": 600,
           "mode": "multi",
           "sort": "none"
         }
@@ -620,7 +642,6 @@
         "y": 4
       },
       "id": 14,
-      "links": [],
       "maxDataPoints": 100,
       "options": {
         "colorMode": "value",
@@ -639,9 +660,11 @@
           "fields": "",
           "values": false
         },
-        "textMode": "value"
+        "showPercentChange": false,
+        "textMode": "value",
+        "wideLayout": true
       },
-      "pluginVersion": "8.5.15",
+      "pluginVersion": "11.0.0",
       "targets": [
         {
           "format": "time_series",
@@ -667,7 +690,8 @@
               "params": [],
               "type": "macro"
             }
-          ]
+          ],
+          "datasource": "TeslaMate"
         }
       ],
       "title": "Range",
@@ -734,9 +758,11 @@
           "fields": "",
           "values": false
         },
-        "textMode": "auto"
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
       },
-      "pluginVersion": "8.5.15",
+      "pluginVersion": "11.0.0",
       "targets": [
         {
           "format": "table",
@@ -764,7 +790,8 @@
               "params": [],
               "type": "macro"
             }
-          ]
+          ],
+          "datasource": "TeslaMate"
         }
       ],
       "title": "Net",
@@ -831,9 +858,11 @@
           "fields": "",
           "values": false
         },
-        "textMode": "auto"
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
       },
-      "pluginVersion": "8.5.15",
+      "pluginVersion": "11.0.0",
       "targets": [
         {
           "format": "table",
@@ -861,7 +890,8 @@
               "params": [],
               "type": "macro"
             }
-          ]
+          ],
+          "datasource": "TeslaMate"
         }
       ],
       "title": "Gross",
@@ -930,9 +960,11 @@
           "fields": "/^version$/",
           "values": true
         },
-        "textMode": "value"
+        "showPercentChange": false,
+        "textMode": "value",
+        "wideLayout": true
       },
-      "pluginVersion": "8.5.15",
+      "pluginVersion": "11.0.0",
       "targets": [
         {
           "format": "table",
@@ -960,7 +992,8 @@
               "params": [],
               "type": "macro"
             }
-          ]
+          ],
+          "datasource": "TeslaMate"
         }
       ],
       "title": "Firmware",
@@ -1042,9 +1075,11 @@
           "fields": "",
           "values": false
         },
-        "textMode": "value"
+        "showPercentChange": false,
+        "textMode": "value",
+        "wideLayout": true
       },
-      "pluginVersion": "8.5.15",
+      "pluginVersion": "11.0.0",
       "targets": [
         {
           "format": "time_series",
@@ -1070,7 +1105,8 @@
               "params": [],
               "type": "macro"
             }
-          ]
+          ],
+          "datasource": "TeslaMate"
         }
       ],
       "title": "Odometer",
@@ -1078,12 +1114,15 @@
     },
     {
       "datasource": "TeslaMate",
-      "description": "",
       "fieldConfig": {
         "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "decimals": 1,
           "mappings": [],
           "thresholds": {
-            "mode": "absolute",
+            "mode": "percentage",
             "steps": [
               {
                 "color": "red",
@@ -1091,28 +1130,22 @@
               },
               {
                 "color": "yellow",
-                "value": 2.25
+                "value": 16.66
               },
               {
                 "color": "green",
-                "value": 2.5
+                "value": 33.33
               },
               {
                 "color": "yellow",
-                "value": 3
+                "value": 66.66
               },
               {
                 "color": "red",
-                "value": 3.25
+                "value": 83.33
               }
             ]
-          },
-          "color": {
-            "mode": "thresholds"
-          },
-          "decimals": 1,
-          "max": 3.5,
-          "min": 2
+          }
         },
         "overrides": []
       },
@@ -1122,38 +1155,38 @@
         "x": 9,
         "y": 7
       },
-      "id": 28,
+      "id": 29,
       "links": [
         {
-          "targetBlank": true,
-          "title": "Tire Presssure",
-          "url": "d/q4YF9XA4k/tire-pressure?orgId=1"
+          "title": "Tire Pressure",
+          "url": "/d/q4YF9XA4k/tire-pressure?orgId=1"
         }
       ],
       "options": {
+        "minVizHeight": 75,
+        "minVizWidth": 75,
+        "orientation": "auto",
         "reduceOptions": {
-          "values": false,
           "calcs": [
             "lastNotNull"
           ],
-          "fields": ""
+          "fields": "",
+          "values": false
         },
-        "orientation": "auto",
         "showThresholdLabels": false,
         "showThresholdMarkers": true,
-        "sizing": "auto",
-        "minVizWidth": 75,
-        "minVizHeight": 75
+        "sizing": "auto"
       },
-      "pluginVersion": "10.4.2",
+      "pluginVersion": "11.0.0",
       "targets": [
         {
           "datasource": "TeslaMate",
+          "editorMode": "code",
           "format": "table",
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "SELECT\n  convert_tire_pressure(tpms_pressure_fl, '$pressure_unit') AS \"Front left\",\n  convert_tire_pressure(tpms_pressure_fr, '$pressure_unit') AS \"Front right\",\n  convert_tire_pressure(tpms_pressure_rl, '$pressure_unit') AS \"Rear left\",\n  convert_tire_pressure(tpms_pressure_rr, '$pressure_unit') AS \"Rear right\"\nFROM positions\nWHERE\n  car_id = $car_id\nORDER BY date DESC \nLIMIT 1",
+          "rawSql": "SELECT\n  convert_tire_pressure(tpms_pressure_fl, '$pressure_unit') AS \"Front left\",\n  convert_tire_pressure(tpms_pressure_fr, '$pressure_unit') AS \"Front right\",\n  convert_tire_pressure(tpms_pressure_rl, '$pressure_unit') AS \"Rear left\",\n  convert_tire_pressure(tpms_pressure_rr, '$pressure_unit') AS \"Rear right\"\nFROM positions\nWHERE\n  car_id = $car_id\n  AND tpms_pressure_fl IS NOT NULL\n  AND tpms_pressure_fr IS NOT NULL\n  AND tpms_pressure_rl IS NOT NULL\n  AND tpms_pressure_rr IS NOT NULL\nORDER BY date DESC \nLIMIT 1",
           "refId": "A",
           "select": [
             [
@@ -1165,6 +1198,23 @@
               }
             ]
           ],
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          },
           "table": "cars",
           "timeColumn": "inserted_at",
           "timeColumnType": "timestamp",
@@ -1175,9 +1225,59 @@
               "type": "macro"
             }
           ]
+        },
+        {
+          "datasource": "TeslaMate",
+          "editorMode": "code",
+          "format": "table",
+          "hide": false,
+          "rawQuery": true,
+          "rawSql": "SELECT CASE \n  WHEN unit_of_pressure = 'bar' THEN 3.5\n  ELSE 50.75\n  END AS max_value,\n  CASE WHEN unit_of_pressure = 'bar' THEN 2\n  ELSE 29\n  END AS min_value\nFROM settings LIMIT 1",
+          "refId": "B",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
         }
       ],
       "title": "Tire Pressure ($pressure_unit)",
+      "transformations": [
+        {
+          "id": "configFromData",
+          "options": {
+            "applyTo": {
+              "id": "byFrameRefID",
+              "options": "A"
+            },
+            "configRefId": "B",
+            "mappings": [
+              {
+                "fieldName": "max_value",
+                "handlerKey": "max",
+                "reducerId": "lastNotNull"
+              },
+              {
+                "fieldName": "min_value",
+                "handlerKey": "min",
+                "reducerId": "lastNotNull"
+              }
+            ]
+          }
+        }
+      ],
       "type": "gauge"
     },
     {
@@ -1188,6 +1288,9 @@
             "mode": "palette-classic"
           },
           "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
             "axisLabel": "",
             "axisPlacement": "auto",
             "barAlignment": 0,
@@ -1199,6 +1302,7 @@
               "tooltip": false,
               "viz": false
             },
+            "insertNulls": false,
             "lineInterpolation": "stepAfter",
             "lineWidth": 1,
             "pointSize": 5,
@@ -1347,9 +1451,11 @@
             "min"
           ],
           "displayMode": "list",
-          "placement": "bottom"
+          "placement": "bottom",
+          "showLegend": true
         },
         "tooltip": {
+          "maxHeight": 600,
           "mode": "multi",
           "sort": "none"
         }
@@ -1412,7 +1518,8 @@
               "params": [],
               "type": "macro"
             }
-          ]
+          ],
+          "datasource": "TeslaMate"
         }
       ],
       "title": "Charging Details",
@@ -1450,6 +1557,8 @@
       },
       "id": 16,
       "options": {
+        "minVizHeight": 75,
+        "minVizWidth": 75,
         "orientation": "auto",
         "reduceOptions": {
           "calcs": [
@@ -1459,9 +1568,10 @@
           "values": false
         },
         "showThresholdLabels": false,
-        "showThresholdMarkers": true
+        "showThresholdMarkers": true,
+        "sizing": "auto"
       },
-      "pluginVersion": "8.5.15",
+      "pluginVersion": "11.0.0",
       "targets": [
         {
           "format": "table",
@@ -1489,7 +1599,8 @@
               "params": [],
               "type": "macro"
             }
-          ]
+          ],
+          "datasource": "TeslaMate"
         }
       ],
       "title": "Driver Temp",
@@ -1527,6 +1638,8 @@
       },
       "id": 8,
       "options": {
+        "minVizHeight": 75,
+        "minVizWidth": 75,
         "orientation": "auto",
         "reduceOptions": {
           "calcs": [
@@ -1536,9 +1649,10 @@
           "values": false
         },
         "showThresholdLabels": false,
-        "showThresholdMarkers": true
+        "showThresholdMarkers": true,
+        "sizing": "auto"
       },
-      "pluginVersion": "8.5.15",
+      "pluginVersion": "11.0.0",
       "targets": [
         {
           "format": "table",
@@ -1566,7 +1680,8 @@
               "params": [],
               "type": "macro"
             }
-          ]
+          ],
+          "datasource": "TeslaMate"
         }
       ],
       "title": "Outside Temp",
@@ -1604,6 +1719,8 @@
       },
       "id": 9,
       "options": {
+        "minVizHeight": 75,
+        "minVizWidth": 75,
         "orientation": "auto",
         "reduceOptions": {
           "calcs": [
@@ -1613,9 +1730,10 @@
           "values": false
         },
         "showThresholdLabels": false,
-        "showThresholdMarkers": true
+        "showThresholdMarkers": true,
+        "sizing": "auto"
       },
-      "pluginVersion": "8.5.15",
+      "pluginVersion": "11.0.0",
       "targets": [
         {
           "format": "table",
@@ -1643,7 +1761,8 @@
               "params": [],
               "type": "macro"
             }
-          ]
+          ],
+          "datasource": "TeslaMate"
         }
       ],
       "title": "Inside Temp",
@@ -1658,6 +1777,12 @@
           },
           "custom": {
             "fillOpacity": 100,
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
             "lineWidth": 0,
             "spanNulls": false
           },
@@ -1740,12 +1865,14 @@
         "alignValue": "center",
         "legend": {
           "displayMode": "list",
-          "placement": "bottom"
+          "placement": "bottom",
+          "showLegend": true
         },
         "mergeValues": true,
         "rowHeight": 0.9,
         "showValue": "auto",
         "tooltip": {
+          "maxHeight": 600,
           "mode": "single",
           "sort": "none"
         }
@@ -1777,7 +1904,8 @@
               "params": [],
               "type": "macro"
             }
-          ]
+          ],
+          "datasource": "TeslaMate"
         }
       ],
       "title": "States",
@@ -1785,8 +1913,7 @@
     }
   ],
   "refresh": "30s",
-  "schemaVersion": 36,
-  "style": "dark",
+  "schemaVersion": 39,
   "tags": [
     "tesla",
     "teslaCustom"
@@ -1794,11 +1921,7 @@
   "templating": {
     "list": [
       {
-        "current": {
-          "selected": false,
-          "text": "Jo-El",
-          "value": "1"
-        },
+        "current": {},
         "datasource": "TeslaMate",
         "definition": "SELECT name AS __text, id AS __value FROM cars ORDER BY display_priority ASC, name ASC;",
         "hide": 0,
@@ -1818,11 +1941,7 @@
         "useTags": false
       },
       {
-        "current": {
-          "selected": false,
-          "text": "km",
-          "value": "km"
-        },
+        "current": {},
         "datasource": "TeslaMate",
         "definition": "select unit_of_length from settings limit 1;",
         "hide": 2,
@@ -1841,11 +1960,7 @@
         "useTags": false
       },
       {
-        "current": {
-          "selected": false,
-          "text": "C",
-          "value": "C"
-        },
+        "current": {},
         "datasource": "TeslaMate",
         "definition": "select unit_of_temperature from settings limit 1;",
         "hide": 2,
@@ -1864,11 +1979,7 @@
         "useTags": false
       },
       {
-        "current": {
-          "selected": false,
-          "text": "rated",
-          "value": "rated"
-        },
+        "current": {},
         "datasource": "TeslaMate",
         "definition": "select preferred_range from settings limit 1;",
         "hide": 2,
@@ -1888,11 +1999,7 @@
         "useTags": false
       },
       {
-        "current": {
-          "selected": false,
-          "text": "http://192.168.2.249:4000",
-          "value": "http://192.168.2.249:4000"
-        },
+        "current": {},
         "datasource": "TeslaMate",
         "definition": "select base_url from settings limit 1;",
         "hide": 2,
@@ -1912,11 +2019,7 @@
         "useTags": false
       },
       {
-        "current": {
-          "selected": false,
-          "text": "bar",
-          "value": "bar"
-        },
+        "current": {},
         "datasource": "TeslaMate",
         "definition": "SELECT unit_of_pressure FROM settings LIMIT 1",
         "hide": 2,
@@ -1937,6 +2040,7 @@
     "from": "now-24h",
     "to": "now"
   },
+  "timeRangeUpdatedDuringEditOrView": false,
   "timepicker": {
     "hidden": false,
     "refresh_intervals": [
