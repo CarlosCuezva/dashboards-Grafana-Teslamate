@@ -1,5 +1,10 @@
 # Changelog
 
+## [1.23.4.1] - 2024-06-23
+
+- Overview v2: Solved max, min and thresholds with tires pressures in PSI
+- Tire Pressure: Solved max, min and thresholds with tires pressures in PSI
+
 ## [1.23.4] - 2024-06-22
 
 - Overview v2: Used gauge graph for tire pressure (#36 - @peterwillcn)
@@ -376,6 +381,7 @@
 
 ## [1.0.0] - 2022-12-19
 
+[1.23.4.1]: https://github.com/CarlosCuezva/dashboards-Grafana-Teslamate/compare/v1.23.4...v1.23.4.1
 [1.23.4]: https://github.com/CarlosCuezva/dashboards-Grafana-Teslamate/compare/v1.23.3...v1.23.4
 [1.23.3]: https://github.com/CarlosCuezva/dashboards-Grafana-Teslamate/compare/v1.23.2...v1.23.3
 [1.23.2]: https://github.com/CarlosCuezva/dashboards-Grafana-Teslamate/compare/v1.23.1...v1.23.2
